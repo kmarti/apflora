@@ -31,7 +31,7 @@ module.exports = function (TPopListeMarkiert) {
         }).done(function (tpopListe) {
             $.when(
                 // Layer für Symbole und Beschriftung erstellen
-                erstelleTPopLayer(tpopListe, markierteTpop.tpopid_markiert, true),
+                erstelleTPopLayer(tpopListe, markierteTpop.tpopidMarkiert, true),
                 // alle Pop holen
                 zeigePopInTPop(overlayPopVisible, overlayPopnrVisible)
             ).then(function () {

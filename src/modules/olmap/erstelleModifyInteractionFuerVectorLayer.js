@@ -9,7 +9,7 @@ var $                                        = require('jquery'),
     defaultStyle                             = require('./defaultStyle'),
     aktualisiereEbeneInLocalStorage          = require('./aktualisiereEbeneInLocalStorage');
 
-var returnFunction = function (vectorlayer) {
+module.exports = function (vectorlayer) {
     var layerTitle,
         $geom_type_select;
 
@@ -33,7 +33,7 @@ var returnFunction = function (vectorlayer) {
     $geom_type_select = $('#modify_layer_geom_type_' + layerTitle.replace(" ", "_"));
 
     // darin werden die ids von selectierten features gespeichert
-    window.apf.olmap.modified_features = [];
+    window.apf.olmap.modifiedFeatures = [];
 
     // allfällige bestehende Interaction entfernen
     entferneModifyInteractionFuerVectorLayer();
@@ -51,19 +51,19 @@ var returnFunction = function (vectorlayer) {
 
     window.apf.olmap.selectedFeatures.on('add', function (event) {
         // now listen if the feature is changed
-        var feature = event.element,
-            feature_id = feature.getId();
+        var feature   = event.element,
+            featureId = feature.getId();
         // wenn jemand eine eigene Ebene ergänzt hat, kann es sein, dass die features keine id's haben
         // also wenn nötig ergänzen
-        if (!feature_id) {
+        if (!featureId) {
             feature.setId(_.uniqueId());
         }
         feature.on('change', function (event) {
-            var feature = event.target,
-                feature_id = feature.getId();
-            window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
+            var changeEventFeature = event.target,
+                changeEventFeatureId = changeEventFeature.getId();
+            window.apf.olmap.modifiedFeatures = window.apf.olmap.modifiedFeatures || [];
             // id in modified_features ergänzen
-            window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [feature_id]);
+            window.apf.olmap.modifiedFeatures = _.union(window.apf.olmap.modifiedFeatures, [changeEventFeatureId]);
             // speichern
             aktualisiereEbeneInLocalStorage(vectorlayer);
         });
@@ -72,15 +72,19 @@ var returnFunction = function (vectorlayer) {
         $(document).on('keyup', function (event) {
             if (event.keyCode == 46) {
                 // alle gewählten features aus select_interaction und source entfernen
-                window.apf.olmap.selectedFeatures.forEach(function (selected_feature) {
-                    var selected_feature_id = selected_feature.getId();
-                    window.apf.olmap.selectedFeatures.remove(selected_feature);
+                window.apf.olmap.selectedFeatures.forEach(function (selectedFeature) {
+                    var selectedFeatureId,
+                        vectorlayerFeatures,
+                        sourceFeatureId;
+
+                    selectedFeatureId = selectedFeature.getId();
+                    window.apf.olmap.selectedFeatures.remove(selectedFeature);
                     // features aus vectorlayer_source entfernen
-                    var vectorlayer_features = vectorlayer.getSource().getFeatures();
-                    vectorlayer_features.forEach(function (source_feature) {
-                        var source_feature_id = source_feature.getId();
-                        if (source_feature_id === selected_feature_id) {
-                            vectorlayer.getSource().removeFeature(source_feature);
+                    vectorlayerFeatures = vectorlayer.getSource().getFeatures();
+                    vectorlayerFeatures.forEach(function (sourceFeature) {
+                        sourceFeatureId = sourceFeature.getId();
+                        if (sourceFeatureId === selectedFeatureId) {
+                            vectorlayer.getSource().removeFeature(sourceFeature);
                             // speichern
                             aktualisiereEbeneInLocalStorage(vectorlayer);
                         }
@@ -95,14 +99,15 @@ var returnFunction = function (vectorlayer) {
     });
 
     window.apf.olmap.selectedFeatures.on('remove', function (event) {
-        var feature = event.element,
-            feature_id = feature.getId(),
-            feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
+        var feature       = event.element,
+            featureId     = feature.getId(),
+            feature_index = window.apf.olmap.modifiedFeatures.indexOf(featureId);
+
         if (feature_index > -1) {
             // speichern
             aktualisiereEbeneInLocalStorage(vectorlayer);
             // erst wieder speichern, wenn neu verändert wurde
-            window.apf.olmap.modified_features.splice(feature_index, 1);
+            window.apf.olmap.modifiedFeatures.splice(feature_index, 1);
         }
     });
 
@@ -117,11 +122,6 @@ var returnFunction = function (vectorlayer) {
         }
     });
 
-    $geom_type_select.on('selectmenuchange', function (event) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.drawInteractionFuerVectorlayer);
-        addDrawInteraction();
-    });
-
     function addDrawInteraction() {
         if ($geom_type_select.val() !== 'leerwert') {
             window.apf.olmap.drawInteractionFuerVectorlayer = new ol.interaction.Draw({
@@ -133,18 +133,21 @@ var returnFunction = function (vectorlayer) {
             window.apf.olmap.drawInteractionFuerVectorlayer.on('drawend', function (event) {
                 var id = _.uniqueId();
                 event.feature.setId(id);
-                window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
+                window.apf.olmap.modifiedFeatures = window.apf.olmap.modifiedFeatures || [];
                 // id in modified_features ergänzen
-                window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [id]);
+                window.apf.olmap.modifiedFeatures = _.union(window.apf.olmap.modifiedFeatures, [id]);
                 // speichern
                 aktualisiereEbeneInLocalStorage(vectorlayer);
             });
         }
     }
 
+    $geom_type_select.on('selectmenuchange', function () {
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.drawInteractionFuerVectorlayer);
+        addDrawInteraction();
+    });
+
     addDrawInteraction();
     window.apf.olmap.map.addInteraction(window.apf.olmap.selectInteractionFuerVectorlayer);
     window.apf.olmap.map.addInteraction(window.apf.olmap.modifyInteractionFuerVectorlayer);
 };
-
-module.exports = returnFunction;

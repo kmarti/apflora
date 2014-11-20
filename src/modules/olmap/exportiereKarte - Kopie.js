@@ -1,22 +1,22 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var ol    = require('ol'),
+var $     = require('jquery'),
+    ol    = require('ol'),
     melde = require('../melde');
 
-module.exports = function () {
+var returnFunction = function (clickEvent) {
     var exportPNGElement = document.getElementById('olmap_exportieren'),
         info;
 
     if ('download' in exportPNGElement) {
         exportPNGElement.addEventListener('click', function (e) {
-            window.apf.olmap.map.once('postcompose', function (e) {
-                var canvas = e.context.canvas;
+            window.apf.olmap.map.once('postcompose', function (clickEvent) {
+                var canvas = clickEvent.context.canvas;
                 exportPNGElement.href = canvas.toDataURL('image/png');
             });
             window.apf.olmap.map.renderSync();
         }, false);
-        // jetzt wird es schräg: der Download beginnt erst beim zweiten Click
         if (!window.apf.olmap.recentlyClicked) {
             // beim ersten mal soll der Event gleich wiederholt werden
             window.apf.olmap.recentlyClicked = true;
@@ -30,3 +30,5 @@ module.exports = function () {
         melde(info, "Export abgebrochen");
     }
 };
+
+module.exports = returnFunction;

@@ -6,7 +6,7 @@ var $         = require('jquery'),
     ol        = require('ol'),
     styleTPop = require('./styleTPop');
 
-var returnFunction = function (modifySource) {
+module.exports = function (modifySource) {
     var modifyOverlay;
 
     // allfällige bestehende Interaction entfernen
@@ -73,5 +73,3 @@ var returnFunction = function (modifySource) {
     });*/
     window.apf.olmap.map.addInteraction(window.apf.olmap.modifyInteraction);
 };
-
-module.exports = returnFunction;

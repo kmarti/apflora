@@ -16,12 +16,12 @@ var returnFunction = function (tpop_liste_markiert) {
         y_max,
         x_min,
         y_min,
-        tpopid_markiert = [];
+        tpopidMarkiert = [];
 
     // bounds der anzuzeigenden bestimmen
     if (tpop_liste_markiert && tpop_liste_markiert.length > 0) {
         _.each(tpop_liste_markiert, function (tpop) {
-            tpopid_markiert.push(tpop.TPopId);
+            tpopidMarkiert.push(tpop.TPopId);
             xkoord_array.push(tpop.TPopXKoord);
             ykoord_array.push(tpop.TPopYKoord);
         });
@@ -39,7 +39,7 @@ var returnFunction = function (tpop_liste_markiert) {
     }
     return {
         bounds: bounds,
-        tpopid_markiert: tpopid_markiert
+        tpopidMarkiert: tpopidMarkiert
     };
 };
 

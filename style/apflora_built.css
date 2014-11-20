@@ -760,6 +760,14 @@ td.Datenfelder .herkunft [type=number] {
     width: 90px;
 }
 
+td.Datenfelder .herkunftspalte div {
+   margin-top: 3px;
+}
+
+td.Datenfelder .herkunftspalte div label {
+   padding-top: 1px;
+}
+
 
 
 /* im tab soll der zusätzliche Rand klein sein */

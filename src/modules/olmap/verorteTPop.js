@@ -78,7 +78,7 @@ var returnFunction = function (tpop) {
                         tpopLayer        = layers[tpopLayerNr],
                         tpopLayerSource = tpopLayer.getSource();
                     // marker ergänzen
-                    tpopLayerSource.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
+                    tpopLayerSource.addFeature(window.apf.olmap.erstelleMarkerFuerTPopLayer(tpop));
                     // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
                     window.apf.olmap.removeSelectFeaturesInSelectableLayers();
                 });

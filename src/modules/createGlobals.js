@@ -879,8 +879,8 @@ var initiiereApp = function () {
     };
 
     // wird in index.html benutzt
-    window.apf.olmap.exportiereLayer = function (layer, selected_value) {
-        require('./olmap/exportiereLayer')(layer, selected_value);
+    window.apf.olmap.exportiereLayer = function (layer, selectedValue) {
+        require('./olmap/exportiereLayer')(layer, selectedValue);
     };
 
     window.apf.download = function (filename, text) {
@@ -940,9 +940,9 @@ var initiiereApp = function () {
     // retourniert features
     // übergibt man einen Typ, werden nur features dieses Typs retourniert
     window.apf.olmap.listSelectedFeatures = function (typ) {
-        var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray(),
+        var selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray(),
             features_to_return;
-        features_to_return = _.filter(selected_features, function (feature) {
+        features_to_return = _.filter(selectedFeatures, function (feature) {
             if (typ) {
                 return feature.get('myTyp') === typ;
             } else {
@@ -1023,7 +1023,7 @@ var initiiereApp = function () {
         }
     };
 
-    window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
+    window.apf.olmap.erstelleMarkerFuerTPopLayer = function (tpop) {
         return new ol.Feature({
             geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
             tpopNr: tpop.TPopNr,
@@ -1403,9 +1403,9 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.removeSelectFeaturesInSelectableLayers = function () {
-        if (window.apf.olmap.map.olmap_select_interaction) {
-            window.apf.olmap.map.removeInteraction(window.apf.olmap.map.olmap_select_interaction);
-            delete window.apf.olmap.map.olmap_select_interaction;
+        if (window.apf.olmap.map.olmapSelectInteraction) {
+            window.apf.olmap.map.removeInteraction(window.apf.olmap.map.olmapSelectInteraction);
+            delete window.apf.olmap.map.olmapSelectInteraction;
             window.apf.olmap.removeDragBox();
             $("#ergebnisAuswahl").hide();
         }
@@ -1415,7 +1415,7 @@ var initiiereApp = function () {
         var addDragBoxForPopTpop = require('./olmap/addDragBoxForPopTpop'),
             stylePop             = require('./olmap/stylePop'),
             styleTPop            = require('./olmap/styleTPop');
-        window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
+        window.apf.olmap.map.olmapSelectInteraction = new ol.interaction.Select({
             // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
             layerFilter: function (layer) {
                 return layer.get('selectable') === true;
@@ -1436,14 +1436,14 @@ var initiiereApp = function () {
              return event === 'click';
              }*/
         });
-        window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
+        window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmapSelectInteraction);
         // man soll auch mit dragbox selecten können
         addDragBoxForPopTpop();
     };
 
     window.apf.olmap.getSelectedFeatures = function () {
-        if (window.apf.olmap.map.olmap_select_interaction) {
-            return window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+        if (window.apf.olmap.map.olmapSelectInteraction) {
+            return window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
         }
         return [];
     };
@@ -1478,7 +1478,7 @@ var initiiereApp = function () {
                 coordinate = event.coordinate,
                 zeigeFeatureInfo = require('./olmap/zeigeFeatureInfo');
             // nur machen, wenn nicht selektiert wird
-            if (!window.apf.olmap.map.olmap_select_interaction) {
+            if (!window.apf.olmap.map.olmapSelectInteraction) {
                 zeigeFeatureInfo(pixel, coordinate);
             }
             // prüfen, ob pop / tpop gewählt wurden

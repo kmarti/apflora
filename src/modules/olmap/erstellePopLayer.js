@@ -5,31 +5,29 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    _  = require('underscore'),
-    ol = require('ol');
+var $        = require('jquery'),
+    _        = require('underscore'),
+    ol       = require('ol'),
+    stylePop = require('./stylePop');
 
-var returnFunction = function (popliste, popidMarkiert, visible) {
+module.exports = function (popliste, popidMarkiert, visible) {
     var popLayerErstellt = $.Deferred(),
         markers = [],
         marker,
         myLabel,
         myName,
         popupContent,
-        pop_mit_nr_layer,
-        selected_features,
-        stylePop = require('./stylePop');
+        popMitNrLayer,
+        selectedFeatures;
 
-    if (window.apf.olmap.map && window.apf.olmap.map.olmap_select_interaction && popidMarkiert) {
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    if (window.apf.olmap.map && window.apf.olmap.map.olmapSelectInteraction && popidMarkiert) {
+        selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     } else if (popidMarkiert) {
         window.apf.olmap.addSelectFeaturesInSelectableLayers();
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+        selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     }
 
-    if (visible === null) {
-        visible = true;
-    }
+    visible = (visible === null);
 
     _.each(popliste, function (pop) {
         myName = pop.PopName || '(kein Name)';
@@ -41,30 +39,30 @@ var returnFunction = function (popliste, popidMarkiert, visible) {
         // marker erstellen...
         marker = new ol.Feature({
             geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-            popNr: myLabel,
-            pop_name: myName,
-            name: myLabel, // noch benötigt? TODO: entfernen
+            popNr:        myLabel,
+            pop_name:     myName,
+            name:         myLabel, // noch benötigt? TODO: entfernen
             popupContent: popupContent,
-            popup_title: myName,
+            popup_title:  myName,
             // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
-            xkoord: pop.PopXKoord,
-            ykoord: pop.PopYKoord,
-            myTyp: 'pop',
-            myId: pop.PopId
+            xkoord:       pop.PopXKoord,
+            ykoord:       pop.PopYKoord,
+            myTyp:        'pop',
+            myId:         pop.PopId
         });
 
         // marker in Array speichern
         markers.push(marker);
 
-        // markierte in window.apf.olmap.map.olmap_select_interaction ergänzen
+        // markierte in window.apf.olmap.map.olmapSelectInteraction ergänzen
         if (popidMarkiert && popidMarkiert.indexOf(pop.PopId) !== -1) {
-            selected_features.push(marker);
+            selectedFeatures.push(marker);
         }
     });
 
     // layer für Marker erstellen
-    pop_mit_nr_layer = new ol.layer.Vector({
-        title: 'Populationen',
+    popMitNrLayer = new ol.layer.Vector({
+        title:      'Populationen',
         selectable: true,
         source: new ol.source.Vector({
             features: markers
@@ -73,11 +71,11 @@ var returnFunction = function (popliste, popidMarkiert, visible) {
             return stylePop(feature, resolution);
         }
     });
-    pop_mit_nr_layer.set('visible', visible);
-    pop_mit_nr_layer.set('kategorie', 'AP Flora');
-    window.apf.olmap.map.addLayer(pop_mit_nr_layer);
+    popMitNrLayer.set('visible', visible);
+    popMitNrLayer.set('kategorie', 'AP Flora');
+    window.apf.olmap.map.addLayer(popMitNrLayer);
 
-    if (selected_features && selected_features.length > 0) {
+    if (selectedFeatures && selectedFeatures.length > 0) {
         setTimeout(function () {
             window.apf.olmap.pruefeObPopTpopGewaehltWurden();
         }, 100);
@@ -91,5 +89,3 @@ var returnFunction = function (popliste, popidMarkiert, visible) {
     popLayerErstellt.resolve();
     return popLayerErstellt.promise();
 };
-
-module.exports = returnFunction;

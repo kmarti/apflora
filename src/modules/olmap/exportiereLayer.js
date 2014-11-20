@@ -1,39 +1,37 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var ol = require('ol');
+var ol    = require('ol'),
+    melde = require('../melde');
 
-var returnFunction = function (layer, selected_value) {
-    var layer_name = layer.get('title') || 'Eigene_Ebene',
+module.exports = function (layer, selectedValue) {
+    var layerName   = layer.get('title') || 'Eigene_Ebene',
         allFeatures = layer.getSource().getFeatures(),
-        format = new ol.format[selected_value](),
-        data_parsed,
-        data_stringified,
-        serializer,
-        melde = require('../melde');
+        format      = new ol.format[selectedValue](),
+        dataParsed,
+        dataStringified,
+        serializer;
 
-    layer_name += '.' + selected_value;
+    layerName += '.' + selectedValue;
     try {
-        data_parsed = format.writeFeatures(allFeatures);
+        dataParsed = format.writeFeatures(allFeatures);
     } catch (e) {
         melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
         return;
     }
-    if (selected_value === 'GeoJSON') {
+    if (selectedValue === 'GeoJSON') {
         try {
-            data_stringified = JSON.stringify(data_parsed, null, 4);
+            dataStringified = JSON.stringify(dataParsed, null, 4);
         } catch (e) {
             melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
         }
     } else {
         serializer = new XMLSerializer();
         try {
-            data_stringified = serializer.serializeToString(data_parsed);
+            dataStringified = serializer.serializeToString(dataParsed);
         } catch (e) {
             melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
         }
     }
-    window.apf.download(layer_name, data_stringified);
+    window.apf.download(layerName, dataStringified);
 };
-
-module.exports = returnFunction;

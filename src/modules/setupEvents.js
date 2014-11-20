@@ -127,10 +127,10 @@ module.exports = function () {
                 layer_index = $layer_div.val(),
                 layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
                 $select_div = this,
-                selected_value = $select_div.options[$select_div.selectedIndex].value;
+                selectedValue = $select_div.options[$select_div.selectedIndex].value;
 
-            if (selected_value !== 'leerwert') {
-                window.apf.olmap.exportiereLayer(layer, selected_value);
+            if (selectedValue !== 'leerwert') {
+                window.apf.olmap.exportiereLayer(layer, selectedValue);
                 $select_div.value = 'leerwert';
                 $(this).selectmenu('refresh');
             }
@@ -147,8 +147,8 @@ module.exports = function () {
             var layer_div   = $(this).parent().parent().siblings('input'),
                 layer_index = layer_div.val(),
                 layer       = window.apf.olmap.map.getLayers().getArray()[layer_index],
-                layer_name  = layer.get('title');
-            if (layer_name) {
+                layerName  = layer.get('title');
+            if (layerName) {
                 // open a dialog
                 $("#entferne_eigene_ebene_dialog").dialog({
                     resizable: false,
@@ -158,7 +158,7 @@ module.exports = function () {
                     buttons: {
                         "ja, entfernen!": function () {
                             $(this).dialog("close");
-                            window.apf.olmap.entferneLayerNachName(layer_name);
+                            window.apf.olmap.entferneLayerNachName(layerName);
                             window.apf.olmap.initiiereLayertree('Eigene Ebenen');
                         },
                         "abbrechen": function () {

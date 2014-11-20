@@ -1,5 +1,5 @@
 // steuert den style von tpop
-// tpopid_markiert: beim Aufbau des Layers werden markierte mitgegeben
+// tpopidMarkiert: beim Aufbau des Layers werden markierte mitgegeben
 // selected: mit der Maus oder drag_box markierte
 // verorten: beim Verorten soll das Symbol rot sein
 

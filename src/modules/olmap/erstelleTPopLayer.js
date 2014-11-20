@@ -1,44 +1,42 @@
 // nimmt drei Variablen entgegen:
 // tpopListe: Die Liste der darzustellenden Teilpopulationen
-// tpopid_markiert: die ID der zu markierenden TPop
+// tpopidMarkiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    _  = require('underscore'),
-    ol = require('ol');
+var $         = require('jquery'),
+    _         = require('underscore'),
+    ol        = require('ol'),
+    styleTPop = require('./styleTPop');
 
-var returnFunction = function (tpopListe, tpopid_markiert, visible) {
-    var tpop_layer_erstellt = $.Deferred(),
+module.exports = function (tpopListe, tpopidMarkiert, visible) {
+    var tpopLayerErstellt = $.Deferred(),
         tpopLayer,
         markers = [],
         marker,
-        selected_features,
-        styleTPop = require('./styleTPop');
+        selectedFeatures;
 
-    if (window.apf.olmap.map.olmap_select_interaction && tpopid_markiert) {
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-    } else if (tpopid_markiert) {
+    if (window.apf.olmap.map.olmapSelectInteraction && tpopidMarkiert) {
+        selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
+    } else if (tpopidMarkiert) {
         window.apf.olmap.addSelectFeaturesInSelectableLayers();
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+        selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     }
 
-    if (visible === null) {
-        visible = true;
-    }
+    visible = (visible === null);
 
     _.each(tpopListe, function (tpop) {
         // marker erstellen...
-        marker = window.apf.olmap.erstelleMarkerFürTPopLayer(tpop);
+        marker = window.apf.olmap.erstelleMarkerFuerTPopLayer(tpop);
 
         // ...und in Array speichern
         markers.push(marker);
 
-        // markierte in window.apf.olmap.map.olmap_select_interaction ergänzen
-        if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
-            selected_features.push(marker);
+        // markierte in window.apf.olmap.map.olmapSelectInteraction ergänzen
+        if (tpopidMarkiert && tpopidMarkiert.indexOf(tpop.TPopId) !== -1) {
+            selectedFeatures.push(marker);
         }
     });
 
@@ -46,19 +44,19 @@ var returnFunction = function (tpopListe, tpopid_markiert, visible) {
     tpopLayer = new ol.layer.Vector({
         title: 'Teilpopulationen',
         source: new ol.source.Vector({
-                features: markers
-            }),
+            features: markers
+        }),
         style: function (feature, resolution) {
             return styleTPop(feature, resolution);
         }
     });
     tpopLayer.set('visible', visible);
     tpopLayer.set('kategorie', 'AP Flora');
-    
+
     // ...und der Karte hinzufügen
     window.apf.olmap.map.addLayer(tpopLayer);
 
-    if (selected_features && selected_features.length > 0) {
+    if (selectedFeatures && selectedFeatures.length > 0) {
         setTimeout(function () {
             window.apf.olmap.pruefeObPopTpopGewaehltWurden();
         }, 100);
@@ -69,8 +67,6 @@ var returnFunction = function (tpopListe, tpopid_markiert, visible) {
             .button("refresh");
     }
 
-    tpop_layer_erstellt.resolve();
-    return tpop_layer_erstellt.promise();
+    tpopLayerErstellt.resolve();
+    return tpopLayerErstellt.promise();
 };
-
-module.exports = returnFunction;

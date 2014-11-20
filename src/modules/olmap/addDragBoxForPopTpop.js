@@ -29,7 +29,7 @@ module.exports = function () {
             tpopLayer        = layers[tpopLayerNr],
             popLayerSource   = popLayer.getSource(),
             tpopLayerSource  = tpopLayer.getSource(),
-            selectedFeatures = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+            selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
 
         if (popLayer.get('visible') === true) {
             popLayerSource.forEachFeatureInExtent(extent, function (feature) {
