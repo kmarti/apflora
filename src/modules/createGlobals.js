@@ -1495,42 +1495,6 @@ var initiiereApp = function () {
         return jahr + ": " + beurteilung;
     };
 
-    // gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
-    // erwartet die Daten der Beobachtung
-    window.apf.erstelleFelderFuerBeob = function (data, beobtyp) {
-        // Titel für Beob im Formular erstellen
-        var beobtitel = "<h1>Informationen aus ";
-        if (beobtyp === "infospezies") {
-            beobtitel += "Info Spezies";
-        } else {
-            beobtitel += "EvAB";
-        }
-        beobtitel += " (nicht veränderbar)</h1>";
-        // Beob-Felder dynamisch aufbauen
-        var html_beobfelder = "<table>",
-            html_beobfeld,
-            nichtAnzuzeigendeFelder = ["NO_ISFS", "ESPECE", "CUSTOM_TEXT_5_", "OBJECTID", "FNS_GISLAYER", "FNS_ISFS", "ID", "FNS_JAHR", "NOM_COMPLET", "FAMILLE"];
-        $.each(data, function (index, value) {
-            if ((value || value === 0) && nichtAnzuzeigendeFelder.indexOf(index) === -1) {
-                // TODO: Zahlen, text und Memofelder unterscheiden
-                // TODO: Felder durch externe Funktion erstellen lassen
-                // ID: beobfelder_ voranstellen, um Namens-Kollisionen zu vermeiden
-                html_beobfeld = '<tr class="fieldcontain"><td class="label" style="padding-bottom:3px;"><label for="beobfelder_';
-                html_beobfeld += index;
-                html_beobfeld += '">';
-                html_beobfeld += index;
-                html_beobfeld += ':</label></td><td class="Datenfelder" style="padding-bottom:3px;"><input id="beobfelder_';
-                html_beobfeld += index;
-                html_beobfeld += '" class="Datenfelder" type="text" readonly="readonly" value="';
-                html_beobfeld += value;
-                html_beobfeld += '""></td></tr>';
-                html_beobfelder += html_beobfeld;
-            }
-        });
-        html_beobfelder += "</table>";
-        return beobtitel + html_beobfelder;
-    };
-
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
     (function ($) {

@@ -1,12 +1,13 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                     = require('jquery'),
-    _                     = require('underscore'),
-    capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
-    initiiereAp           = require('./initiiereAp'),
-    zeigeFormular         = require('./zeigeFormular'),
-    melde                 = require('./melde');
+var $                      = require('jquery'),
+    _                      = require('underscore'),
+    capitaliseFirstLetter  = require('../lib/capitaliseFirstLetter'),
+    initiiereAp            = require('./initiiereAp'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    erstelleFelderFuerBeob = require('./erstelleFelderFuerBeob');
 
 var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
@@ -65,7 +66,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
             dataBeob = dataBeob[0];
 
             // boebfelder bereitstellen
-            htmlBeobfelder = window.apf.erstelleFelderFuerBeob(dataBeob, beobTyp);
+            htmlBeobfelder = erstelleFelderFuerBeob(dataBeob, beobTyp);
             $("#beob_table").html(htmlBeobfelder);
 
             // Abstand zu TPop aus der DB holen
