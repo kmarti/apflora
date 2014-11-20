@@ -11,7 +11,8 @@ var $                     = require('jquery'),
     isDateSupported       = require('./isDateSupported'),
     pruefeObAngemeldet    = require('./pruefeObAngemeldet'),
     setupEvents           = require('./setupEvents'),
-    erstelleGemeindeliste = require('./erstelleGemeindeliste');
+    erstelleGemeindeliste = require('./erstelleGemeindeliste'),
+    createGlobals         = require('./createGlobals');
 
 module.exports = function () {
     // benötigte globale Variabeln initialisieren
@@ -109,7 +110,11 @@ module.exports = function () {
         oeffneUri();
     });
 
+    // für index.html bereitstellen
+    // damit es garantiert nur ein mal ausgeführt wird
     window.apf.setupEvents = function () {
         setupEvents();
     };
+
+    createGlobals();
 };
