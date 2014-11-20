@@ -71,8 +71,7 @@ var _                                         = require('underscore'),
     zeigeTpopUndBeobAufGmap                   = require('./zeigeTpopUndBeobAufGmap'),
     zeigeBeobNichtBeurteiltAufGmap            = require('./zeigeBeobNichtBeurteiltAufGmap'),
     zeigeBeobNichtBeurteiltUndTpopAufGmap     = require('./zeigeBeobNichtBeurteiltUndTpopAufGmap'),
-    schneideBeobZugeordnetAus                 = require('./schneideBeobZugeordnetAus'),
-    schneideBeobAus             = require('./schneideBeobAus'),
+    schneideBeobAus                           = require('./schneideBeobAus'),
     zeigeBeobNichtZuzuordnenAufGmap           = require('./zeigeBeobNichtZuzuordnenAufGmap');
 
 module.exports = function (node) {
@@ -985,17 +984,6 @@ module.exports = function (node) {
                 }
             }
         };
-        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
-            items = {};
-            items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
-                "separator_before": true,
-                "icon":             "style/images/einfuegen.png",
-                "action": function () {
-                    $.jstree._reference(aktiverNode).move_node(window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first", false);
-                }
-            };
-        }
         if (window.apf.beobNodeAusgeschnitten) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
@@ -1034,24 +1022,14 @@ module.exports = function (node) {
                 }
             }
         };
-        if (!window.apf.beobZugeordnetNodeAusgeschnitten) {
+        if (!window.apf.beobNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label":            "ausschneiden",
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    schneideBeobZugeordnetAus(aktiverNode);
-                }
-            };
-        }
-        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
-            items.einfuegen_beob_zugeordnet = {
-                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
-                "separator_before": true,
-                "icon":             "style/images/einfuegen.png",
-                "action": function () {
-                    $.jstree._reference(parentNode).move_node(window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first", false);
+                    schneideBeobAus(aktiverNode);
                 }
             };
         }
@@ -1113,13 +1091,13 @@ module.exports = function (node) {
                 }
             }
         };
-        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
+        if (window.apf.beobNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobNodeAusgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -1162,13 +1140,13 @@ module.exports = function (node) {
                 }
             };
         }
-        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
+        if (window.apf.beobNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobNodeAusgeschnitten, parentNode, "first");
                 }
             };
         }
@@ -1184,13 +1162,13 @@ module.exports = function (node) {
                 }
             }
         };
-        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
+        if (window.apf.beobNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobNodeAusgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -1225,13 +1203,13 @@ module.exports = function (node) {
                 }
             };
         }
-        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
+        if (window.apf.beobNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobNodeAusgeschnitten, parentNode, "first");
                 }
             };
         }

@@ -394,7 +394,7 @@ module.exports = function (ApArtId) {
                     window.apf.beschrifteOrdnerBeobZugeordnet(window.apf.herkunftParentNode);
 
                     // Variablen aufräumen
-                    delete window.apf.beobZugeordnetNodeAusgeschnitten;
+                    delete window.apf.beobNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                 }).fail(function () {
                     melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
@@ -422,7 +422,7 @@ module.exports = function (ApArtId) {
                     }
 
                     // Variablen aufräumen
-                    delete window.apf.beobZugeordnetNodeAusgeschnitten;
+                    delete window.apf.beobNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                 }).fail(function () {
                     melde("Fehler: Die Beobachtung wurde nicht verschoben");
