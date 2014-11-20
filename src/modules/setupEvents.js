@@ -7,7 +7,15 @@ var $                             = require('jquery'),
     removeruler                   = require('removeruler'),
     downloadFileFromView          = require('./downloadFileFromView'),
     downloadFileFromViewWehreIdIn = require('./downloadFileFromViewWehreIdIn'),
-    fitTextareaToContent          = require('./fitTextareaToContent');
+    fitTextareaToContent          = require('./fitTextareaToContent'),
+    speichern                     = require('./speichern'),
+    waehleApListe                 = require('./waehleApListe'),
+    entferneModifyInteractionFuerVectorLayer = require('./olmap/entferneModifyInteractionFuerVectorLayer'),
+    erstelleModifyInteractionFuerVectorLayer = require('./olmap/erstelleModifyInteractionFuerVectorLayer'),
+    exportiereLayer               = require('./olmap/exportiereLayer'),
+    frageNameFuerEbene            = require('./olmap/frageNameFuerEbene'),
+    initiiereLayertree            = require('./olmap/initiiereLayertree'),
+    stylePop                      = require('./olmap/stylePop');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -20,7 +28,7 @@ module.exports = function () {
                 layer = $('#olmap_layertree_Populationen').val(),
                 that = this;
             // style setzen
-            layers[layer].setStyle(window.apf.olmap.stylePop);
+            layers[layer].setStyle(stylePop);
             // jeweils andere box unchecken
             if ($(that).hasClass('popNr') && that.checked) {
                 $('#layertree_pop_name').prop('checked', false);
@@ -45,21 +53,21 @@ module.exports = function () {
         })
         .on('click', '.modify_layer', function () {
             // layer holen
-            var layer_div = $(this).parent().siblings('input'),
-                layer_index = layer_div.val(),
-                layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
-                button_div = $(this).siblings('label').first(),
-                geom_select_div = $(this).siblings('.modify_layer_geom_type'),
-                geom_select_div_id = geom_select_div.attr('id'),
-                button_icon = $(this).button('option', 'icons').primary,
+            var layerDiv            = $(this).parent().siblings('input'),
+                layerIndex          = layerDiv.val(),
+                layer               = window.apf.olmap.map.getLayers().getArray()[layerIndex],
+                buttonDiv           = $(this).siblings('label').first(),
+                geomSelectDiv       = $(this).siblings('.modify_layer_geom_type'),
+                geomSelectDivId     = geomSelectDiv.attr('id'),
+                buttonIcon          = $(this).button('option', 'icons').primary,
                 $non_modify_options = $(this).siblings('.non_modify_options'),
-                tooltip_content;
+                tooltipContent;
 
             // modify-layer steuern
             if (window.apf.olmap.modifyInteractionFuerVectorlayer) {
                 // modify entfernen
                 // input_div mitgeben, damit alle übrigen Layer deaktiviert werden können
-                window.apf.olmap.entferneModifyInteractionFuerVectorLayer(layer_div);
+                entferneModifyInteractionFuerVectorLayer(layerDiv);
             }
 
             // modify_layer_geom_type selectmenu zurücksetzen...
@@ -69,21 +77,21 @@ module.exports = function () {
                 .hide();
 
             // Zustand der Layeranzeige steuern
-            if (button_icon === 'ui-icon-locked') {
+            if (buttonIcon === 'ui-icon-locked') {
                 // war inaktiv, also aktivieren
-                window.apf.olmap.erstelleModifyInteractionFuerVectorLayer(layer);
+                erstelleModifyInteractionFuerVectorLayer(layer);
                 // title ändern
-                tooltip_content = 'Ebene schützen';
+                tooltipContent = 'Ebene schützen';
                 // selectmenu initiieren
-                geom_select_div.selectmenu({
+                geomSelectDiv.selectmenu({
                     width: 140
                 });
                 // give the selectmenu a tooltip
                 // oberhalb, sonst verdeckt er den Inhalt, wenn der öffnet...
-                $('#' + geom_select_div_id + '-button').tooltip({
+                $('#' + geomSelectDivId + '-button').tooltip({
                     tooltipClass: "tooltip-styling-hinterlegt",
-                    items: 'span',
-                    content: geom_select_div.attr('title'),
+                    items:        'span',
+                    content:      geomSelectDiv.attr('title'),
                     position: {
                         my: 'left bottom-5',
                         at: 'left top'
@@ -96,14 +104,14 @@ module.exports = function () {
                 // button is pencil
                 $(this)
                     .button({
-                        icons: {primary: 'ui-icon-pencil'},
+                        icons: { primary: 'ui-icon-pencil' },
                         text: false
                     })
                     .button('refresh');
             } else {
                 // button war aktiv > deaktivieren
                 // title ändern
-                tooltip_content = 'Ebene bearbeiten';
+                tooltipContent = 'Ebene bearbeiten';
                 // Optionen, die nicht der Bearbeitung dienen, auf gleiche Zeile
                 $non_modify_options
                     .css('display', 'inline')
@@ -111,45 +119,46 @@ module.exports = function () {
                 // button is locked
                 $(this)
                     .button({
-                        icons: {primary: 'ui-icon-locked'},
-                        text: false
+                        icons: { primary: 'ui-icon-locked' },
+                        text:  false
                     })
                     .button('refresh');
             }
             // tooltip von .modify_layer anpassen
-            button_div
-                .attr('title', tooltip_content)
+            buttonDiv
+                .attr('title', tooltipContent)
                 .tooltip({
                     tooltipClass: "tooltip-styling-hinterlegt",
-                    content: tooltip_content
+                    content:      tooltipContent
                 });
         })
         .on('selectmenuchange', '.export_layer_select', function () {
             // layer holen
-            var $layer_div = $(this).parent().parent().siblings('input'),
-                layer_index = $layer_div.val(),
-                layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
-                $select_div = this,
+            var $layerDiv     = $(this).parent().parent().siblings('input'),
+                layerIndex    = $layerDiv.val(),
+                layer         = window.apf.olmap.map.getLayers().getArray()[layerIndex],
+                $select_div   = this,
                 selectedValue = $select_div.options[$select_div.selectedIndex].value;
 
             if (selectedValue !== 'leerwert') {
-                window.apf.olmap.exportiereLayer(layer, selectedValue);
+                exportiereLayer(layer, selectedValue);
                 $select_div.value = 'leerwert';
                 $(this).selectmenu('refresh');
             }
         })
         .on('click', '.rename_layer', function () {
             // layer holen
-            var layer_div = $(this).parent().parent().siblings('input'),
-                layer_index = layer_div.val(),
-                layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
-            window.apf.olmap.frageNameFuerEbene(layer);
+            var layerDiv   = $(this).parent().parent().siblings('input'),
+                layerIndex = layerDiv.val(),
+                layer      = window.apf.olmap.map.getLayers().getArray()[layerIndex];
+
+            frageNameFuerEbene(layer);
         })
         .on('click', '.entferne_layer', function () {
             // layer holen
-            var layer_div   = $(this).parent().parent().siblings('input'),
-                layer_index = layer_div.val(),
-                layer       = window.apf.olmap.map.getLayers().getArray()[layer_index],
+            var layerDiv   = $(this).parent().parent().siblings('input'),
+                layerIndex = layerDiv.val(),
+                layer      = window.apf.olmap.map.getLayers().getArray()[layerIndex],
                 layerName  = layer.get('title');
             if (layerName) {
                 // open a dialog
@@ -162,7 +171,7 @@ module.exports = function () {
                         "ja, entfernen!": function () {
                             $(this).dialog("close");
                             window.apf.olmap.entferneLayerNachName(layerName);
-                            window.apf.olmap.initiiereLayertree('Eigene Ebenen');
+                            initiiereLayertree('Eigene Ebenen');
                         },
                         "abbrechen": function () {
                             $(this).dialog("close");
@@ -174,7 +183,7 @@ module.exports = function () {
             }
         })
         .on('click', '.neues_layer', function () {
-            window.apf.olmap.erstelleModifyInteractionFuerVectorLayer('neuer_layer');
+            erstelleModifyInteractionFuerVectorLayer('neuer_layer');
         });
 
     $('#google_karten_div')
@@ -242,7 +251,7 @@ module.exports = function () {
     // Für jedes Feld bei Änderung speichern
     $(".form")
         .on("change", ".speichern", function () {
-            window.apf.speichern(this);
+            speichern(this);
         })
         .on("click", "#kopiereKoordinatenInPop", function () {
             window.apf.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
@@ -268,7 +277,7 @@ module.exports = function () {
             window.apf.initiiereExporte();
         })
         .on("click", "[name=programm_wahl]", function () {
-            window.apf.waehleApListe($(this).attr("id"));
+            waehleApListe($(this).attr("id"));
         })
         .on("click", "#ap_loeschen", function () {
             var $ap_waehlen = $("#ap_waehlen");
@@ -371,7 +380,7 @@ module.exports = function () {
             Objekt = {};
             Objekt.name = "TPopKontrDatum";
             Objekt.formular = "tpopfeldkontr";
-            window.apf.speichern(Objekt);
+            speichern(Objekt);
         }
     });
 
@@ -385,7 +394,7 @@ module.exports = function () {
             Objekt = {};
             Objekt.name = "TPopMassnDatum";
             Objekt.formular = "tpopmassn";
-            window.apf.speichern(Objekt);
+            speichern(Objekt);
         }
     });
 

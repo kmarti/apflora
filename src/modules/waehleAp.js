@@ -8,7 +8,8 @@ var $             = require('jquery'),
     zeigeFormular = require('./zeigeFormular'),
     initiiereAp   = require('./initiiereAp'),
     waehleApliste = require('./waehleApliste'),
-    melde         = require('./melde');
+    melde         = require('./melde'),
+    erstelleTree  = require('./jstree/erstelleTree');
 
 module.exports = function (apId) {
     var programm = $("[name='programm_wahl']:checked").attr("id"),
@@ -34,7 +35,7 @@ module.exports = function (apId) {
                 // Auswahlliste für Programme updaten
                 $.when(waehleApliste("programm_alle")).then(function () {
                     // Strukturbaum updaten
-                    $.when(window.apf.erstelleTree(apId)).then(function () {
+                    $.when(erstelleTree(apId)).then(function () {
                         // gewählte Art in Auswahlliste anzeigen
                         apWaehlenText = _.find(window.apf.apliste.programm_alle, function (art) {
                             return art.id == apId;
@@ -52,7 +53,7 @@ module.exports = function (apId) {
                 melde("Fehler: Keine Daten für Programme erhalten");
             });
         } else {
-            window.apf.erstelleTree(apId);
+            erstelleTree(apId);
             $("#ap").show();
             initiiereAp(apId);
         }

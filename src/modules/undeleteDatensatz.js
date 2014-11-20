@@ -18,7 +18,8 @@ var $             = require('jquery'),
     melde         = require('./melde'),
     zeigeFormular = require('./zeigeFormular'),
     waehleApliste = require('./waehleApliste'),
-    oeffneUri     = require('./oeffneUri');
+    oeffneUri     = require('./oeffneUri'),
+    erstelleTree  = require('./jstree/erstelleTree');
 
 module.exports = function () {
     var tabelle,
@@ -137,7 +138,7 @@ module.exports = function () {
             });
         } else {
             //tree neu aufbauen
-            $.when(window.apf.erstelleTree(localStorage.apId)).then(function () {
+            $.when(erstelleTree(localStorage.apId)).then(function () {
                 $("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
             });
         }

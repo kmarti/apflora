@@ -3,7 +3,8 @@
 
 var $                          = require('jquery'),
     erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
-    melde                      = require('../melde');
+    melde                      = require('../melde'),
+    erstelleTree               = require('./erstelleTree');
 
 module.exports = function (nodeApId) {
     var apId = erstelleIdAusDomAttributId(nodeApId);
@@ -13,7 +14,7 @@ module.exports = function (nodeApId) {
         url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.popId + '/feld=ApArtId/wert=' + apId + '/user=' + sessionStorage.user
     }).done(function () {
         // Baum neu aufbauen
-        $.when(window.apf.erstelleTree(apId)).then(function () {
+        $.when(erstelleTree(apId)).then(function () {
             // dann den eingefügten Node wählen
             $("#tree").jstree("select_node", "[typ='pop']#" + window.apf.popId);
         });

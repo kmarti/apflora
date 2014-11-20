@@ -20,7 +20,8 @@ var $                       = require('jquery'),
     initiiereTPopMassn      = require('./initiiereTPopMassn'),
     initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
     initiiereTPopBer        = require('./initiiereTPopBer'),
-    initiiereBeob           = require('./initiiereBeob');
+    initiiereBeob           = require('./initiiereBeob'),
+    erstelleTree            = require('./jstree/erstelleTree');
 
 module.exports = function () {
     var uri                     = new Uri($(location).attr('href')),
@@ -244,7 +245,7 @@ module.exports = function () {
             // direkt initiieren, bevor der baum fertig aufgebaut ist
             initiiereAp(apId);
         }
-        window.apf.erstelleTree(apId);
+        erstelleTree(apId);
     } else {
         if (exporte) {
             window.apf.initiiereExporte(anchor);

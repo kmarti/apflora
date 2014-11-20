@@ -3,6 +3,7 @@
 
 var _                  = require('underscore'),
     $                  = require('jquery'),
+    ol                 = require('ol'),
     google             = require('google'),
     saveAs             = require('saveAs'),
     pruefeObAngemeldet = require('./pruefeObAngemeldet'),
@@ -390,16 +391,6 @@ var initiiereApp = function () {
         };
     })(jQuery);
 
-    // wird in index.html benutzt
-    window.apf.waehleApListe = function (programm) {
-        require('./waehleApliste')(programm);
-    };
-
-    // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
-    window.apf.erstelleTree = function (ApArtId) {
-        require('./jstree/erstelleTree')(ApArtId);
-    };
-
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerPop = function (node) {
@@ -550,7 +541,7 @@ var initiiereApp = function () {
     window.apf.beschrifteOrdnerBeobNichtBeurteilt = function (node) {
         var anz = $(node).find("> ul > li").length,
             anzTxt;
-        anzTxt = (anz = 100 ? "nicht beurteilte Beobachtungen (neuste " + anz + ")" : "nicht beurteilte Beobachtungen (" + anz + ")");
+        anzTxt = (anz === 100 ? "nicht beurteilte Beobachtungen (neuste " + anz + ")" : "nicht beurteilte Beobachtungen (" + anz + ")");
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 
@@ -559,7 +550,7 @@ var initiiereApp = function () {
     window.apf.beschrifteOrdnerBeobNichtNuzuordnen = function (node) {
         var anz = $(node).find("> ul > li").length,
             anzTxt;
-        anzTxt = (anz = 100 ? "nicht zuzuordnende Beobachtungen (neuste " + anz + ")" : "nicht zuzuordnende Beobachtungen (" + anz + ")");
+        anzTxt = (anz === 100 ? "nicht zuzuordnende Beobachtungen (neuste " + anz + ")" : "nicht zuzuordnende Beobachtungen (" + anz + ")");
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 
@@ -595,13 +586,6 @@ var initiiereApp = function () {
             }
             return true;
         }
-    };
-
-    // braucht $ wegen jstree
-    // vorläufig indirekt aufrufen, damit $ übergeben wird
-    // später durch jstree 3 ablösen
-    window.apf.speichern = function (that) {
-        require('./speichern')(that);
     };
 
     (function ($) {
@@ -731,21 +715,6 @@ var initiiereApp = function () {
             window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteraction);
             delete window.apf.olmap.modifyInteraction;
         }
-    };
-
-    // wird in index.html benutzt
-    window.apf.olmap.entferneModifyInteractionFuerVectorLayer = function (input_div) {
-        require('./olmap/entferneModifyInteractionFuerVectorLayer')(input_div);
-    };
-
-    // wird in index.html benutzt
-    window.apf.olmap.erstelleModifyInteractionFuerVectorLayer = function (vectorlayer) {
-        require('./olmap/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
-    };
-
-    // wird in index.html benutzt
-    window.apf.olmap.exportiereLayer = function (layer, selectedValue) {
-        require('./olmap/exportiereLayer')(layer, selectedValue);
     };
 
     window.apf.download = function (filename, text) {
@@ -1403,11 +1372,6 @@ var initiiereApp = function () {
         $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
     };
 
-    // wird in index.html benutzt
-    window.apf.olmap.frageNameFuerEbene = function (eigene_ebene) {
-        return require('./olmap/frageNameFuerEbene')(eigene_ebene);
-    };
-
     window.apf.olmap.nenneEbeneUm = function (layer, title) {
         var initiiereLayertree              = require('./olmap/initiiereLayertree'),
             aktualisiereEbeneInLocalStorage = require('./olmap/aktualisiereEbeneInLocalStorage');
@@ -1415,11 +1379,6 @@ var initiiereApp = function () {
         initiiereLayertree('Eigene Ebenen');
         // layer in localStorage speichern
         aktualisiereEbeneInLocalStorage(layer);
-    };
-
-    // wird in index.html benutzt
-    window.apf.olmap.initiiereLayertree = function (active_kategorie) {
-        require('./olmap/initiiereLayertree')(active_kategorie);
     };
 
     // wird in index.html verwendet
@@ -1449,11 +1408,6 @@ var initiiereApp = function () {
                 width: 1
             })
         });
-    };
-
-    // wird in index.js benutzt
-    window.apf.olmap.stylePop = function (feature, resolution, selected) {
-        return require('./olmap/stylePop')(feature, resolution, selected);
     };
 
     // wird in index.js benutzt
