@@ -4,16 +4,25 @@
 var $                          = require('jquery'),
     erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
     melde                      = require('../melde'),
+    zeigeBeobUndTPop           = require('../gmap/zeigeBeobUndTPop'),
     zeigeBeob                  = require('../gmap/zeigeBeob');
 
 module.exports = function (nodeApId) {
     $.ajax({
         type: 'get',
         url: '/api/v1/beobKarte/apId=' + erstelleIdAusDomAttributId(nodeApId) + '/tpopId=/beobId=/nichtZuzuordnen='
-    }).done(function (data) {
-        if (data.length > 0) {
-            console.log('data: ', data);
-            zeigeBeob(data);
+    }).done(function (beob) {
+        if (beob.length > 0) {
+            $.ajax({
+                type: 'get',
+                url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId(nodeApId)
+            }).done(function (tpop) {
+                if (tpop && tpop.length > 0) {
+                    zeigeBeobUndTPop(beob, tpop);
+                } else {
+                    zeigeBeob(beob);
+                }
+            });
         } else {
             melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
         }

@@ -44,13 +44,16 @@ module.exports = function (markerBeob, Beob) {
                     width: 600,
                     buttons: {
                         Ja: function () {
+                            var beobRef = '#beob' + Beob.NO_NOTE,
+                                tpopOrdnerRef = "#tpopOrdnerBeobZugeordnet" + data[0].TPopId;
+
                             $(this).dialog("close");
+
                             // dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
                             localStorage.karteFokussieren = true;
+
                             // Beob der TPop zuweisen
-                            // TODO: Was ist, wenn diese Beobachtung im Baum nicht dargestellt wird????
-                            $("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpopOrdnerBeobZugeordnet" + data[0].TPopId, "first");
-                            //$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpopOrdnerBeobZugeordnet" + data[0].TPopId, "first");
+                            $("#tree").jstree("move_node", beobRef.toString(), tpopOrdnerRef.toString(), "first");
                             // Den Marker der zugewiesenen Beobachtung entfernen
                             that.setMap(null);
                         },

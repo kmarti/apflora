@@ -49,6 +49,7 @@ module.exports = function (beobListe, tpopListe) {
     zeigeFormular("google_karte");
     window.apf.gmap.markersArray    = [];
     window.apf.gmap.infoWindowArray = [];
+
     // Lat und Lng in BeobListe ergänzen
     _.each(beobListe, function (beob, index) {
         if (beob.X && beob.Y) {

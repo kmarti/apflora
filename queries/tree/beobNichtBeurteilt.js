@@ -24,7 +24,7 @@ var beobNichtBeurteilt = function (request, reply) {
             if (data.length < 100) {
                 node.data = 'nicht beurteilte Beobachtungen (' + data.length + ')';
             } else {
-                node.data = 'nicht beurteilte Beobachtungen (erste ' + data.length + ')';
+                node.data = 'nicht beurteilte Beobachtungen (neuste ' + data.length + ')';
             }
             node.attr = {
                 id: 'apOrdnerBeobNichtBeurteilt' + apId,

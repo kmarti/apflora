@@ -70,6 +70,7 @@ var _                                         = require('underscore'),
     verorteTpopAufGmap                        = require('./verorteTpopAufGmap'),
     zeigeTpopUndBeobAufGmap                   = require('./zeigeTpopUndBeobAufGmap'),
     zeigeTpopbeobNichtBeurteiltAufGmap        = require('./zeigeTpopbeobNichtBeurteiltAufGmap'),
+    zeigeTpopbeobNichtBeurteiltUndTpopAufGmap = require('./zeigeTpopbeobNichtBeurteiltUndTpopAufGmap'),
     schneideBeobZugeordnetAus                 = require('./schneideBeobZugeordnetAus');
 
 module.exports = function (node) {
@@ -1106,29 +1107,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
-                        zeigeBeob        = require('../gmap/zeigeBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
-                    }).done(function (beob) {
-                        if (beob.length > 0) {
-                            $.ajax({
-                                type: 'get',
-                                url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                            }).done(function (tpop) {
-                                if (tpop && tpop.length > 0) {
-                                    zeigeBeobUndTPop(beob, tpop);
-                                } else {
-                                    zeigeBeob(beob);
-                                }
-                            });
-                        } else {
-                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeTpopbeobNichtBeurteiltUndTpopAufGmap($(aktiverNode).attr("id"));
                 }
             }
         };

@@ -5,7 +5,6 @@ var $               = require('jquery'),
     pruefeAnmeldung = require('./pruefeAnmeldung');
 
 module.exports = function () {
-    console.log('prüfe ob angemeldet');
     var $Useranmeldung = $("#anmelde_dialog").dialog({
         autoOpen:      false,
         height:        320,

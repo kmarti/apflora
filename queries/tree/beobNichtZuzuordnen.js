@@ -24,7 +24,7 @@ var beobNichtZuzuordnen = function (request, reply) {
             if (data.length < 100) {
                 node.data = 'nicht zuzuordnende Beobachtungen (' + data.length + ')';
             } else {
-                node.data = 'nicht zuzuordnende Beobachtungen (erste ' + data.length + ')';
+                node.data = 'nicht zuzuordnende Beobachtungen (neuste ' + data.length + ')';
             }
 
             node.attr = {

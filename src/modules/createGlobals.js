@@ -684,7 +684,8 @@ var initiiereApp = function () {
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerBeobNichtBeurteilt = function (node) {
         var anz = $(node).find("> ul > li").length,
-            anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
+            anzTxt;
+        anzTxt = (anz = 100 ? "nicht beurteilte Beobachtungen (neuste " + anz + ")" : "nicht beurteilte Beobachtungen (" + anz + ")");
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 
@@ -692,7 +693,8 @@ var initiiereApp = function () {
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerBeobNichtNuzuordnen = function (node) {
         var anz = $(node).find("> ul > li").length,
-            anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
+            anzTxt;
+        anzTxt = (anz = 100 ? "nicht zuzuordnende Beobachtungen (neuste " + anz + ")" : "nicht zuzuordnende Beobachtungen (" + anz + ")");
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 
