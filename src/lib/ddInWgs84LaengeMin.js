@@ -6,7 +6,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-module.exports = function (Laenge) {
-    var LaengeGrad = Math.floor(Laenge);
-    return Math.floor((Laenge - LaengeGrad) * 60);
+module.exports = function (laenge) {
+    var laengeGrad = Math.floor(laenge);
+    return Math.floor((laenge - laengeGrad) * 60);
 };
