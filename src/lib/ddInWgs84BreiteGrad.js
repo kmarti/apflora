@@ -6,7 +6,6 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
-module.exports = function (Breite) {
-    return Math.floor(Breite);
+module.exports = function (breite) {
+    return Math.floor(breite);
 };

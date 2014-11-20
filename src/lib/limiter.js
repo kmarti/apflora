@@ -6,7 +6,6 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
 module.exports = function ($) {
     $.fn.extend({
         limiter: function (limit, elem) {

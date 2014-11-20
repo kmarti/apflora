@@ -6,28 +6,27 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
-module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec) {
+module.exports = function (breiteGrad, breiteMin, breiteSec, laengeGrad, laengeMin, laengeSec) {
     var lat,
         lng,
-        lat_aux,
-        lng_aux,
+        latAux,
+        lngAux,
         x;
 
     // Converts degrees dec to sex
     lat = breiteSec + breiteMin * 60 + breiteGrad * 3600;
-    lng = längeSec  +  längeMin * 60 +  längeGrad * 3600;
+    lng = laengeSec + laengeMin * 60 + laengeGrad * 3600;
 
     // Axiliary values (% Bern)
-    lat_aux = (lat - 169028.66) / 10000;
-    lng_aux = (lng -  26782.5)  / 10000;
+    latAux = (lat - 169028.66) / 10000;
+    lngAux = (lng -  26782.5)  / 10000;
 
     x = 200147.07
-        + 308807.95 * lat_aux
-        +   3745.25 * Math.pow(lng_aux, 2)
-        +     76.63 * Math.pow(lat_aux, 2)
-        -    194.56 * Math.pow(lng_aux, 2) * lat_aux
-        +    119.79 * Math.pow(lat_aux, 3);
+        + 308807.95 * latAux
+        +   3745.25 * Math.pow(lngAux, 2)
+        +     76.63 * Math.pow(latAux, 2)
+        -    194.56 * Math.pow(lngAux, 2) * latAux
+        +    119.79 * Math.pow(latAux, 3);
 
     return x;
 };
