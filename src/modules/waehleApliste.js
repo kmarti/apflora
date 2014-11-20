@@ -1,8 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $           = require('jquery'),
-    initiiereAp = require('./initiiereAp');
+var $               = require('jquery'),
+    initiiereAp     = require('./initiiereAp'),
+    erstelleApliste = require('./erstelleApliste');
 
 module.exports = function (programm) {
     var $ap_waehlen      = $("#ap_waehlen"),
@@ -21,7 +22,7 @@ module.exports = function (programm) {
     $("#ap_loeschen").hide();
     $("#exportieren_1").show();
 
-    window.apf.erstelleApliste(programm, function () {
+    erstelleApliste(programm, function () {
         var $programm_wahl_checked = $("[name='programm_wahl']:checked"),
             hinweisText;
 

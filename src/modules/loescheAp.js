@@ -4,14 +4,15 @@
 var $                        = require('jquery'),
     zeigeFormular            = require('./zeigeFormular'),
     frageObUndeleteDatensatz = require('./frageObUndeleteDatensatz'),
-    melde                    = require('./melde');
+    melde                    = require('./melde'),
+    erstelleApliste          = require('./erstelleApliste');
 
 module.exports = function (apId) {
     var $ap_waehlen_text = $("#ap_waehlen_text"),
         $exportieren_2   = $("#exportieren_2");
 
     //Variable zum rückgängig machen erstellen
-    window.apf.deleted = window.apf.ap;
+    window.apf.deleted     = window.apf.ap;
     window.apf.deleted.typ = "ap";
     //Artname in Textform merken
     window.apf.deleted.Artname = $ap_waehlen_text.val();
@@ -33,7 +34,7 @@ module.exports = function (apId) {
         $("#programm_wahl")
             .buttonset();
         //$("#programm_wahl").buttonset('refresh');
-        window.apf.erstelleApliste("programm_alle");
+        erstelleApliste("programm_alle");
         $('#ap_waehlen').val('');
         $ap_waehlen_text.val('');
         $ap_waehlen_text.attr('placeholder', 'Artförderprogramm wählen');
