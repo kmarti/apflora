@@ -1137,30 +1137,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
-                        zeigeBeob        = require('../gmap/zeigeBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
-                    }).done(function (beob) {
-                        if (beob && beob[0]) {
-                            // zeigeBeob erwartet einen Array, daher diesen belassen
-                            $.ajax({
-                                type: 'get',
-                                url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(parentNode).attr("id"))
-                            }).done(function (tpop) {
-                                if (tpop && tpop.length > 0) {
-                                    zeigeBeobUndTPop(beob, tpop);
-                                } else {
-                                    zeigeBeob(beob);
-                                }
-                            });
-                        } else {
-                            melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeBeobNichtBeurteiltUndTpopAufGmap($(parentNode).attr("id"), $(aktiverNode).attr("id"));
                 }
             },
             "GisBrowser": {
