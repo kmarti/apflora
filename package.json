@@ -19,7 +19,9 @@
     "saveAs": "global:saveAs",
     "OpenLayers": "global:OpenLayers",
     "MarkerClusterer": "global:MarkerClusterer",
-    "MarkerWithLabel": "global:MarkerWithLabel"
+    "MarkerWithLabel": "global:MarkerWithLabel",
+    "addruler": "global:addruler",
+    "removeruler": "global:removeruler"
   },
   "dependencies": {
     "async": "^0.9.0",

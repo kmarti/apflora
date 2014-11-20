@@ -1755,40 +1755,6 @@ window.apf.olmap.schliesseLayeroptionen = function () {
     $("#olmap_layertree").accordion("option", "active", false);
 };
 
-window.apf.erstelleGemeindeliste = function () {
-    'use strict';
-    var speichern = require('./modules/speichern'),
-        melde     = require('./modules/melde');
-    if (!window.apf.gemeinden) {
-        $.ajax({
-            type: 'get',
-            url: 'api/v1/gemeinden'
-        }).done(function (data) {
-            if (data) {
-                // Gemeinden bereitstellen
-                // Feld mit Daten beliefern
-                var gemeinden = _.map(data, function (gemeinde) {
-                    if (gemeinde.GmdName) {
-                        return gemeinde.GmdName;
-                    }
-                });
-                window.apf.gemeinden = gemeinden;
-                // autocomplete-widget für Gemeinden initiieren
-                $("#TPopGemeinde").autocomplete({
-                    source: gemeinden,
-                    delay: 0,
-                    // Change-Event wird nicht ausgelöst > hier aufrufen
-                    change: function (event, ui) {
-                        speichern(event.target);
-                    }
-                });
-            }
-        }).fail(function () {
-            melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
-        });
-    }
-};
-
 // wird aufgerufen, wenn der ap geändert wird
 // wird in index.html benutzt
 window.apf.waehleAp = function (apId) {
