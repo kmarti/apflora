@@ -434,26 +434,6 @@ module.exports = function () {
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 
-    window.apf.pruefeLesevoraussetzungen = function () {
-        // kontrollieren, ob der User offline ist
-        if (!navigator.onLine) {
-            console.log('offline');
-            $("#offline_dialog")
-                .show()
-                .dialog({
-                    modal: true,
-                    width: 400,
-                    buttons: {
-                        Ok: function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
-            return false;
-        }
-        return true;
-    };
-
     (function ($) {
         // friendly helper //tinyurl.com/6aow6yn
         // Läuft durch alle Felder im Formular
@@ -480,10 +460,10 @@ module.exports = function () {
     })(jQuery);
 
     window.apf.olmap.getLayerNames = function () {
-        var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
-            layers = _.map(layer_objekt_array, function (layer_objekt) {
-                if (layer_objekt.values_ && layer_objekt.values_.title) {
-                    return layer_objekt.values_.title;
+        var layerObjektArray = window.apf.olmap.map.getLayers().getArray(),
+            layers = _.map(layerObjektArray, function (layerObjekt) {
+                if (layerObjekt.values_ && layerObjekt.values_.title) {
+                    return layerObjekt.values_.title;
                 }
             });
         return layers;
@@ -499,21 +479,6 @@ module.exports = function () {
         return layers || [];
     };
 
-    window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
-        var layers = window.apf.olmap.map.getLayers(),
-            layersArray = window.apf.olmap.map.getLayers().getArray(),
-            top_layer,
-            initiiereLayertree = require('./olmap/initiiereLayertree');
-
-        _.each(layersArray, function (layer, index) {
-            if (layer.get('title') === layer_title) {
-                top_layer = layers.removeAt(index);
-                layers.insertAt(layersArray.length, top_layer);
-            }
-        });
-        initiiereLayertree();
-    };
-
     window.apf.olmap.entferneModifyInteractionFuerTpop = function () {
         if (window.apf.olmap.modifyInteraction) {
             window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteraction);
@@ -526,22 +491,6 @@ module.exports = function () {
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         pom.setAttribute('download', filename);
         pom.click();
-    };
-
-    window.apf.olmap.istLayerSichtbarNachName = function (layername) {
-        var layer_objekt_array,
-            layer_ist_sichtbar;
-        // prüfen, ob eine map existiert
-        if (window.apf.olmap.map) {
-            layer_objekt_array = window.apf.olmap.map.getLayers().getArray();
-            layer_ist_sichtbar = _.find(layer_objekt_array, function (layer_objekt) {
-                return layer_objekt.get('title') === layername && layer_objekt.get('visible');
-            });
-            if (layer_ist_sichtbar) {
-                return true;
-            }
-        }
-        return false;
     };
 
     // dieser Funktion kann man einen Wert zum speichern übergeben
@@ -562,34 +511,6 @@ module.exports = function () {
         });
     };
 
-    window.apf.olmap.erstelleContentFuerTPop = function (tpop) {
-        var myFlurname = tpop.TPopFlurname || '(kein Flurname)';
-        return '<table>' +
-            '<tr><td><p>Typ:</p></td><td><p>Teilpopulation</p></td></tr>' +
-            '<tr><td><p>Population:</p></td><td><p>' + tpop.PopName + '</p></td></tr>' +
-            '<tr><td><p>Teilpopulation:</p></td><td><p>' + myFlurname + '</p></td></tr>' +
-            '<tr><td><p>Koordinaten:</p></td><td><p>' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p></td></tr>' +
-            '</table>' +
-            '<p><a href="#" onclick="window.apf.oeffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
-    };
-
-    // retourniert features
-    // übergibt man einen Typ, werden nur features dieses Typs retourniert
-    window.apf.olmap.listSelectedFeatures = function (typ) {
-        var selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray(),
-            features_to_return;
-        features_to_return = _.filter(selectedFeatures, function (feature) {
-            if (typ) {
-                return feature.get('myTyp') === typ;
-            } else {
-                return feature.get('myTyp');
-            }
-        });
-        return features_to_return;
-    };
-
     // sucht features an einem Ort in der Karte
     window.apf.olmap.sucheFeatures = function (pixel) {
         var features = [];
@@ -599,69 +520,19 @@ module.exports = function () {
         return features;
     };
 
-    window.apf.olmap.entfernePopupOverlays = function () {
-        var overlays = window.apf.olmap.map.getOverlays().getArray(),
-            zuLoeschendeOverlays = [];
-
-        _.each(overlays, function (overlay) {
-            if (overlay.get('typ') === 'popup') {
-                zuLoeschendeOverlays.push(overlay);
-            }
-        });
-
-        _.each(zuLoeschendeOverlays, function (overlay) {
-            window.apf.olmap.map.removeOverlay(overlay);
-        });
-        // alle qtips entfernen
-        $('.qtip').each(function () {
-            $(this).qtip('destroy', true);
-        });
-    };
-
-    window.apf.olmap.erstelleContentFuerPop = function (pop) {
-        return '<table>' +
-            '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>' +
-            '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>' +
-            '</table>' +
-            '<p><a href="#" onclick="window.apf.oeffnePop(\'' + pop.PopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.oeffnePopInNeuemTab(\'' + pop.PopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
-    };
-
 
     // ermöglicht es, nach dem toolip zu sortieren
-    window.apf.vergleicheTPopZumSortierenNachTooltip = function (a,b) {
-        if (a.tooltip < b.tooltip) {return -1;}
-        if (a.tooltip > b.tooltip) {return 1;}
+    window.apf.vergleicheTPopZumSortierenNachTooltip = function (a, b) {
+        if (a.tooltip < b.tooltip) { return -1; }
+        if (a.tooltip > b.tooltip) { return 1; }
         return 0;
-    };
-
-    window.apf.deaktiviereGeoAdminAuswahl = function () {
-        if (window.apf.olmap.auswahlPolygonLayer) {
-            window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
-        }
-        if (window.drawControl) {
-            window.drawControl.deactivate();
-        }
-        $("#ergebnisAuswahl").css("display", "none");
-        delete window.apf.tpop_id_array;
-        delete window.tpop_id_liste;
-        delete window.apf.pop_id_array;
-        delete window.pop_id_liste;
     };
 
     window.apf.erstelleTPopNrLabel = function (popnr, tpopnr) {
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
-        if (popnr && tpopnr) {
-            return popnr + '/' + tpopnr;
-        }
-        if (popnr) {
-            return popnr + '/?';
-        }
-        if (tpopnr) {
-            return '?/' + tpopnr;
-        }
-        return '?/?';
+        popnr  = popnr  || '?';
+        tpopnr = tpopnr || '?';
+        return popnr + '/' + tpopnr;
     };
 
     // GoogleMap: alle Marker löschen
@@ -832,12 +703,14 @@ module.exports = function () {
 
     // deaktiviert Messen und Auswählen
     window.apf.olmap.deactivateMenuItems = function () {
+        var entfernePopupOverlays = require('./olmap/entfernePopupOverlays');
+
         // messen deaktivieren
         window.apf.olmap.removeMeasureInteraction();
         // Auswählen deaktivieren
         window.apf.olmap.removeSelectFeaturesInSelectableLayers();
         // allfällige popups schliessen
-        window.apf.olmap.entfernePopupOverlays();
+        entfernePopupOverlays();
         // allfällige tooltips von ga-karten verstecken
         $('div.ga-tooltip').hide();
         // allfällige modify-interaction entfernen

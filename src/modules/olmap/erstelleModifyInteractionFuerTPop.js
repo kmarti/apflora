@@ -5,7 +5,8 @@ var $                              = require('jquery'),
     _                              = require('underscore'),
     ol                             = require('ol'),
     styleTPop                      = require('./styleTPop'),
-    aktualisiereKoordinatenVonTPop = require('../aktualisiereKoordinatenVonTPop');
+    aktualisiereKoordinatenVonTPop = require('../aktualisiereKoordinatenVonTPop'),
+    erstelleContentFuerTPop        = require('./erstelleContentFuerTPop');
 
 module.exports = function (modifySource) {
     var modifyOverlay;
@@ -61,7 +62,7 @@ module.exports = function (modifySource) {
                     // abhängige Eigenschaften aktualisieren
                     aktuellesFeature.set('xkoord', window.apf.tpop.TPopXKoord);
                     aktuellesFeature.set('ykoord', window.apf.tpop.TPopYKoord);
-                    aktuellesFeature.set('popupContent', window.apf.olmap.erstelleContentFuerTPop(window.apf.tpop));
+                    aktuellesFeature.set('popupContent', erstelleContentFuerTPop(window.apf.tpop));
                 });
             }
         }, 200);

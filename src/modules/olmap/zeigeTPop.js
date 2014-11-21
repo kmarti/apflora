@@ -7,14 +7,15 @@ var $                                   = require('jquery'),
     initiiereLayertree                  = require('./initiiereLayertree'),
     zeigePopInTPop                      = require('./zeigePopInTPop'),
     waehleAusschnittFuerUebergebeneTPop = require('./waehleAusschnittFuerUebergebeneTPop'),
-    melde                               = require('../melde');
+    melde                               = require('../melde'),
+    istLayerSichtbarNachName            = require('./istLayerSichtbarNachName');
 
 module.exports = function (TPopListeMarkiert) {
     var markierteTpop,
         // wenn layer "Populationen" sichtbar ist, sichtbar behalten
-        overlayPopVisible   = window.apf.olmap.istLayerSichtbarNachName("Populationen"),
+        overlayPopVisible   = istLayerSichtbarNachName("Populationen"),
         // wenn layer "Populationen Namen" sichtbar ist, sichtbar behalten
-        overlayPopnrVisible = window.apf.olmap.istLayerSichtbarNachName("Populationen Nummern");
+        overlayPopnrVisible = istLayerSichtbarNachName("Populationen Nummern");
 
     markierteTpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
 

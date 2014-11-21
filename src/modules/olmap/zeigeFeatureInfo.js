@@ -1,9 +1,10 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    _  = require('underscore'),
-    ol = require('ol');
+var $                     = require('jquery'),
+    _                     = require('underscore'),
+    ol                    = require('ol'),
+    entfernePopupOverlays = require('./entfernePopupOverlays');
 
 // braucht $ wegen $.qtip
 module.exports = function (pixel, coordinate) {
@@ -106,6 +107,6 @@ module.exports = function (pixel, coordinate) {
         overlay.set('typ', 'popup');
     } else {
         // alle popups entfernen
-        window.apf.olmap.entfernePopupOverlays();
+        entfernePopupOverlays();
     }
 };

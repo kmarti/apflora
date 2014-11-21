@@ -5,10 +5,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $        = require('jquery'),
-    _        = require('underscore'),
-    ol       = require('ol'),
-    stylePop = require('./stylePop');
+var $                      = require('jquery'),
+    _                      = require('underscore'),
+    ol                     = require('ol'),
+    stylePop               = require('./stylePop'),
+    erstelleContentFuerPop = require('./erstelleContentFuerPop');
 
 module.exports = function (popliste, popidMarkiert, visible) {
     var popLayerErstellt = $.Deferred(),
@@ -30,8 +31,8 @@ module.exports = function (popliste, popidMarkiert, visible) {
     visible = (visible === true);
 
     _.each(popliste, function (pop) {
-        myName = pop.PopName || '(kein Name)';
-        popupContent = window.apf.olmap.erstelleContentFuerPop(pop);
+        myName       = pop.PopName || '(kein Name)';
+        popupContent = erstelleContentFuerPop(pop);
 
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         myLabel = (pop.PopNr ? pop.PopNr.toString() : '?');
@@ -43,7 +44,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
             pop_name:     myName,
             name:         myLabel, // noch benötigt? TODO: entfernen
             popupContent: popupContent,
-            popupTitle:  myName,
+            popupTitle:   myName,
             // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
             xkoord:       pop.PopXKoord,
             ykoord:       pop.PopYKoord,

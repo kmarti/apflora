@@ -7,7 +7,8 @@ var $                                 = require('jquery'),
     zeigeTPop                         = require('./zeigeTPop'),
     styleTPop                         = require('./styleTPop'),
     erstelleMarkerFuerTPopLayer       = require('./erstelleMarkerFuerTPopLayer'),
-    aktualisiereKoordinatenVonTPop    = require('../aktualisiereKoordinatenVonTPop');
+    aktualisiereKoordinatenVonTPop    = require('../aktualisiereKoordinatenVonTPop'),
+    stapleLayerZuoberst               = require('./stapleLayerZuoberst');
 
 module.exports = function (tpop) {
     var bounds,
@@ -58,7 +59,7 @@ module.exports = function (tpop) {
             window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
             // verzögern, sonst funktioniert es nicht
             setTimeout(function () {
-                window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
+                stapleLayerZuoberst('verortende Teilpopulation');
             }, 200);
         } else {
             // wenn keine Koordinate existiert:
@@ -91,7 +92,7 @@ module.exports = function (tpop) {
             }, this);
             // verzögern, sonst funktioniert es nicht
             setTimeout(function () {
-                window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
+                stapleLayerZuoberst('verortende Teilpopulation');
             }, 200);
         }
     });

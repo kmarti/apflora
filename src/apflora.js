@@ -1,15 +1,16 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                     = require('jquery'),
-    _                     = require('underscore'),
-    createGlobals         = require('./modules/createGlobals'),
-    clearLocalStorage     = require('./modules/clearLocalStorage'),
-    erstelleGemeindeliste = require('./modules/erstelleGemeindeliste'),
-    erstelleArtlisten     = require('./modules/erstelleArtlisten'),
-    waehleApliste         = require('./modules/waehleApliste'),
-    oeffneUri             = require('./modules/oeffneUri'),
-    setupEvents           = require('./modules/setupEvents');
+var $                         = require('jquery'),
+    _                         = require('underscore'),
+    createGlobals             = require('./modules/createGlobals'),
+    clearLocalStorage         = require('./modules/clearLocalStorage'),
+    erstelleGemeindeliste     = require('./modules/erstelleGemeindeliste'),
+    erstelleArtlisten         = require('./modules/erstelleArtlisten'),
+    waehleApliste             = require('./modules/waehleApliste'),
+    oeffneUri                 = require('./modules/oeffneUri'),
+    setupEvents               = require('./modules/setupEvents'),
+    pruefeLesevoraussetzungen = require('./modules/pruefeLesevoraussetzungen');
 
 // benötigte globale Variabeln initialisieren
 window.apf       = window.apf       || {};
@@ -29,7 +30,7 @@ window.apf.initiiereApp = function () {
     $.ajaxSetup({
         dataType: 'json',
         beforeSend: function () {
-            if (!window.apf.pruefeLesevoraussetzungen()) {
+            if (!pruefeLesevoraussetzungen()) {
                 return false;
             }
         }

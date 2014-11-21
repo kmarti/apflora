@@ -24,7 +24,8 @@ var $                             = require('jquery'),
     melde                         = require('./melde'),
     kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop'),
     setzeKartenhoehe              = require('./setzeKartenhoehe'),
-    entferneLayerNachName         = require('./olmap/entferneLayerNachName');
+    entferneLayerNachName         = require('./olmap/entferneLayerNachName'),
+    deaktiviereOlmapAuswahl    = require('./olmap/deaktiviereOlmapAuswahl');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -493,7 +494,7 @@ module.exports = function () {
         });
 
     $("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function () {
-        window.apf.deaktiviereGeoAdminAuswahl();
+        deaktiviereOlmapAuswahl();
     });
 
     $("#exporte")
