@@ -11,7 +11,6 @@ var $  = require('jquery'),
 
 module.exports = function (feature, resolution, selected, verorten) {
     var icon = 'img/flora_icon.png',
-        style,
         imageStyle,
         textInhalt,
         textStyle,
@@ -65,14 +64,12 @@ module.exports = function (feature, resolution, selected, verorten) {
         image: imageStyle
     });
 
-    // style bestimmen
+    // style bestimmen und zurück geben
     if ($layertree_tpop_nr.is(':checked')) {
-        style = styleWithText;
-    } else if ($('#layertree_tpop_name').is(':checked')) {
-        style = styleWithText;
-    } else {
-        style = styleWithoutText;
+        return [styleWithText];
     }
-
-    return [style];
+    if ($('#layertree_tpop_name').is(':checked')) {
+        return [styleWithText];
+    }
+    return [styleWithoutText];
 };

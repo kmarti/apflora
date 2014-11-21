@@ -26,7 +26,7 @@ module.exports = function (tpopListe, tpopidMarkiert, visible) {
         selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     }
 
-    visible = (visible === null);
+    visible = (visible === true);
 
     _.each(tpopListe, function (tpop) {
         // marker erstellen...

@@ -1,7 +1,7 @@
 // baut das html für den layertree auf
 // Muster:
 // <li><input type="checkbox" id="olmap_layertree_Ebene 1"><label for="olmap_layertree_Ebene 1">Ebene 1</label></li><hr>
-// active_kategorie: der Bereich dieser Kategorie soll offen sein
+// activeKategorie: der Bereich dieser Kategorie soll offen sein
 
 /*jslint node: true, browser: true, nomen: true, todo: true, plusplus: true */
 'use strict';
@@ -9,7 +9,7 @@
 var _ = require('underscore'),
     $ = require('jquery');
 
-module.exports = function (active_kategorie) {
+module.exports = function (activeKategorie) {
     var layertitel,
         visible,
         kategorie,
@@ -179,7 +179,7 @@ module.exports = function (active_kategorie) {
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
-    if (active_kategorie) {
+    if (activeKategorie) {
         // ohne die erste Aktivierung funktioniert es nicht
         $ga_karten_div_accordion.accordion({
             collapsible: true,
@@ -191,7 +191,7 @@ module.exports = function (active_kategorie) {
             active:      0,
             heightStyle: 'content'
         });
-        if (active_kategorie === 'Eigene Ebenen') {
+        if (activeKategorie === 'Eigene Ebenen') {
             active = 5;
         }
         $('#olmap_layertree_layers').accordion({

@@ -34,10 +34,10 @@ module.exports = function (popListeMarkiert) {
         $.ajax({
             type: 'get',
             url: 'api/v1/tpopKarteAlle/apId=' + window.apf.ap.ApArtId
-        }).done(function (TPopListe) {
+        }).done(function (tpopListe) {
             $.when(
                 // Layer für Symbole und Beschriftung erstellen
-                erstelleTPopLayer(TPopListe),
+                erstelleTPopLayer(tpopListe),
                 // alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
                 zeigePopInTPop(true, true, markiertePop.popidMarkiert)
             ).then(function () {

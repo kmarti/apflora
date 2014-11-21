@@ -5,6 +5,7 @@ var $  = require('jquery'),
     ol = require('ol');
 
 module.exports = function () {
+    // interaction erstellen
     window.apf.olmap.dragBoxInteraction = new ol.interaction.DragBox({
         /* dragbox interaction is active only if alt key is pressed */
         condition: ol.events.condition.altKeyOnly,
@@ -19,6 +20,9 @@ module.exports = function () {
             })
         })
     });
+    window.apf.olmap.map.addInteraction(window.apf.olmap.dragBoxInteraction);
+
+    // Aktion bei boxend erstellen
     window.apf.olmap.dragBoxInteraction.on('boxend', function () {
         var geometry         = window.apf.olmap.dragBoxInteraction.getGeometry(),
             extent           = geometry.getExtent(),
@@ -45,5 +49,4 @@ module.exports = function () {
             window.apf.olmap.pruefeObPopTpopGewaehltWurden();
         }, 100);
     });
-    window.apf.olmap.map.addInteraction(window.apf.olmap.dragBoxInteraction);
 };

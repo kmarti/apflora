@@ -27,7 +27,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
         selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     }
 
-    visible = (visible === null);
+    visible = (visible === true);
 
     _.each(popliste, function (pop) {
         myName = pop.PopName || '(kein Name)';

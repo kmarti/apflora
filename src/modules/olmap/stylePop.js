@@ -9,7 +9,6 @@ var $  = require('jquery'),
 
 module.exports = function (feature, resolution, selected) {
     var icon = 'img/flora_icon_braun.png',
-        style,
         imageStyle,
         textInhalt,
         textStyle,
@@ -61,12 +60,10 @@ module.exports = function (feature, resolution, selected) {
 
     // style bestimmen
     if ($layertree_pop_nr.is(':checked')) {
-        style = styleWithText;
-    } else if ($('#layertree_pop_name').is(':checked')) {
-        style = styleWithText;
-    } else {
-        style = styleWithoutText;
+        return [styleWithText];
     }
-
-    return [style];
+    if ($('#layertree_pop_name').is(':checked')) {
+        return [styleWithText];
+    }
+    return [styleWithoutText];
 };

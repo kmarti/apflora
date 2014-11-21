@@ -1217,6 +1217,7 @@ var initiiereApp = function () {
         } else if (element.value === 'polygon' && element.checked) {
             addMeasureInteraction('Polygon');
         } else {
+            // es wurde 'infos abfragen geklickt'
             window.apf.olmap.removeMeasureInteraction();
         }
     };
