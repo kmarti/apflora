@@ -10,7 +10,8 @@ var $                         = require('jquery'),
     blendeOlmapExportieren    = require('./blendeOlmapExportieren'),
     entferneAlleApfloraLayer  = require('./entferneAlleApfloraLayer'),
     addShowFeatureInfoOnClick = require('./addShowFeatureInfoOnClick'),
-    changeCursorOverFeature   = require('./changeCursorOverFeature');
+    changeCursorOverFeature   = require('./changeCursorOverFeature'),
+    addMousePositionControl   = require('./addMousePositionControl');
 
 module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
@@ -34,7 +35,7 @@ module.exports = function () {
         addShowFeatureInfoOnClick();
         changeCursorOverFeature();
         initiiereLayertree();
-        window.apf.olmap.addMousePositionControl();
+        addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
 
         window.apf.olmap.map.on('change:size', function () {

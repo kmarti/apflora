@@ -687,17 +687,6 @@ module.exports = function () {
 
     })(jQuery);
 
-    window.apf.olmap.addMousePositionControl = function () {
-        var mousePositionControl = new ol.control.MousePosition({
-            //This is the format we want the coordinate in
-            //The number argument in createStringXY is the number of decimal places
-            coordinateFormat: ol.coordinate.createStringXY(0),
-            projection: "EPSG:21781",
-            undefinedHTML: '&nbsp;' //what openlayers will use if the map returns undefined for a map coordinate
-        });
-        window.apf.olmap.map.addControl(mousePositionControl);
-    };
-
     window.apf.olmap.addFullScreenControl = function () {
         var myFullScreenControl = new ol.control.FullScreen();
         window.apf.olmap.map.addControl(myFullScreenControl);
