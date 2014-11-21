@@ -15,7 +15,7 @@ window.apf.gmap  = window.apf.gmap  || {};
 window.apf.olmap = window.apf.olmap || {};
 
 module.exports = function () {
-    // das muss aus unerfindlichem Grund direkt von index.htm. aus aufgerufen werden
+    // das muss aus unerfindlichem Grund direkt von index.html aus aufgerufen werden
     // sonst wirkt jquery-ui nicht
     window.apf.pruefeObAngemeldet = function () {
         pruefeObAngemeldet();
@@ -24,70 +24,6 @@ module.exports = function () {
     // ...und wegen oberem, muss auch diese Funktion in index.html bereit stehen
     window.apf.isDateSupported = function () {
         return isDateSupported();
-    };
-
-    // setzt window.apf und localStorage.apId
-    // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-    window.apf.setzeWindowAp = function (id) {
-        localStorage.apId = id;
-        $.ajax({
-            type: 'get',
-            url: 'api/v1/ap=' + localStorage.apId
-        }).done(function (data) {
-            // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-            if (data && data[0]) {
-                // ap bereitstellen
-                window.apf.ap = data[0];
-            }
-        });
-    };
-
-    // setzt window.apf.pop und localStorage.popId
-    // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-    window.apf.setzeWindowPop = function (id) {
-        localStorage.popId = id;
-        $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.popId
-        }).done(function (data) {
-            // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-            if (data && data[0]) {
-                // pop bereitstellen
-                window.apf.pop = data[0];
-            }
-        });
-    };
-
-    // setzt window.apf.apziel und localStorage.apzielId
-    // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-    window.apf.setzeWindowApziel = function (id) {
-        localStorage.apzielId = id;
-        $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apzielId
-        }).done(function (data) {
-            // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-            if (data && data[0]) {
-                // apziel bereitstellen
-                window.apf.apziel = data[0];
-            }
-        });
-    };
-
-    // setzt window.apf.zielber und localStorage.zielberId
-    // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-    window.apf.setzeWindowZielber = function (id) {
-        localStorage.zielberId = id;
-        $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielberId
-        }).done(function (data) {
-            // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-            if (data && data[0]) {
-                // zielber bereitstellen
-                window.apf.zielber = data[0];
-            }
-        });
     };
 
     // setzt window.apf.erfkrit und localStorage.erfkritId
@@ -597,82 +533,6 @@ module.exports = function () {
     window.apf.oeffneTPopBeobInNeuemTab = function (beobId) {
         window.open("index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beobNichtBeurteilt=" + beobId, "_blank");
     };
-
-
-
-
-    /*(function ($) {
-
-        var types = ['DOMMouseScroll', 'mousewheel'];
-
-        if ($.event.fixHooks) {
-            for ( var i=types.length; i; ) {
-                $.event.fixHooks[ types[--i] ] = $.event.mouseHooks;
-            }
-        }
-
-        $.event.special.mousewheel = {
-            setup: function () {
-                if ( this.addEventListener ) {
-                    for ( var i=types.length; i; ) {
-                        this.addEventListener( types[--i], handler, false );
-                    }
-                } else {
-                    this.onmousewheel = handler;
-                }
-            },
-            
-            teardown: function () {
-                if ( this.removeEventListener ) {
-                    for ( var i=types.length; i; ) {
-                        this.removeEventListener( types[--i], handler, false );
-                    }
-                } else {
-                    this.onmousewheel = null;
-                }
-            }
-        };
-
-        $.fn.extend({
-            mousewheel: function (fn) {
-                return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
-            },
-            
-            unmousewheel: function (fn) {
-                return this.unbind("mousewheel", fn);
-            }
-        });
-
-
-        function handler(event) {
-            var orgEvent = event || window.event, args = [].slice.call( arguments, 1 ), delta = 0, returnValue = true, deltaX = 0, deltaY = 0;
-            event = $.event.fix(orgEvent);
-            event.type = "mousewheel";
-            
-            // Old school scrollwheel delta
-            if ( orgEvent.wheelDelta ) { delta = orgEvent.wheelDelta/120; }
-            if ( orgEvent.detail     ) { delta = -orgEvent.detail/3; }
-            
-            // New school multidimensional scroll (touchpads) deltas
-            deltaY = delta;
-            
-            // Gecko
-            if ( orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
-                deltaY = 0;
-                deltaX = -1*delta;
-            }
-            
-            // Webkit
-            if ( orgEvent.wheelDeltaY !== undefined ) { deltaY = orgEvent.wheelDeltaY/120; }
-            if ( orgEvent.wheelDeltaX !== undefined ) { deltaX = -1*orgEvent.wheelDeltaX/120; }
-            
-            // Add event and delta to the front of the arguments
-            args.unshift(event, delta, deltaX, deltaY);
-            
-            return ($.event.dispatch || $.event.handle).apply(this, args);
-        }
-
-    })(jQuery);*/
 
     // wird in index.html verwendet
     window.apf.oeffneFormularAlsPopup = function (formularname, id) {

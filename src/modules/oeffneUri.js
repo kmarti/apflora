@@ -21,7 +21,11 @@ var $                       = require('jquery'),
     initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
     initiiereTPopBer        = require('./initiiereTPopBer'),
     initiiereBeob           = require('./initiiereBeob'),
-    erstelleTree            = require('./jstree/erstelleTree');
+    erstelleTree            = require('./jstree/erstelleTree'),
+    setzeWindowAp           = require('./setzeWindowAp'),
+    setzeWindowPop          = require('./setzeWindowPop'),
+    setzeWindowApziel       = require('./setzeWindowApziel'),
+    setzeWindowZielber      = require('./setzeWindowZielber');
 
 module.exports = function () {
     var uri                     = new Uri($(location).attr('href')),
@@ -71,8 +75,8 @@ module.exports = function () {
     if (assozartenId)      { assozartenId      = parseInt(assozartenId, 10); }
 
     // zuerst die globalen Variabeln setzen
-    if (apId)              { window.apf.setzeWindowAp(apId); }
-    if (popId)             { window.apf.setzeWindowPop(popId); }
+    if (apId)              { setzeWindowAp(apId); }
+    if (popId)             { setzeWindowPop(popId); }
     if (tpopId)            { window.apf.setzeWindowTpop(tpopId); }
     if (tpopfeldkontrId)   { window.apf.setzeWindowTpopfeldkontr(tpopfeldkontrId); }
     if (tpopfreiwkontrId)  { window.apf.setzeWindowTpopfeldkontr(tpopfreiwkontrId); }
@@ -81,8 +85,8 @@ module.exports = function () {
     if (tpopmassnberId)    { window.apf.setzeWindowTpopmassnber(tpopmassnberId); }
     if (popberId)          { window.apf.setzeWindowPopber(popberId); }
     if (popmassnberId)     { window.apf.setzeWindowPopmassnber(popmassnberId); }
-    if (apzielId)          { window.apf.setzeWindowApziel(apzielId); }
-    if (zielberId)         { window.apf.setzeWindowZielber(zielberId); }
+    if (apzielId)          { setzeWindowApziel(apzielId); }
+    if (zielberId)         { setzeWindowZielber(zielberId); }
     if (erfkritId)         { window.apf.setzeWindowErfkrit(erfkritId); }
     if (jberId)            { window.apf.setzeWindowJber(jberId); }
     if (jber_uebersichtId) { window.apf.setzeWindowJberUebersicht(jber_uebersichtId); }
