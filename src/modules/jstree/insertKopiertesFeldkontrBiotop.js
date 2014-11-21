@@ -2,15 +2,17 @@
 'use strict';
 
 var $                                         = require('jquery'),
+    _                                         = require('underscore'),
     erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
-    melde                                     = require('../melde');
+    melde                                     = require('../melde'),
+    pruefeSchreibvoraussetzungen              = require('../pruefeSchreibvoraussetzungen');
 
 module.exports = function (nodeFeldkontrId) {
-    var data = {};
-    data.id = erstelleIdAusDomAttributId(nodeFeldkontrId);
+    var data  = {};
+    data.id   = erstelleIdAusDomAttributId(nodeFeldkontrId);
     data.user = sessionStorage.user;
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.pruefeSchreibvoraussetzungen()) {
+    if (!pruefeSchreibvoraussetzungen()) {
         return;
     }
     _.each(window.apf.feldkontrBiotop, function (value, key) {

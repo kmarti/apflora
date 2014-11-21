@@ -7,7 +7,7 @@ var $                         = require('jquery'),
 
 module.exports = function () {
     // kontrollieren, ob der User online ist
-    if (window.apf.pruefeLesevoraussetzungen()) {
+    if (pruefeLesevoraussetzungen()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
             melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");

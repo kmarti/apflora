@@ -1,19 +1,20 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                          = require('jquery'),
-    speichern                  = require('../speichern'),
-    treeKontextmenu            = require('./treeKontextmenu'),
-    melde                      = require('../melde'),
-    initiierePop               = require('../initiierePop'),
-    initiiereTPop              = require('../initiiereTPop'),
-    initiiereTPopFeldkontr     = require('../initiiereTPopFeldkontr'),
-    initiiereTPopMassn         = require('../initiiereTPopMassn'),
-    erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
-    crrmCheckMove              = require('./crrmCheckMove'),
-    types                      = require('./types.json'),
-    loaded                     = require('./loaded'),
-    select_node                = require('./select_node');
+var $                            = require('jquery'),
+    speichern                    = require('../speichern'),
+    treeKontextmenu              = require('./treeKontextmenu'),
+    melde                        = require('../melde'),
+    initiierePop                 = require('../initiierePop'),
+    initiiereTPop                = require('../initiiereTPop'),
+    initiiereTPopFeldkontr       = require('../initiiereTPopFeldkontr'),
+    initiiereTPopMassn           = require('../initiiereTPopMassn'),
+    erstelleIdAusDomAttributId   = require('../erstelleIdAusDomAttributId'),
+    crrmCheckMove                = require('./crrmCheckMove'),
+    types                        = require('./types.json'),
+    loaded                       = require('./loaded'),
+    select_node                  = require('./select_node'),
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
 
 module.exports = function (ApArtId) {
     var jstreeErstellt = $.Deferred(),
@@ -111,7 +112,7 @@ module.exports = function (ApArtId) {
             zielParentNodeId;
 
         // nur aktualisieren, wenn Schreibrechte bestehen
-        if (!window.apf.pruefeSchreibvoraussetzungen()) {
+        if (!pruefeSchreibvoraussetzungen()) {
             return;
         }
 

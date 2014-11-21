@@ -1,13 +1,14 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                          = require('jquery'),
-    erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
-    melde                      = require('../melde');
+var $                            = require('jquery'),
+    erstelleIdAusDomAttributId   = require('../erstelleIdAusDomAttributId'),
+    melde                        = require('../melde'),
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
 
 module.exports = function (aktiverNode) {
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.pruefeSchreibvoraussetzungen()) {
+    if (!pruefeSchreibvoraussetzungen()) {
         return;
     }
     window.apf.tpopfeldkontrNodeKopiert = aktiverNode;

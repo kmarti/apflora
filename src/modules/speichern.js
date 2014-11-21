@@ -6,11 +6,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $             = require('jquery'),
-    _             = require('underscore'),
-    configuration = require('./configuration'),
-    waehleAp      = require('./waehleAp'),
-    melde         = require('./melde');
+var $                            = require('jquery'),
+    _                            = require('underscore'),
+    configuration                = require('./configuration'),
+    waehleAp                     = require('./waehleAp'),
+    melde                        = require('./melde'),
+    pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen');
 
 // braucht $ wegen jstree
 var speichern = function (that) {
@@ -61,7 +62,7 @@ var speichern = function (that) {
         $tree = $("#tree"),
         jahr;
 
-    if (window.apf.pruefeSchreibvoraussetzungen()) {
+    if (pruefeSchreibvoraussetzungen()) {
         formular = $(that).attr("formular");
         // infos über die betroffene Tabelle holen
         table = _.findWhere(configuration.tables, {form: formular});

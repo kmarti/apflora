@@ -9,7 +9,8 @@
 
 var $                    = require('jquery'),
     initiiereOlmap       = require('./olmap/initiiereOlmap'),
-    fitTextareaToContent = require('./fitTextareaToContent');
+    fitTextareaToContent = require('./fitTextareaToContent'),
+    setzeKartenhoehe     = require('./setzeKartenhoehe');
 
 module.exports = function (Formularname) {
     var formularAngezeigt = $.Deferred(),
@@ -69,7 +70,7 @@ module.exports = function (Formularname) {
             $Formularname.css("height", $(window).height() - 17 + "px");
             // markieren, dass die Formularhöhe anders gesetzt werden soll
             window.apf.kartenhoeheManuell = true;
-            window.apf.setzeKartenhoehe();
+            setzeKartenhoehe();
             $Formularname.show();
             if (Formularname === "GeoAdminKarte") {
                 initiiereOlmap();

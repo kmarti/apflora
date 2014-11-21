@@ -1,16 +1,17 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                          = require('jquery'),
-    erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
-    melde                      = require('../melde'),
-    frageObUndeleteDatensatz   = require('../frageObUndeleteDatensatz');
+var $                            = require('jquery'),
+    erstelleIdAusDomAttributId   = require('../erstelleIdAusDomAttributId'),
+    melde                        = require('../melde'),
+    frageObUndeleteDatensatz     = require('../frageObUndeleteDatensatz'),
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
 
 module.exports = function (aktiverNode, parentNode) {
     var bezeichnung;
 
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.pruefeSchreibvoraussetzungen()) {
+    if (!pruefeSchreibvoraussetzungen()) {
         return;
     }
     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde

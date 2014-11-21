@@ -337,43 +337,6 @@ module.exports = function () {
         }
     };
 
-    window.apf.setzeKartenhoehe = function () {
-        var lytMaxHeight = window.apf.berechneOlmapLayertreeMaxhoehe,
-            forms_height,
-            max_width;
-        // Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
-        if (window.apf.kartenhoeheManuell) {
-            forms_height = $(window).height() - 17;
-            max_width = $("#forms").width();
-            // resizable neu rechnen lassen, sonst bleibt ga_karten_div in falscher Grösse
-            // leider funktioniert das nicht wie gewünscht:
-            // wenn der Benutzer die Grösse verändert hat, passt sich ga_karten_div nicht mehr richtig an Veränderungen des Bildschirms an...
-            //$('.apf-resizable').resizable('destroy');
-            //$('.apf-resizable').resizable();
-            /*$('.apf-resizable').resizable({
-                maxWidth: max_width,
-                maxHeight: forms_height
-            });*/
-            $("#forms").height(forms_height);
-            $('#ga_karten_div')
-                //.css('width', max_width)
-                .css('max-width', max_width)
-                //.css('height', forms_height)
-                .css('max-height', forms_height);
-            $('.apf-resizable').resizable();
-            if (window.apf.olmap && window.apf.olmap.map) {
-                window.apf.olmap.map.updateSize();
-                // Maximalgrösse des Layertree begrenzen
-                $('#olmap_layertree_layers').css('max-height', lytMaxHeight);
-            }
-            if (google !== undefined && google.maps && window.apf.gmap && window.apf.gmap.map !== undefined) {
-                google.maps.event.trigger(window.apf.gmap.map, 'resize');
-            }
-        } else {
-            $("#forms").height('auto');
-        }
-    };
-
     window.apf.berechneOlmapLayertreeMaxhoehe = function () {
         var lytMaxHeight;
         if ($(window).width() > 1000) {
@@ -572,20 +535,6 @@ module.exports = function () {
             return false;
         }
         return true;
-    };
-
-    window.apf.pruefeSchreibvoraussetzungen = function () {
-        var melde = require('./melde');
-
-        // kontrollieren, ob der User online ist
-        if (window.apf.pruefeLesevoraussetzungen()) {
-            // kontrollieren, ob der User Schreibrechte hat
-            if (sessionStorage.NurLesen) {
-                melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
-                return false;
-            }
-            return true;
-        }
     };
 
     (function ($) {
@@ -1325,5 +1274,3 @@ module.exports = function () {
         });
     };
 };
-
-//window.apf.initiiereApp = initiiereApp;

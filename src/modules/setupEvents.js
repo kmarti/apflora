@@ -22,7 +22,8 @@ var $                             = require('jquery'),
     loescheAp                     = require('./loescheAp'),
     undeleteDatensatz             = require('./undeleteDatensatz'),
     melde                         = require('./melde'),
-    kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop');
+    kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop'),
+    setzeKartenhoehe              = require('./setzeKartenhoehe');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -417,7 +418,7 @@ module.exports = function () {
         window.apf.setzeTreehoehe();
         // Karten sollen ca. Bildschirmhöhe haben
         // da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
-        window.apf.setzeKartenhoehe();
+        setzeKartenhoehe();
     });
 
     $("#forms")

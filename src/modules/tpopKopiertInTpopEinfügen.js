@@ -7,13 +7,14 @@ var $                                         = require('jquery'),
     _                                         = require('underscore'),
     insertNeuenNodeAufGleicherHierarchiestufe = require('./jstree/insertNeuenNodeAufGleicherHierarchiestufe'),
     erstelleIdAusDomAttributId                = require('./erstelleIdAusDomAttributId'),
-    melde                                     = require('./melde');
+    melde                                     = require('./melde'),
+    pruefeSchreibvoraussetzungen              = require('./pruefeSchreibvoraussetzungen');
 
 module.exports = function (aktiverNode, parentNode) {
     var data = {};
 
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.pruefeSchreibvoraussetzungen()) {
+    if (!pruefeSchreibvoraussetzungen()) {
         return;
     }
     // drop kennt den parent nicht

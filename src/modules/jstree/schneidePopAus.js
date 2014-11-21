@@ -1,12 +1,13 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                          = require('jquery'),
-    erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId');
+var $                            = require('jquery'),
+    erstelleIdAusDomAttributId   = require('../erstelleIdAusDomAttributId'),
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
 
 module.exports = function (aktiverNode) {
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.pruefeSchreibvoraussetzungen()) {
+    if (!pruefeSchreibvoraussetzungen()) {
         return;
     }
     // Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden

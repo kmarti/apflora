@@ -5,7 +5,8 @@ var $       = require('jquery'),
     google  = require('google'),
     ddInChY = require('../../lib/ddInChY'),
     ddInChX = require('../../lib/ddInChX'),
-    melde   = require('../melde');
+    melde   = require('../melde'),
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
 
 module.exports = function (latLng, map, marker, tpop) {
     var lat,
@@ -17,7 +18,7 @@ module.exports = function (latLng, map, marker, tpop) {
         Y;
 
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.pruefeSchreibvoraussetzungen()) {
+    if (!pruefeSchreibvoraussetzungen()) {
         return;
     }
 
