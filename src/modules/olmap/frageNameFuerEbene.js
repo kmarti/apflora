@@ -1,8 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    ol = require('ol');
+var $            = require('jquery'),
+    ol           = require('ol'),
+    nenneEbeneUm = require('./nenneEbeneUm');
 
 module.exports = function (eigeneEbene) {
     var nameErfragt = $.Deferred(),
@@ -25,7 +26,7 @@ module.exports = function (eigeneEbene) {
                 text: "speichern",
                 click: function () {
                     // umbenennen
-                    window.apf.olmap.nenneEbeneUm(eigeneEbene, $eigene_ebene_name.val());
+                    nenneEbeneUm(eigeneEbene, $eigene_ebene_name.val());
                     // Namen zurücksetzen
                     $eigene_ebene_name.val('');
                     $(this).dialog("close");
@@ -45,7 +46,7 @@ module.exports = function (eigeneEbene) {
         if (event.which == 13 && eigeneEbene) {
             // enter pressed
             // umbenennen
-            window.apf.olmap.nenneEbeneUm(eigeneEbene, event.target.value);
+            nenneEbeneUm(eigeneEbene, event.target.value);
             // Namen zurücksetzen
             $eigene_ebene_name.val('');
             $('#eigene_ebene_name_container').dialog("close");

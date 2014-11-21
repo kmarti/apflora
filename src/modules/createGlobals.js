@@ -687,15 +687,6 @@ module.exports = function () {
 
     })(jQuery);
 
-    window.apf.olmap.nenneEbeneUm = function (layer, title) {
-        var initiiereLayertree              = require('./olmap/initiiereLayertree'),
-            aktualisiereEbeneInLocalStorage = require('./olmap/aktualisiereEbeneInLocalStorage');
-        layer.set('title', title);
-        initiiereLayertree('Eigene Ebenen');
-        // layer in localStorage speichern
-        aktualisiereEbeneInLocalStorage(layer);
-    };
-
     // wird in index.html verwendet
     window.apf.oeffneFormularAlsPopup = function (formularname, id) {
         require('./oeffneFormularAlsPopup')(formularname, id);
