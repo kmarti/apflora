@@ -10,7 +10,8 @@ var $                                   = require('jquery'),
     ol                                  = require('ol'),
     stylePop                            = require('./stylePop'),
     erstelleContentFuerPop              = require('./erstelleContentFuerPop'),
-    addSelectFeaturesInSelectableLayers = require('./addSelectFeaturesInSelectableLayers');
+    addSelectFeaturesInSelectableLayers = require('./addSelectFeaturesInSelectableLayers'),
+    pruefeObPopTpopGewaehltWurden       = require('./pruefeObPopTpopGewaehltWurden');
 
 module.exports = function (popliste, popidMarkiert, visible) {
     var popLayerErstellt = $.Deferred(),
@@ -79,7 +80,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
 
     if (selectedFeatures && selectedFeatures.length > 0) {
         setTimeout(function () {
-            window.apf.olmap.pruefeObPopTpopGewaehltWurden();
+            pruefeObPopTpopGewaehltWurden();
         }, 100);
         // Schaltfläche olmap_auswaehlen aktivieren
         $('#olmap_auswaehlen')

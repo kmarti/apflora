@@ -1,8 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    ol = require('ol');
+var $                             = require('jquery'),
+    ol                            = require('ol'),
+    pruefeObPopTpopGewaehltWurden = require('./pruefeObPopTpopGewaehltWurden');
 
 module.exports = function () {
     // interaction erstellen
@@ -46,7 +47,7 @@ module.exports = function () {
             });
         }
         setTimeout(function () {
-            window.apf.olmap.pruefeObPopTpopGewaehltWurden();
+            pruefeObPopTpopGewaehltWurden();
         }, 100);
     });
 };

@@ -1,14 +1,15 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                        = require('jquery'),
-    ol                       = require('ol'),
-    ga                       = require('ga'),
-    initiiereLayertree       = require('./initiiereLayertree'),
-    createLayers             = require('./createLayers'),
-    addDragAndDropGeofiles   = require('./addDragAndDropGeofiles'),
-    blendeOlmapExportieren   = require('./blendeOlmapExportieren'),
-    entferneAlleApfloraLayer = require('./entferneAlleApfloraLayer');
+var $                         = require('jquery'),
+    ol                        = require('ol'),
+    ga                        = require('ga'),
+    initiiereLayertree        = require('./initiiereLayertree'),
+    createLayers              = require('./createLayers'),
+    addDragAndDropGeofiles    = require('./addDragAndDropGeofiles'),
+    blendeOlmapExportieren    = require('./blendeOlmapExportieren'),
+    entferneAlleApfloraLayer  = require('./entferneAlleApfloraLayer'),
+    addShowFeatureInfoOnClick = require('./addShowFeatureInfoOnClick');
 
 module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
@@ -29,7 +30,7 @@ module.exports = function () {
 
         // diverse features und Fähigkeiten ergänzen
         addDragAndDropGeofiles();
-        window.apf.olmap.addShowFeatureInfoOnClick();
+        addShowFeatureInfoOnClick();
         window.apf.olmap.changeCursorOverFeature();
         initiiereLayertree();
         window.apf.olmap.addMousePositionControl();

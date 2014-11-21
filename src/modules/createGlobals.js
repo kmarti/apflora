@@ -687,65 +687,6 @@ module.exports = function () {
 
     })(jQuery);
 
-    window.apf.olmap.getSelectedFeaturesOfType = function (type) {
-        var getSelectedFeatures = require('./olmap/getSelectedFeatures'),
-            featuresArray = getSelectedFeatures(),
-            returnArray = [],
-            featureType;
-        if (featuresArray.length === 0) {
-            return [];
-        }
-        _.each(featuresArray, function (feature) {
-            featureType = feature.get('myTyp');
-            if (featureType === type) {
-                returnArray.push(feature);
-            }
-        });
-        return returnArray;
-    };
-
-    window.apf.olmap.removeDragBox = function () {
-        if (window.apf.olmap.dragBoxInteraction) {
-            window.apf.olmap.map.removeInteraction(window.apf.olmap.dragBoxInteraction);
-            //window.apf.olmap.dragBoxInteraction.off('boxend');
-            delete window.apf.olmap.dragBoxInteraction;
-        }
-    };
-
-    window.apf.olmap.addShowFeatureInfoOnClick = function () {
-        window.apf.olmap.map.on('singleclick', function (event) {
-            var pixel = event.pixel,
-                coordinate = event.coordinate,
-                zeigeFeatureInfo = require('./olmap/zeigeFeatureInfo');
-            // nur machen, wenn nicht selektiert wird
-            if (!window.apf.olmap.map.olmapSelectInteraction) {
-                zeigeFeatureInfo(pixel, coordinate);
-            }
-            // prüfen, ob pop / tpop gewählt wurden
-            // verzögern, weil die neuste selection sonst nicht erfasst wird
-            setTimeout(function () {
-                window.apf.olmap.pruefeObPopTpopGewaehltWurden();
-            }, 100);
-        });
-    };
-
-    window.apf.olmap.pruefeObPopTpopGewaehltWurden = function () {
-        var popSelected = [],
-            tpopSelected = [],
-            erstelleListeDerAusgewaehltenPopTPop = require('./erstelleListeDerAusgewaehltenPopTPop');
-
-        // prüfen, ob pop / tpop gewählt wurden
-        popSelected = window.apf.olmap.getSelectedFeaturesOfType('pop');
-        tpopSelected = window.apf.olmap.getSelectedFeaturesOfType('tpop');
-
-        // wenn ja: anzeigen
-        if (popSelected.length > 0 || tpopSelected.length > 0) {
-            erstelleListeDerAusgewaehltenPopTPop(popSelected, tpopSelected);
-        } else {
-            $("#ergebnisAuswahl").hide();
-        }
-    };
-
     window.apf.olmap.changeCursorOverFeature = function () {
         $(window.apf.olmap.map.getViewport()).on('mousemove', function (e) {
             var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
