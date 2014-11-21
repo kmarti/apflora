@@ -117,8 +117,8 @@ module.exports = function (tpopBeobListe) {
             '<p>Projekt: ' + projekt + '</p>' +
             '<p>Ort: ' + ort + '</p>' +
             '<p>Koordinaten: ' + tpopBeob.X + ' / ' + tpopBeob.Y + '</p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopBeob(\'' + tpopBeob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab(\'' + tpopBeob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneTPopBeob(\'' + tpopBeob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneTPopBeobInNeuemTab(\'' + tpopBeob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
         makeListenerMarkerClick(map, marker, contentString, infowindow);
