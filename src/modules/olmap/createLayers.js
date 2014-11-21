@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $            = require('jquery'),
-    _            = require('underscore'),
-    ol           = require('ol'),
-    ga           = require('ga'),
-    defaultStyle = require('./defaultStyle');
+var $               = require('jquery'),
+    _               = require('underscore'),
+    ol              = require('ol'),
+    ga              = require('ga'),
+    defaultStyle    = require('./defaultStyle'),
+    detailplanStyle = require('./detailplanStyle');
 
 module.exports = function () {
     var bingStylesObject,
@@ -162,7 +163,7 @@ module.exports = function () {
         kategorie: 'AP Flora',
         selectable: true,
         source:     detailplaeneLayerSource,
-        style:      window.apf.olmap.detailplanStyle()
+        style:      detailplanStyle()
     });
 
     // ausgeschaltet, da es nicht funktioniert (authorization required)

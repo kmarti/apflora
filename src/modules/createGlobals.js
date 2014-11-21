@@ -692,18 +692,6 @@ module.exports = function () {
         require('./oeffneFormularAlsPopup')(formularname, id);
     };
 
-    window.apf.olmap.detailplanStyle = function (feature, resolution) {
-        return new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(250, 58, 15, 0.1)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#fa3a0f',
-                width: 1
-            })
-        });
-    };
-
     window.apf.olmap.detailplanStyleSelected = function (feature, resolution) {
         return new ol.style.Style({
             fill: new ol.style.Fill({
