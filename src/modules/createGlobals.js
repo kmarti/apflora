@@ -687,27 +687,21 @@ module.exports = function () {
 
     })(jQuery);
 
-    window.apf.olmap.getSelectedFeatures = function () {
-        if (window.apf.olmap.map.olmapSelectInteraction) {
-            return window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
-        }
-        return [];
-    };
-
     window.apf.olmap.getSelectedFeaturesOfType = function (type) {
-        var features_array = window.apf.olmap.getSelectedFeatures(),
-            return_array = [],
-            feature_type;
-        if (features_array.length === 0) {
+        var getSelectedFeatures = require('./olmap/getSelectedFeatures'),
+            featuresArray = getSelectedFeatures(),
+            returnArray = [],
+            featureType;
+        if (featuresArray.length === 0) {
             return [];
         }
-        _.each(features_array, function (feature) {
-            feature_type = feature.get('myTyp');
-            if (feature_type === type) {
-                return_array.push(feature);
+        _.each(featuresArray, function (feature) {
+            featureType = feature.get('myTyp');
+            if (featureType === type) {
+                returnArray.push(feature);
             }
         });
-        return return_array;
+        return returnArray;
     };
 
     window.apf.olmap.removeDragBox = function () {
