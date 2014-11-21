@@ -1,14 +1,16 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                                 = require('jquery'),
-    ol                                = require('ol'),
-    erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
-    zeigeTPop                         = require('./zeigeTPop'),
-    styleTPop                         = require('./styleTPop'),
-    erstelleMarkerFuerTPopLayer       = require('./erstelleMarkerFuerTPopLayer'),
-    aktualisiereKoordinatenVonTPop    = require('../aktualisiereKoordinatenVonTPop'),
-    stapleLayerZuoberst               = require('./stapleLayerZuoberst');
+var $                                      = require('jquery'),
+    ol                                     = require('ol'),
+    erstelleModifyInteractionFuerTPop      = require('./erstelleModifyInteractionFuerTPop'),
+    zeigeTPop                              = require('./zeigeTPop'),
+    styleTPop                              = require('./styleTPop'),
+    erstelleMarkerFuerTPopLayer            = require('./erstelleMarkerFuerTPopLayer'),
+    aktualisiereKoordinatenVonTPop         = require('../aktualisiereKoordinatenVonTPop'),
+    stapleLayerZuoberst                    = require('./stapleLayerZuoberst'),
+    deactivateMenuItems                    = require('./deactivateMenuItems'),
+    removeSelectFeaturesInSelectableLayers = require('./removeSelectFeaturesInSelectableLayers');
 
 module.exports = function (tpop) {
     var bounds,
@@ -27,7 +29,7 @@ module.exports = function (tpop) {
     tpop.Artname = window.apf.ap.Artname;
 
     $.when(zeigeTPop()).then(function () {
-        window.apf.olmap.deactivateMenuItems();
+        deactivateMenuItems();
 
         // modify-layer erstellen
         modifySource = new ol.source.Vector();
@@ -84,7 +86,7 @@ module.exports = function (tpop) {
                     // marker ergänzen
                     tpopLayerSource.addFeature(erstelleMarkerFuerTPopLayer(tpop));
                     // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
-                    window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+                    removeSelectFeaturesInSelectableLayers();
                 });
                 window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
                 // modify-interaction erstellen

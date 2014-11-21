@@ -6,11 +6,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                           = require('jquery'),
-    _                           = require('underscore'),
-    ol                          = require('ol'),
-    styleTPop                   = require('./styleTPop'),
-    erstelleMarkerFuerTPopLayer = require('./erstelleMarkerFuerTPopLayer');
+var $                                   = require('jquery'),
+    _                                   = require('underscore'),
+    ol                                  = require('ol'),
+    styleTPop                           = require('./styleTPop'),
+    erstelleMarkerFuerTPopLayer         = require('./erstelleMarkerFuerTPopLayer'),
+    addSelectFeaturesInSelectableLayers = require('./addSelectFeaturesInSelectableLayers');
 
 module.exports = function (tpopListe, tpopidMarkiert, visible) {
     var tpopLayerErstellt = $.Deferred(),
@@ -22,7 +23,7 @@ module.exports = function (tpopListe, tpopidMarkiert, visible) {
     if (window.apf.olmap.map.olmapSelectInteraction && tpopidMarkiert) {
         selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     } else if (tpopidMarkiert) {
-        window.apf.olmap.addSelectFeaturesInSelectableLayers();
+        addSelectFeaturesInSelectableLayers();
         selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     }
 

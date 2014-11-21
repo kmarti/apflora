@@ -687,70 +687,6 @@ module.exports = function () {
 
     })(jQuery);
 
-    // offenbar nicht benutzt
-    window.apf.getInternetExplorerVersion = function () {
-    // Returns the version of Internet Explorer or a -1
-    // (indicating the use of another browser).
-      var rv = -1; // Return value assumes failure.
-      if (navigator.appName == 'Microsoft Internet Explorer') {
-        var ua = navigator.userAgent,
-            re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-        if (re.exec(ua) != null)
-          rv = parseFloat(RegExp.$1);
-      }
-      return rv;
-    };
-
-    // deaktiviert Messen und Auswählen
-    window.apf.olmap.deactivateMenuItems = function () {
-        var entfernePopupOverlays = require('./olmap/entfernePopupOverlays');
-
-        // messen deaktivieren
-        window.apf.olmap.removeMeasureInteraction();
-        // Auswählen deaktivieren
-        window.apf.olmap.removeSelectFeaturesInSelectableLayers();
-        // allfällige popups schliessen
-        entfernePopupOverlays();
-        // allfällige tooltips von ga-karten verstecken
-        $('div.ga-tooltip').hide();
-        // allfällige modify-interaction entfernen
-        window.apf.olmap.entferneModifyInteractionFuerTpop();
-    };
-
-    window.apf.olmap.removeSelectFeaturesInSelectableLayers = function () {
-        if (window.apf.olmap.map.olmapSelectInteraction) {
-            window.apf.olmap.map.removeInteraction(window.apf.olmap.map.olmapSelectInteraction);
-            delete window.apf.olmap.map.olmapSelectInteraction;
-            window.apf.olmap.removeDragBox();
-            $("#ergebnisAuswahl").hide();
-        }
-    };
-
-    window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
-        var addDragBoxForPopTpop = require('./olmap/addDragBoxForPopTpop'),
-            stylePop             = require('./olmap/stylePop'),
-            styleTPop            = require('./olmap/styleTPop');
-
-        window.apf.olmap.map.olmapSelectInteraction = new ol.interaction.Select({
-            layers: function (layer) {
-                return layer.get('selectable') === true;
-            },
-            style: function (feature, resolution) {
-                switch(feature.get('myTyp')) {
-                case 'pop':
-                    return stylePop(feature, resolution, true);
-                case 'tpop':
-                    return styleTPop(feature, resolution, true);
-                case 'Detailplan':
-                    return window.apf.olmap.detailplanStyleSelected(feature, resolution);
-                }
-            }
-        });
-        window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmapSelectInteraction);
-        // man soll auch mit dragbox selecten können
-        addDragBoxForPopTpop();
-    };
-
     window.apf.olmap.getSelectedFeatures = function () {
         if (window.apf.olmap.map.olmapSelectInteraction) {
             return window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
@@ -887,8 +823,9 @@ module.exports = function () {
     };
 
     window.apf.olmap.messe = function (element) {
-        var addMeasureInteraction = require('./olmap/addMeasureInteraction');
-        window.apf.olmap.deactivateMenuItems();
+        var addMeasureInteraction = require('./olmap/addMeasureInteraction'),
+            deactivateMenuItems   = require('./olmap/deactivateMenuItems');
+        deactivateMenuItems();
         if (element.value === 'line' && element.checked) {
             addMeasureInteraction('LineString');
         } else if (element.value === 'polygon' && element.checked) {
@@ -942,8 +879,11 @@ module.exports = function () {
     };
 
     window.apf.olmap.waehleAus = function () {
-        window.apf.olmap.deactivateMenuItems();
-        window.apf.olmap.addSelectFeaturesInSelectableLayers();
+        var deactivateMenuItems                 = require('./olmap/deactivateMenuItems'),
+            addSelectFeaturesInSelectableLayers = require('./olmap/addSelectFeaturesInSelectableLayers');
+
+        deactivateMenuItems();
+        addSelectFeaturesInSelectableLayers();
     };
 
     window.apf.olmap.schliesseLayeroptionen = function () {

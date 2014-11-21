@@ -5,11 +5,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                      = require('jquery'),
-    _                      = require('underscore'),
-    ol                     = require('ol'),
-    stylePop               = require('./stylePop'),
-    erstelleContentFuerPop = require('./erstelleContentFuerPop');
+var $                                   = require('jquery'),
+    _                                   = require('underscore'),
+    ol                                  = require('ol'),
+    stylePop                            = require('./stylePop'),
+    erstelleContentFuerPop              = require('./erstelleContentFuerPop'),
+    addSelectFeaturesInSelectableLayers = require('./addSelectFeaturesInSelectableLayers');
 
 module.exports = function (popliste, popidMarkiert, visible) {
     var popLayerErstellt = $.Deferred(),
@@ -24,7 +25,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
     if (window.apf.olmap.map && window.apf.olmap.map.olmapSelectInteraction && popidMarkiert) {
         selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     } else if (popidMarkiert) {
-        window.apf.olmap.addSelectFeaturesInSelectableLayers();
+        addSelectFeaturesInSelectableLayers();
         selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
     }
 
