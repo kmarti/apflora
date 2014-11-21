@@ -5,7 +5,8 @@ var $                                 = require('jquery'),
     ol                                = require('ol'),
     erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
     zeigeTPop                         = require('./zeigeTPop'),
-    styleTPop                         = require('./styleTPop');
+    styleTPop                         = require('./styleTPop'),
+    erstelleMarkerFuerTPopLayer       = require('./erstelleMarkerFuerTPopLayer');
 
 module.exports = function (tpop) {
     var bounds,
@@ -79,7 +80,7 @@ module.exports = function (tpop) {
                         tpopLayer       = layers[tpopLayerNr],
                         tpopLayerSource = tpopLayer.getSource();
                     // marker ergänzen
-                    tpopLayerSource.addFeature(window.apf.olmap.erstelleMarkerFuerTPopLayer(tpop));
+                    tpopLayerSource.addFeature(erstelleMarkerFuerTPopLayer(tpop));
                     // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
                     window.apf.olmap.removeSelectFeaturesInSelectableLayers();
                 });

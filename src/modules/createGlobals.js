@@ -624,8 +624,8 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.getLayersWithTitle = function () {
-        var layers_array = window.apf.olmap.map.getLayers().getArray(),
-            layers = _.map(layers_array, function (layer) {
+        var layersArray = window.apf.olmap.map.getLayers().getArray(),
+            layers = _.map(layersArray, function (layer) {
                 if (layer.get('title')) {
                     return layer;
                 }
@@ -634,19 +634,18 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.entferneLayerNachName = function (name) {
-        var layers_array = window.apf.olmap.getLayersWithTitle(),
+        var layersArray = window.apf.olmap.getLayersWithTitle(),
             layername,
-            layer_kategorie,
+            layerKategorie,
             aktualisiereEbeneInLocalStorage = require('./olmap/aktualisiereEbeneInLocalStorage');
 
-        _.each(layers_array, function (layer) {
-            layername = layer.get('title');
-            layer_kategorie = layer.get('kategorie');
+        _.each(layersArray, function (layer) {
+            layername      = layer.get('title');
+            layerKategorie = layer.get('kategorie');
             if (layername === name) {
                 window.apf.olmap.map.removeLayer(layer);
-                if (layer_kategorie === 'Eigene Ebenen') {
+                if (layerKategorie === 'Eigene Ebenen') {
                     // ebene aus localStorage entfernen
-                    //console.log('entferneLayerNachName meldet: lasse entfernen layer mit title ' + layername);
                     aktualisiereEbeneInLocalStorage(layer, true);
                 }
             }
@@ -654,24 +653,26 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.entferneAlleApfloraLayer = function () {
-        var initiiereLayertree = require('./olmap/initiiereLayertree');
+        var layersArray,
+            kategorie,
+            title,
+            zuLoeschendeLayer = [],
+            initiiereLayertree = require('./olmap/initiiereLayertree');
+
         if (window.apf.olmap && window.apf.olmap.map) {
             // getLayers retourniert ein Objekt!!!
             // um die eigentlichen Layers zu erhalten, muss man .getLayers().getArray() aufrufen!!!
-            var layers_array = window.apf.olmap.map.getLayers().getArray(),
-                kategorie,
-                title,
-                zu_löschende_layer = [];
+            layersArray = window.apf.olmap.map.getLayers().getArray();
             // zuerst nur einen Array mit den zu löschenden Layern erstellen
             // wenn man sofort löscht, wird nur der erste entfernt!
-            _.each(layers_array, function (layer) {
+            _.each(layersArray, function (layer) {
                 kategorie = layer.get('kategorie');
-                title = layer.get('title');
+                title     = layer.get('title');
                 if (kategorie && kategorie === 'AP Flora' && title !== 'Detailpläne') {
-                    zu_löschende_layer.push(layer);
+                    zuLoeschendeLayer.push(layer);
                 }
             });
-            _.each(zu_löschende_layer, function (layer) {
+            _.each(zuLoeschendeLayer, function (layer) {
                 window.apf.olmap.map.removeLayer(layer);
             });
             initiiereLayertree();
@@ -697,14 +698,14 @@ var initiiereApp = function () {
 
     window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
         var layers = window.apf.olmap.map.getLayers(),
-            layers_array = window.apf.olmap.map.getLayers().getArray(),
+            layersArray = window.apf.olmap.map.getLayers().getArray(),
             top_layer,
             initiiereLayertree = require('./olmap/initiiereLayertree');
 
-        _.each(layers_array, function (layer, index) {
+        _.each(layersArray, function (layer, index) {
             if (layer.get('title') === layer_title) {
                 top_layer = layers.removeAt(index);
-                layers.insertAt(layers_array.length, top_layer);
+                layers.insertAt(layersArray.length, top_layer);
             }
         });
         initiiereLayertree();
@@ -797,13 +798,15 @@ var initiiereApp = function () {
 
     window.apf.olmap.entfernePopupOverlays = function () {
         var overlays = window.apf.olmap.map.getOverlays().getArray(),
-            zu_löschender_overlay = [];
+            zuLöschendeOverlays = [];
+
         _.each(overlays, function (overlay) {
             if (overlay.get('typ') === 'popup') {
-                zu_löschender_overlay.push(overlay);
+                zuLöschendeOverlays.push(overlay);
             }
         });
-        _.each(zu_löschender_overlay, function (overlay) {
+
+        _.each(zuLöschendeOverlays, function (overlay) {
             window.apf.olmap.map.removeOverlay(overlay);
         });
         // alle qtips entfernen
@@ -855,43 +858,6 @@ var initiiereApp = function () {
         } else {
             return '?/?';
         }
-    };
-
-    window.apf.olmap.erstelleMarkerFuerTPopLayer = function (tpop) {
-        return new ol.Feature({
-            geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-            tpopNr: tpop.TPopNr,
-            popNr: tpop.PopNr,
-            tpop_nr_label: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
-            tpop_name: tpop.TPopFlurname || '(kein Name)',
-            name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
-            popupContent: window.apf.olmap.erstelleContentFuerTPop(tpop),
-            popupTitle: tpop.Artname,
-            // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
-            xkoord: tpop.TPopXKoord,
-            ykoord: tpop.TPopYKoord,
-            myTyp: 'tpop',
-            myId: tpop.TPopId
-        });
-    };
-
-    window.apf.olmap.onFeatureSelect = function (feature) {
-        var popup = new OpenLayers.Popup.FramedCloud("popup",
-                feature.geometry.getBounds().getCenterLonLat(),
-                null,
-                feature.attributes.message,
-                null,
-                false    // true zeigt Schliess-Schalftläche an. Schliessen zerstört aber event-listener > popup kann nur ein mal angezeigt werden!
-            );
-        popup.autoSize = true;
-        popup.maxSize = new OpenLayers.Size(600,600);
-        popup.fixedRelativePosition = true;
-        feature.popup = popup;
-        window.apf.gmap.addPopup(popup);
-    };
-
-    window.apf.olmap.onFeatureUnselect = function (feature) {
-        feature.popup.hide();
     };
 
     // GoogleMap: alle Marker löschen
@@ -1087,9 +1053,9 @@ var initiiereApp = function () {
         var addDragBoxForPopTpop = require('./olmap/addDragBoxForPopTpop'),
             stylePop             = require('./olmap/stylePop'),
             styleTPop            = require('./olmap/styleTPop');
+
         window.apf.olmap.map.olmapSelectInteraction = new ol.interaction.Select({
-            // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
-            layerFilter: function (layer) {
+            layers: function (layer) {
                 return layer.get('selectable') === true;
             },
             style: function (feature, resolution) {
@@ -1102,11 +1068,6 @@ var initiiereApp = function () {
                     return window.apf.olmap.detailplanStyleSelected(feature, resolution);
                 }
             }
-            /*,
-             // wenn man das feature zum zweiten mal klickt, soll es nicht mehr selected sein
-             toggleCondition: function (event) {
-             return event === 'click';
-             }*/
         });
         window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmapSelectInteraction);
         // man soll auch mit dragbox selecten können
@@ -1300,7 +1261,7 @@ var initiiereApp = function () {
         return output;
     };
 
-    window.apf.olmap.wähleAus = function () {
+    window.apf.olmap.waehleAus = function () {
         window.apf.olmap.deactivateMenuItems();
         window.apf.olmap.addSelectFeaturesInSelectableLayers();
     };

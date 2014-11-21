@@ -6,10 +6,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $         = require('jquery'),
-    _         = require('underscore'),
-    ol        = require('ol'),
-    styleTPop = require('./styleTPop');
+var $                           = require('jquery'),
+    _                           = require('underscore'),
+    ol                          = require('ol'),
+    styleTPop                   = require('./styleTPop'),
+    erstelleMarkerFuerTPopLayer = require('./erstelleMarkerFuerTPopLayer');
 
 module.exports = function (tpopListe, tpopidMarkiert, visible) {
     var tpopLayerErstellt = $.Deferred(),
@@ -29,7 +30,7 @@ module.exports = function (tpopListe, tpopidMarkiert, visible) {
 
     _.each(tpopListe, function (tpop) {
         // marker erstellen...
-        marker = window.apf.olmap.erstelleMarkerFuerTPopLayer(tpop);
+        marker = erstelleMarkerFuerTPopLayer(tpop);
 
         // ...und in Array speichern
         markers.push(marker);
