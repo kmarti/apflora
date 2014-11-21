@@ -14,7 +14,7 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         grandparentNode;
 
     // Beschriftung muss String sein
-    if (beschriftung && typeof beschriftung !== 'String') {
+    if (beschriftung && typeof beschriftung !== 'string') {
         beschriftung = beschriftung.toString();
     }
 

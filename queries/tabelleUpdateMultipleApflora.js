@@ -46,7 +46,7 @@ var tabelleUpdate = function (request, callback) {
     _.each(felder, function (feldwert, feldname) {
         if (feldwert || feldwert === 0) {
             // in Zeichenfeldern Anführungszeichen eliminieren!
-            if (typeof feldwert === 'String') {
+            if (typeof feldwert === 'string') {
                 feldwert = feldwert.replace('"', '');
             }
             sql += ',' + feldname + '="' + feldwert + '"';

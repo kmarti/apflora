@@ -16,9 +16,11 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         neueApzieleNode;
 
     // Beschriftung muss String sein
-    if (beschriftung && typeof beschriftung !== 'String') {
+    if (beschriftung && typeof beschriftung !== 'string') {
         beschriftung = beschriftung.toString();
     }
+
+    console.log('insertNeuenNodeEineHierarchiestufeTiefer: node-beschriftung = ', beschriftung);
 
     // id global verfügbar machen
     localStorage[strukturtyp + "Id"] = dsId;
@@ -29,7 +31,7 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         neueApzieleNode = $.jstree._reference(aktiverNode).create_node(aktiverNode, "last", {
             "data": "neue AP-Ziele",
             "attr": {
-                "id": erstelleIdAusDomAttributId($(aktiverNode).attr("id")),
+                "id":  erstelleIdAusDomAttributId($(aktiverNode).attr("id")),
                 "typ": "apzieljahr"
             }
         });
@@ -37,8 +39,8 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         neuerNode = $.jstree._reference(neueApzieleNode).create_node(neueApzieleNode, "last", {
             "data": beschriftung,
             "attr": {
-                "id": dsId,
-                "typ": strukturtyp
+                "id":  dsId,
+                "typ": "apziel"
             }
         });
         delete localStorage.apzielVonOrdnerApziel;
@@ -48,7 +50,7 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         neuerNode = $.jstree._reference(aktiverNode).create_node(aktiverNode, "last", {
             "data": beschriftung,
             "attr": {
-                "id": dsId,
+                "id":  dsId,
                 "typ": strukturtyp
             }
         });
@@ -64,7 +66,7 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         $.jstree._reference(neuerNode).create_node(neuerNode, "last", {
             "data": "0 Ziel-Berichte",
             "attr": {
-                "id": dsId,
+                "id":  dsId,
                 "typ": "zielberOrdner"
             }
         });
