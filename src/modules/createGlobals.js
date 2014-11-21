@@ -356,164 +356,81 @@ module.exports = function () {
 
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerPop = function (node) {
-        var anz = $(node).find("> ul > li").length,
+    window.apf.beschrifteOrdner = function (node) {
+        var anz,
+            anzTxt,
+            nodeTyp = node.attr('typ');
+
+        console.log(nodeTyp);
+
+        anz = $(node).find("> ul > li").length;
+
+        switch (nodeTyp) {
+        case 'apOrdnerPop':
             anzTxt = "Populationen (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerApziel = function (node) {
-        var anz = 0,
-            anzTxt;
-        $($.jstree._reference(node)._get_children(node)).each(function () {
-            $($(this).find("> ul > li")).each(function () {
-                anz += 1;
-            });
-        });
-        anzTxt = "AP-Ziele (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerApzieljahr = function (node) {
-        var anz = $(node).find("> ul > li").length,
-            anzTxt;
-
-        anzTxt = $.jstree._reference(node).get_text(node).slice(0, 6);
-        anzTxt += anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerZielber = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'apzieljahr':
+            anzTxt = $.jstree._reference(node).get_text(node).slice(0, 6);
+            anzTxt += anz + ")";
+            break;
+        case 'zielberOrdner':
             anzTxt = "Ziel-Berichte (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerErfkrit = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'apOrdnerErfkrit':
             anzTxt = "AP-Erfolgskriterien (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerJber = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'apOrdnerJber':
             anzTxt = "AP-Berichte (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerBer = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'apOrdnerBer':
             anzTxt = "Berichte (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerAssozarten = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'apOrdnerAssozarten':
             anzTxt = "assoziierte Arten (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerTpop = function (node) {
-        var anz = $(node).find("> ul > li").length,
-            anzTxt = "Teilpopulationen (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerPopber = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'popOrdnerMassnber':
+            anzTxt = "Massnahmen-Berichte (" + anz + ")";
+            break;
+        case 'popOrdnerPopber':
             anzTxt = "Populations-Berichte (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerPopmassnber = function (node) {
-        var anz = $(node).find("> ul > li").length,
-            anzTxt = "Massnahmen-Berichte (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerTpopmassnber = function (node) {
-        var anz = $(node).find("> ul > li").length,
-            anzTxt = "Massnahmen-Berichte (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerTpopmassn = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'popOrdnerTpop':
+            anzTxt = "Teilpopulationen (" + anz + ")";
+            break;
+        case 'tpopOrdnerMassn':
             anzTxt = "Massnahmen (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerTpopber = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'tpopOrdnerMassnber':
+            anzTxt = "Massnahmen-Berichte (" + anz + ")";
+            break;
+        case 'tpopOrdnerTpopber':
             anzTxt = "Teilpopulations-Berichte (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerTpopfeldkontr = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'tpopOrdnerFeldkontr':
             anzTxt = "Feldkontrollen (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerTpopfreiwkontr = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'tpopOrdnerFreiwkontr':
             anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerBeobZugeordnet = function (node) {
-        var anz = $(node).find("> ul > li").length,
+            break;
+        case 'tpopOrdnerBeobZugeordnet':
             anzTxt = "Beobachtungen (" + anz + ")";
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerBeobNichtBeurteilt = function (node) {
-        var anz = $(node).find("> ul > li").length,
-            anzTxt;
-        anzTxt = (anz === 100 ? "nicht beurteilte Beobachtungen (neuste " + anz + ")" : "nicht beurteilte Beobachtungen (" + anz + ")");
-        $.jstree._reference(node).rename_node(node, anzTxt);
-    };
-
-    // übernimmt einen node
-    // zählt dessen children und passt die Beschriftung an
-    window.apf.beschrifteOrdnerBeobNichtNuzuordnen = function (node) {
-        var anz = $(node).find("> ul > li").length,
-            anzTxt;
-        anzTxt = (anz === 100 ? "nicht zuzuordnende Beobachtungen (neuste " + anz + ")" : "nicht zuzuordnende Beobachtungen (" + anz + ")");
+            break;
+        case 'apOrdnerBeobNichtBeurteilt':
+            anzTxt = (anz === 100 ? "nicht beurteilte Beobachtungen (neuste " + anz + ")" : "nicht beurteilte Beobachtungen (" + anz + ")");
+            break;
+        case 'apOrdnerBeobNichtZuzuordnen':
+            anzTxt = (anz === 100 ? "nicht zuzuordnende Beobachtungen (neuste " + anz + ")" : "nicht zuzuordnende Beobachtungen (" + anz + ")");
+            break;
+        case 'apOrdnerApziel':
+            anz = 0;
+            $($.jstree._reference(node)._get_children(node)).each(function () {
+                $($(this).find("> ul > li")).each(function () {
+                    anz += 1;
+                });
+            });
+            anzTxt = "AP-Ziele (" + anz + ")";
+            break;
+        }
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 

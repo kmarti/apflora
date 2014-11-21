@@ -35,7 +35,7 @@ module.exports = function (aktiverNode, parentNode) {
                     delete window.apf.popber;
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // Parent Node-Beschriftung: Anzahl anpassen
-                    window.apf.beschrifteOrdnerPopber(parentNode);
+                    window.apf.beschrifteOrdner(parentNode);
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                 }).fail(function () {

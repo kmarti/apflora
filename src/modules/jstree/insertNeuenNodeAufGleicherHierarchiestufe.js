@@ -51,15 +51,15 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
     if (strukturtyp === "apziel") {
         grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
         // grandparent Node-Beschriftung: Anzahl anpassen
-        window.apf.beschrifteOrdnerApziel(grandparentNode);
+        window.apf.beschrifteOrdner(grandparentNode);
         // parent Node-Beschriftung: Anzahl anpassen
         // nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
         if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-            window.apf.beschrifteOrdnerApzieljahr(parentNode);
+            window.apf.beschrifteOrdner(parentNode);
         }
     } else {
         // Normalfall
-        window.apf["beschrifteOrdner" + capitaliseFirstLetter(strukturtyp)](parentNode);
+        window.apf.beschrifteOrdner(parentNode);
     }
 
     // node selecten

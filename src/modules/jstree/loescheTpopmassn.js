@@ -35,7 +35,7 @@ module.exports = function (aktiverNode, parentNode) {
                     delete window.apf.tpopmassn;
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // Parent Node-Beschriftung: Anzahl anpassen
-                    window.apf.beschrifteOrdnerTpopmassn(parentNode);
+                    window.apf.beschrifteOrdner(parentNode);
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
                 }).fail(function () {

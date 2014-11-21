@@ -41,7 +41,7 @@ module.exports = function (aktiverNode, parentNode) {
                     delete window.apf.ber;
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // Parent Node-Beschriftung: Anzahl anpassen
-                    window.apf.beschrifteOrdnerBer(parentNode);
+                    window.apf.beschrifteOrdner(parentNode);
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
                 }).fail(function () {

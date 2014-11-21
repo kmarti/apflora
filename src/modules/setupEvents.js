@@ -381,29 +381,29 @@ module.exports = function () {
 
     // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
     $("#tpopfeldkontr").on("change", "#TPopKontrJahr", function () {
-        var Objekt,
+        var objekt,
             $TPopKontrDatum = $("#TPopKontrDatum");
 
         if ($TPopKontrDatum.val()) {
             $TPopKontrDatum.val(null);
-            Objekt = {};
-            Objekt.name = "TPopKontrDatum";
-            Objekt.formular = "tpopfeldkontr";
-            speichern(Objekt);
+            objekt          = {};
+            objekt.name     = "TPopKontrDatum";
+            objekt.formular = "tpopfeldkontr";
+            speichern(objekt);
         }
     });
 
     // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
     $("#tpopmassn").on("change", "#TPopMassnJahr", function () {
-        var Objekt,
+        var objekt,
             $TPopMassnDatum = $("#TPopMassnDatum");
 
         if ($TPopMassnDatum.val()) {
             $TPopMassnDatum.val(null);
-            Objekt = {};
-            Objekt.name = "TPopMassnDatum";
-            Objekt.formular = "tpopmassn";
-            speichern(Objekt);
+            objekt          = {};
+            objekt.name     = "TPopMassnDatum";
+            objekt.formular = "tpopmassn";
+            speichern(objekt);
         }
     });
 

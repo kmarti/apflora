@@ -36,7 +36,7 @@ module.exports = function (aktiverNode, parentNode) {
                     delete window.apf.tpopfeldkontr;
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // Parent Node-Beschriftung: Anzahl anpassen
-                    window.apf.beschrifteOrdnerTpopfreiwkontr(parentNode);
+                    window.apf.beschrifteOrdner(parentNode);
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
                 }).fail(function () {

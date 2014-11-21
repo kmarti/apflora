@@ -35,7 +35,7 @@ module.exports = function (aktiverNode, parentNode) {
                     delete window.apf.popmassnber;
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // Parent Node-Beschriftung: Anzahl anpassen
-                    window.apf.beschrifteOrdnerPopmassnber(parentNode);
+                    window.apf.beschrifteOrdner(parentNode);
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                 }).fail(function () {

@@ -14,7 +14,7 @@ module.exports = function (aktiverNode, parentNode, nodeApId) {
     }).done(function (id) {
         var strukturtyp  = "assozarten",
             beschriftung = "neue assoziierte Art";
-        if ($(aktiverNode).attr("id") === nodeApId) {
+        if (erstelleIdAusDomAttributId($(aktiverNode).attr("id")) === nodeApId) {
             insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         } else {
             insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);

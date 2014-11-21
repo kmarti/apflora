@@ -14,7 +14,11 @@ module.exports = function (aktiverNode, parentNode, nodeApId) {
     }).done(function (id) {
         var strukturtyp  = "ber",
             beschriftung = "neuer Bericht";
-        if ($(aktiverNode).attr("id") === nodeApId) {
+
+        console.log('$(aktiverNode).attr("id"): ', $(aktiverNode).attr("id"));
+        console.log('nodeApId: ', nodeApId);
+
+        if (erstelleIdAusDomAttributId($(aktiverNode).attr("id")) === nodeApId) {
             insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         } else {
             insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);

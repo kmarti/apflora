@@ -43,10 +43,10 @@ module.exports = function (aktiverNode, parentNode) {
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // grandparent Node-Beschriftung: Anzahl anpassen
                     grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
-                    window.apf.beschrifteOrdnerApziel(grandparentNode);
+                    window.apf.beschrifteOrdner(grandparentNode);
                     // parent Node-Beschriftung: Anzahl anpassen
                     if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-                        window.apf.beschrifteOrdnerApzieljahr(parentNode);
+                        window.apf.beschrifteOrdner(parentNode);
                     }
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
