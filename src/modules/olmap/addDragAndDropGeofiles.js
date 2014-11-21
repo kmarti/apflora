@@ -4,7 +4,8 @@
 var ol                 = require('ol'),
     frageNameFuerEbene = require('./frageNameFuerEbene'),
     defaultStyle       = require('./defaultStyle'),
-    initiiereLayertree = require('./initiiereLayertree');
+    initiiereLayertree = require('./initiiereLayertree'),
+    erstelleGuid       = require('../erstelleGuid');
 
 module.exports = function () {
     var styleFunction,
@@ -40,7 +41,7 @@ module.exports = function () {
             features: event.features
         });
         dragAndDropLayer = new ol.layer.Vector({
-            guid:      window.apf.erstelleGuid(),
+            guid:      erstelleGuid(),
             source:    vectorSource,
             style:     styleFunction,
             title:     'eigene Ebene',

@@ -10,7 +10,8 @@ var $                         = require('jquery'),
     waehleApliste             = require('./modules/waehleApliste'),
     oeffneUri                 = require('./modules/oeffneUri'),
     setupEvents               = require('./modules/setupEvents'),
-    pruefeLesevoraussetzungen = require('./modules/pruefeLesevoraussetzungen');
+    pruefeLesevoraussetzungen = require('./modules/pruefeLesevoraussetzungen'),
+    preventMousescrollEvent   = require('./lib/preventMousescrollEvent');
 
 // benötigte globale Variabeln initialisieren
 window.apf       = window.apf       || {};
@@ -56,6 +57,8 @@ window.apf.initiiereApp = function () {
     window.apf.setupEvents = function () {
         setupEvents();
     };
+
+    preventMousescrollEvent($);
 };
 
 // gleich ein mal ausführen

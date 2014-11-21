@@ -11,7 +11,8 @@ var $                            = require('jquery'),
     configuration                = require('./configuration'),
     waehleAp                     = require('./waehleAp'),
     melde                        = require('./melde'),
-    pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen');
+    pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen'),
+    erstelleLabelFuerMassnahme   = require('./erstelleLabelFuerMassnahme');
 
 var speichern = function (that) {
     var feldtyp,
@@ -299,7 +300,7 @@ var speichern = function (that) {
         } else {
             tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
         }
-        tpopmassnbezeichnung = window.apf.erstelleLabelFuerMassnahme($TPopMassnJahr.val(), $TPopMassnTypChecked.text());
+        tpopmassnbezeichnung = erstelleLabelFuerMassnahme($TPopMassnJahr.val(), $TPopMassnTypChecked.text());
         $tree.jstree("rename_node", "[typ='tpopOrdnerMassn'] #" + localStorage.tpopmassnId, tpopmassnbezeichnung);
         break;
     case "TPopMassnBerJahr":

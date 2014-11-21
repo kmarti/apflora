@@ -7,7 +7,8 @@ var $                                        = require('jquery'),
     frageNameFuerEbene                       = require('./frageNameFuerEbene'),
     entferneModifyInteractionFuerVectorLayer = require('./entferneModifyInteractionFuerVectorLayer'),
     defaultStyle                             = require('./defaultStyle'),
-    aktualisiereEbeneInLocalStorage          = require('./aktualisiereEbeneInLocalStorage');
+    aktualisiereEbeneInLocalStorage          = require('./aktualisiereEbeneInLocalStorage'),
+    erstelleGuid                             = require('../erstelleGuid');
 
 module.exports = function (vectorlayer) {
     var layerTitle,
@@ -15,7 +16,7 @@ module.exports = function (vectorlayer) {
 
     if (vectorlayer === 'neuer_layer') {
         vectorlayer = new ol.layer.Vector({
-            guid:      window.apf.erstelleGuid(),
+            guid:      erstelleGuid(),
             source:    new ol.source.Vector(),
             title:     'neue Ebene',
             kategorie: 'Eigene Ebenen',

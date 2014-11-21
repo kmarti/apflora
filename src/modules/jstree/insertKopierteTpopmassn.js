@@ -5,7 +5,8 @@ var $                                         = require('jquery'),
     erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
     insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
     insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
-    melde                                     = require('../melde');
+    melde                                     = require('../melde'),
+    erstelleLabelFuerMassnahme                = require('../erstelleLabelFuerMassnahme');
 
 module.exports = function (aktiverNode, parentNode, nodeTpopId) {
     $.ajax({
@@ -13,7 +14,7 @@ module.exports = function (aktiverNode, parentNode, nodeTpopId) {
         url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId(nodeTpopId) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassnNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
     }).done(function (id) {
         var strukturtyp  = "tpopmassn",
-            beschriftung = window.apf.erstelleLabelFuerMassnahme(window.apf.tpopmassnObjektKopiert.TPopMassnJahr, window.apf.tpopmassnObjektKopiert.TPopMassnBerErfolgsbeurteilungTxt);
+            beschriftung = erstelleLabelFuerMassnahme(window.apf.tpopmassnObjektKopiert.TPopMassnJahr, window.apf.tpopmassnObjektKopiert.TPopMassnBerErfolgsbeurteilungTxt);
         if ($(aktiverNode).attr("id") === nodeTpopId) {
             insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         } else {

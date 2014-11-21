@@ -3,8 +3,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    ol = require('ol');
+var $                        = require('jquery'),
+    ol                       = require('ol'),
+    removeMeasureInteraction = require('./removeMeasureInteraction'),
+    formatLength             = require('./formatLength'),
+    formatArea               = require('./formatArea');
 
 module.exports = function (type) {
     var source,
@@ -18,7 +21,7 @@ module.exports = function (type) {
         mouseMoveHandler;
 
     // allfällige Resten entfernen
-    window.apf.olmap.removeMeasureInteraction();
+    removeMeasureInteraction();
     // neu aufbauen
     source      = new ol.source.Vector();
     messenLayer = new ol.layer.Vector({
@@ -53,10 +56,10 @@ module.exports = function (type) {
                 geom = (sketch.getGeometry());
 
             if (geom instanceof ol.geom.Polygon) {
-                output = window.apf.olmap.formatArea(/** @type {ol.geom.Polygon} */ (geom));
+                output = formatArea(/** @type {ol.geom.Polygon} */ (geom));
 
             } else if (geom instanceof ol.geom.LineString) {
-                output = window.apf.olmap.formatLength( /** @type {ol.geom.LineString} */ (geom));
+                output = formatLength( /** @type {ol.geom.LineString} */ (geom));
             }
             sketchElement.innerHTML = output;
         }

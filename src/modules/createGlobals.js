@@ -599,22 +599,9 @@ module.exports = function () {
     };
 
 
-    /*! Copyright (c) 2011 Brandon Aaron (//brandonaaron.net)
-     * Licensed under the MIT License (LICENSE.txt).
-     *
-     * Thanks to: //adomas.org/javascript-mouse-wheel/ for some pointers.
-     * Thanks to: Mathias Bank(//www.mathias-bank.de) for a scope bug fix.
-     * Thanks to: Seamus Leahy for adding deltaX and deltaY
-     *
-     * Version: 3.0.6
-     * 
-     * Requires: 1.2.2+
-     *
-     * Benutzt, um Mouswheel-Scrollen abzufangen und den event zu verhindern (unbeabsichtigte Änderung von Zahlen in number-Feldern verhindern)
-     *
-     */
 
-    (function ($) {
+
+    /*(function ($) {
 
         var types = ['DOMMouseScroll', 'mousewheel'];
 
@@ -685,144 +672,24 @@ module.exports = function () {
             return ($.event.dispatch || $.event.handle).apply(this, args);
         }
 
-    })(jQuery);
+    })(jQuery);*/
 
     // wird in index.html verwendet
     window.apf.oeffneFormularAlsPopup = function (formularname, id) {
         require('./oeffneFormularAlsPopup')(formularname, id);
     };
 
-    window.apf.olmap.detailplanStyleSelected = function (feature, resolution) {
-        return new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(15, 85, 250, 0.1)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#0F55FA',
-                width: 1
-            })
-        });
-    };
-
+    // wird in index.html verwendet
     window.apf.olmap.messe = function (element) {
-        var addMeasureInteraction = require('./olmap/addMeasureInteraction'),
-            deactivateMenuItems   = require('./olmap/deactivateMenuItems');
-        deactivateMenuItems();
-        if (element.value === 'line' && element.checked) {
-            addMeasureInteraction('LineString');
-        } else if (element.value === 'polygon' && element.checked) {
-            addMeasureInteraction('Polygon');
-        } else {
-            // es wurde 'infos abfragen geklickt'
-            window.apf.olmap.removeMeasureInteraction();
-        }
+        require('./olmap/messe')(element);
     };
 
-    window.apf.olmap.removeMeasureInteraction = function () {
-        var entferneLayerNachName = require('./olmap/entferneLayerNachName');
-
-        entferneLayerNachName('messen');
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.drawMeasure);
-        delete window.apf.olmap.drawMeasure;
-        $("#ergebnisMessung").text("");
-        $(window.apf.olmap.map.getViewport()).off('mousemove');
-    };
-
-    /**
-     * format length output
-     * @param {ol.geom.LineString} line
-     * @return {string}
-    */
-    window.apf.olmap.formatLength = function (line) {
-        var length = Math.round(line.getLength() * 100) / 100,
-            output;
-        if (length > 100) {
-            output = (Math.round(length / 1000 * 100) / 100) + ' km';
-        } else {
-            output = (Math.round(length * 100) / 100) + ' m';
-        }
-        return output;
-    };
-
-    /**
-     * format length output
-     * @param {ol.geom.Polygon} polygon
-     * @return {string}
-    */
-    window.apf.olmap.formatArea = function (polygon) {
-        var area = polygon.getArea(),
-            output;
-        if (area > 10000) {
-            output = (Math.round(area / 1000000 * 100) / 100) + ' km<sup>2</sup>';
-        } else {
-            output = (Math.round(area * 100) / 100) + ' m<sup>2</sup>';
-        }
-        return output;
-    };
-
+    // wird in index.html verwendet
     window.apf.olmap.waehleAus = function () {
-        var deactivateMenuItems                 = require('./olmap/deactivateMenuItems'),
-            addSelectFeaturesInSelectableLayers = require('./olmap/addSelectFeaturesInSelectableLayers');
-
-        deactivateMenuItems();
-        addSelectFeaturesInSelectableLayers();
+        require('./olmap/waehleAus')();
     };
 
     window.apf.olmap.schliesseLayeroptionen = function () {
         $("#olmap_layertree").accordion("option", "active", false);
-    };
-
-    // erwartet aktuelle Werte für jahr und typ
-    // erstellt den label für den Baum
-    window.apf.erstelleLabelFuerFeldkontrolle = function (jahr, typ) {
-        if (typeof jahr === "undefined") {
-            jahr = "(kein Jahr)";
-        }
-        if (typeof typ === "undefined") {
-            typ = "(kein Typ)";
-        }
-        return jahr + ": " + typ;
-    };
-
-    // erwartet aktuelle Werte für jahr und beurteilung
-    // erstellt den label für den Baum
-    window.apf.erstelleLabelFuerMassnahme = function (jahr, beurteilung) {
-        if (typeof jahr === "undefined") {
-            jahr = "(kein Jahr)";
-        }
-        if (typeof beurteilung === "undefined") {
-            beurteilung = "(keine Beurteilung)";
-        }
-        return jahr + ": " + beurteilung;
-    };
-
-    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-    (function ($) {
-        $.fn.extend( {
-            limiter: function (limit, elem) {
-                $(this).on("keyup focus", function () {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html(limit - chars);
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
-
-    // erstellt einen guid
-    // Quelle: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-    window.apf.erstelleGuid = function () {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-            return v.toString(16);
-        });
     };
 };

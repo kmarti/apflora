@@ -5,7 +5,8 @@ var $                                         = require('jquery'),
     erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
     insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
     insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
-    melde                                     = require('../melde');
+    melde                                     = require('../melde'),
+    erstelleLabelFuerFeldkontrolle            = require('../erstelleLabelFuerFeldkontrolle');
 
 module.exports = function (aktiverNode, parentNode, nodeTpopId) {
     // und an die DB schicken
@@ -14,7 +15,7 @@ module.exports = function (aktiverNode, parentNode, nodeTpopId) {
         url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId(nodeTpopId) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
     }).done(function (id) {
         var strukturtyp = "tpopfeldkontr",
-            beschriftung = window.apf.erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontrObjektKopiert.TPopKontrJahr, window.apf.tpopfeldkontrObjektKopiert.TPopKontrTyp);
+            beschriftung = erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontrObjektKopiert.TPopKontrJahr, window.apf.tpopfeldkontrObjektKopiert.TPopKontrTyp);
         if ($(aktiverNode).attr("id") === nodeTpopId) {
             insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         } else {

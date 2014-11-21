@@ -5,11 +5,12 @@
 
 var $                                      = require('jquery'),
     entfernePopupOverlays                  = require('./entfernePopupOverlays'),
-    removeSelectFeaturesInSelectableLayers = require('./removeSelectFeaturesInSelectableLayers');
+    removeSelectFeaturesInSelectableLayers = require('./removeSelectFeaturesInSelectableLayers'),
+    removeMeasureInteraction               = require('./removeMeasureInteraction');
 
 module.exports = function () {
     // messen deaktivieren
-    window.apf.olmap.removeMeasureInteraction();
+    removeMeasureInteraction();
     // Auswählen deaktivieren
     removeSelectFeaturesInSelectableLayers();
     // allfällige popups schliessen
