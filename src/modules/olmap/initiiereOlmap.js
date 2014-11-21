@@ -9,7 +9,8 @@ var $                         = require('jquery'),
     addDragAndDropGeofiles    = require('./addDragAndDropGeofiles'),
     blendeOlmapExportieren    = require('./blendeOlmapExportieren'),
     entferneAlleApfloraLayer  = require('./entferneAlleApfloraLayer'),
-    addShowFeatureInfoOnClick = require('./addShowFeatureInfoOnClick');
+    addShowFeatureInfoOnClick = require('./addShowFeatureInfoOnClick'),
+    changeCursorOverFeature   = require('./changeCursorOverFeature');
 
 module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
@@ -31,7 +32,7 @@ module.exports = function () {
         // diverse features und Fähigkeiten ergänzen
         addDragAndDropGeofiles();
         addShowFeatureInfoOnClick();
-        window.apf.olmap.changeCursorOverFeature();
+        changeCursorOverFeature();
         initiiereLayertree();
         window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
