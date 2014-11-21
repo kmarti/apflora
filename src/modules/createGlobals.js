@@ -687,13 +687,6 @@ module.exports = function () {
 
     })(jQuery);
 
-    window.apf.olmap.addFullScreenControl = function () {
-        var myFullScreenControl = new ol.control.FullScreen();
-        window.apf.olmap.map.addControl(myFullScreenControl);
-        // auf Deutsch beschriften
-        $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
-    };
-
     window.apf.olmap.nenneEbeneUm = function (layer, title) {
         var initiiereLayertree              = require('./olmap/initiiereLayertree'),
             aktualisiereEbeneInLocalStorage = require('./olmap/aktualisiereEbeneInLocalStorage');

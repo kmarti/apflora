@@ -11,7 +11,8 @@ var $                         = require('jquery'),
     entferneAlleApfloraLayer  = require('./entferneAlleApfloraLayer'),
     addShowFeatureInfoOnClick = require('./addShowFeatureInfoOnClick'),
     changeCursorOverFeature   = require('./changeCursorOverFeature'),
-    addMousePositionControl   = require('./addMousePositionControl');
+    addMousePositionControl   = require('./addMousePositionControl'),
+    addFullScreenControl      = require('./addFullScreenControl');
 
 module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
@@ -36,7 +37,7 @@ module.exports = function () {
         changeCursorOverFeature();
         initiiereLayertree();
         addMousePositionControl();
-        window.apf.olmap.addFullScreenControl();
+        addFullScreenControl();
 
         window.apf.olmap.map.on('change:size', function () {
             // steuern, ob das Export-Tool sichtbar ist
