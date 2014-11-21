@@ -23,7 +23,8 @@ var $                             = require('jquery'),
     undeleteDatensatz             = require('./undeleteDatensatz'),
     melde                         = require('./melde'),
     kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop'),
-    setzeKartenhoehe              = require('./setzeKartenhoehe');
+    setzeKartenhoehe              = require('./setzeKartenhoehe'),
+    entferneLayerNachName         = require('./olmap/entferneLayerNachName');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -178,7 +179,7 @@ module.exports = function () {
                     buttons: {
                         "ja, entfernen!": function () {
                             $(this).dialog("close");
-                            window.apf.olmap.entferneLayerNachName(layerName);
+                            entferneLayerNachName(layerName);
                             initiiereLayertree('Eigene Ebenen');
                         },
                         "abbrechen": function () {

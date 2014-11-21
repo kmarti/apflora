@@ -45,8 +45,11 @@ var tabelleUpdate = function (request, callback) {
     // jetzt für jedes key/value-Paar des Objekts set-Anweisungen generieren
     _.each(felder, function (feldwert, feldname) {
         if (feldwert || feldwert === 0) {
-            // Anführungszeichen eliminieren!
-            sql += ',' + feldname + '="' + feldwert.replace('"', '') + '"';
+            // in Zeichenfeldern Anführungszeichen eliminieren!
+            if (typeof feldwert === 'String') {
+                feldwert = feldwert.replace('"', '');
+            }
+            sql += ',' + feldname + '="' + feldwert + '"';
         } else {
             // leeres Feld: Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
             sql += ',' + feldname + '=NULL';

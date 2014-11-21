@@ -6,7 +6,8 @@ var $                                 = require('jquery'),
     erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
     zeigeTPop                         = require('./zeigeTPop'),
     styleTPop                         = require('./styleTPop'),
-    erstelleMarkerFuerTPopLayer       = require('./erstelleMarkerFuerTPopLayer');
+    erstelleMarkerFuerTPopLayer       = require('./erstelleMarkerFuerTPopLayer'),
+    aktualisiereKoordinatenVonTPop    = require('../aktualisiereKoordinatenVonTPop');
 
 module.exports = function (tpop) {
     var bounds,
@@ -72,7 +73,7 @@ module.exports = function (tpop) {
                 // Koordinaten in tpop ergänzen
                 tpop.TPopXKoord = parseInt(coordinates[0], 10);
                 tpop.TPopYKoord = parseInt(coordinates[1], 10);
-                $.when(window.apf.aktualisiereKoordinatenVonTPop(tpop)).then(function () {
+                $.when(aktualisiereKoordinatenVonTPop(tpop)).then(function () {
                     // marker in tpopLayer ergänzen
                     // tpopLayer holen
                     var layers          = window.apf.olmap.map.getLayers().getArray(),

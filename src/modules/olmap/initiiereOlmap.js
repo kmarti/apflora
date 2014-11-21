@@ -1,17 +1,18 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                      = require('jquery'),
-    ol                     = require('ol'),
-    ga                     = require('ga'),
-    initiiereLayertree     = require('./initiiereLayertree'),
-    createLayers           = require('./createLayers'),
-    addDragAndDropGeofiles = require('./addDragAndDropGeofiles'),
-    blendeOlmapExportieren = require('./blendeOlmapExportieren');
+var $                        = require('jquery'),
+    ol                       = require('ol'),
+    ga                       = require('ga'),
+    initiiereLayertree       = require('./initiiereLayertree'),
+    createLayers             = require('./createLayers'),
+    addDragAndDropGeofiles   = require('./addDragAndDropGeofiles'),
+    blendeOlmapExportieren   = require('./blendeOlmapExportieren'),
+    entferneAlleApfloraLayer = require('./entferneAlleApfloraLayer');
 
 module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
-    window.apf.olmap.entferneAlleApfloraLayer();
+    entferneAlleApfloraLayer();
     // allfällige Modify-Interaktion entfernen
     window.apf.olmap.entferneModifyInteractionFuerTpop();
 

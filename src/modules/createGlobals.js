@@ -582,69 +582,6 @@ module.exports = function () {
         return layers || [];
     };
 
-    window.apf.olmap.entferneLayerNachName = function (name) {
-        var layersArray = window.apf.olmap.getLayersWithTitle(),
-            layername,
-            layerKategorie,
-            aktualisiereEbeneInLocalStorage = require('./olmap/aktualisiereEbeneInLocalStorage');
-
-        _.each(layersArray, function (layer) {
-            layername      = layer.get('title');
-            layerKategorie = layer.get('kategorie');
-            if (layername === name) {
-                window.apf.olmap.map.removeLayer(layer);
-                if (layerKategorie === 'Eigene Ebenen') {
-                    // ebene aus localStorage entfernen
-                    aktualisiereEbeneInLocalStorage(layer, true);
-                }
-            }
-        });
-    };
-
-    window.apf.olmap.entferneAlleApfloraLayer = function () {
-        var layersArray,
-            kategorie,
-            title,
-            zuLoeschendeLayer = [],
-            initiiereLayertree = require('./olmap/initiiereLayertree');
-
-        if (window.apf.olmap && window.apf.olmap.map) {
-            // getLayers retourniert ein Objekt!!!
-            // um die eigentlichen Layers zu erhalten, muss man .getLayers().getArray() aufrufen!!!
-            layersArray = window.apf.olmap.map.getLayers().getArray();
-            // zuerst nur einen Array mit den zu löschenden Layern erstellen
-            // wenn man sofort löscht, wird nur der erste entfernt!
-            _.each(layersArray, function (layer) {
-                kategorie = layer.get('kategorie');
-                title     = layer.get('title');
-                if (kategorie && kategorie === 'AP Flora' && title !== 'Detailpläne') {
-                    zuLoeschendeLayer.push(layer);
-                }
-            });
-            _.each(zuLoeschendeLayer, function (layer) {
-                window.apf.olmap.map.removeLayer(layer);
-            });
-            initiiereLayertree();
-        }
-    };
-
-    window.apf.aktualisiereKoordinatenVonTPop = function (tpop) {
-        var koord_aktualisiert = $.Deferred();
-        // Datensatz updaten
-        $.ajax({
-            type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopXKoord/wert=' + tpop.TPopXKoord + '/user=' + sessionStorage.user
-        }).done(function () {
-            $.ajax({
-                type: 'post',
-                url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopYKoord/wert=' + tpop.TPopYKoord + '/user=' + sessionStorage.user
-            }).done(function () {
-                koord_aktualisiert.resolve();
-            });
-        });
-        return koord_aktualisiert.promise();
-    };
-
     window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
         var layers = window.apf.olmap.map.getLayers(),
             layersArray = window.apf.olmap.map.getLayers().getArray(),
@@ -1172,7 +1109,9 @@ module.exports = function () {
     };
 
     window.apf.olmap.removeMeasureInteraction = function () {
-        window.apf.olmap.entferneLayerNachName('messen');
+        var entferneLayerNachName = require('./olmap/entferneLayerNachName');
+
+        entferneLayerNachName('messen');
         window.apf.olmap.map.removeInteraction(window.apf.olmap.drawMeasure);
         delete window.apf.olmap.drawMeasure;
         $("#ergebnisMessung").text("");

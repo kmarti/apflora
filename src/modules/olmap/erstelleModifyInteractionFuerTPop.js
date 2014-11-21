@@ -1,10 +1,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true, plusplus: true */
 'use strict';
 
-var $         = require('jquery'),
-    _         = require('underscore'),
-    ol        = require('ol'),
-    styleTPop = require('./styleTPop');
+var $                              = require('jquery'),
+    _                              = require('underscore'),
+    ol                             = require('ol'),
+    styleTPop                      = require('./styleTPop'),
+    aktualisiereKoordinatenVonTPop = require('../aktualisiereKoordinatenVonTPop');
 
 module.exports = function (modifySource) {
     var modifyOverlay;
@@ -42,7 +43,7 @@ module.exports = function (modifySource) {
                 // Koordinaten in tpop ergänzen
                 window.apf.tpop.TPopXKoord = parseInt(coordinates[0], 10);
                 window.apf.tpop.TPopYKoord = parseInt(coordinates[1], 10);
-                $.when(window.apf.aktualisiereKoordinatenVonTPop(window.apf.tpop)).then(function () {
+                $.when(aktualisiereKoordinatenVonTPop(window.apf.tpop)).then(function () {
                     // marker in tpopLayer ergänzen
                     // tpopLayer neu zeichnen
                     var layers            = window.apf.olmap.map.getLayers().getArray(),
