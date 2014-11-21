@@ -14,7 +14,7 @@ window.apf       = window.apf       || {};
 window.apf.gmap  = window.apf.gmap  || {};
 window.apf.olmap = window.apf.olmap || {};
 
-var initiiereApp = function () {
+module.exports = function () {
     // das muss aus unerfindlichem Grund direkt von index.htm. aus aufgerufen werden
     // sonst wirkt jquery-ui nicht
     window.apf.pruefeObAngemeldet = function () {
@@ -1326,6 +1326,4 @@ var initiiereApp = function () {
     };
 };
 
-window.apf.initiiereApp = initiiereApp;
-
-module.exports = initiiereApp;
+//window.apf.initiiereApp = initiiereApp;
