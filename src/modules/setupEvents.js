@@ -26,7 +26,8 @@ var $                             = require('jquery'),
     setzeKartenhoehe              = require('./setzeKartenhoehe'),
     entferneLayerNachName         = require('./olmap/entferneLayerNachName'),
     deaktiviereOlmapAuswahl       = require('./olmap/deaktiviereOlmapAuswahl'),
-    initiiereExporte              = require('./initiiereExporte');
+    initiiereExporte              = require('./initiiereExporte'),
+    setzeTreehoehe                = require('./setzeTreehoehe');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -418,7 +419,7 @@ module.exports = function () {
     });
 
     $(window).resize(function () {
-        window.apf.setzeTreehoehe();
+        setzeTreehoehe();
         // Karten sollen ca. Bildschirmhöhe haben
         // da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
         setzeKartenhoehe();

@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $             = require('jquery'),
-    initiiereAp   = require('./initiiereAp'),
-    limiter       = require('../lib/limiter'),
-    zeigeFormular = require('./zeigeFormular'),
-    melde         = require('./melde');
+var $                      = require('jquery'),
+    initiiereAp            = require('./initiiereAp'),
+    limiter                = require('../lib/limiter'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -39,7 +40,7 @@ module.exports = function (apId, berId) {
     limiter($);
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("ber");
+    leereFelderVonFormular("ber");
     // Daten für die ber aus der DB holen
     $.ajax({
         type: 'get',

@@ -23,33 +23,6 @@ module.exports = function () {
         return isDateSupported();
     };
 
-    // leert alle Felder und stellt ihre Breite ein
-    window.apf.leereFelderVonFormular = function (Formular) {
-        $('#' + Formular).find('input[type="text"]').each(function () {
-            $(this).val("");
-        });
-        $('#' + Formular).find('input[type="radio"]:checked').each(function () {
-            $(this).prop('checked', false);
-        });
-        $('#' + Formular).find('select').each(function () {
-            $(this).val("");
-        });
-    };
-
-    // begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
-    window.apf.setzeTreehoehe = function () {
-        if ($(window).width() > 1000) {
-            if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
-                $("#tree").css("max-height", $(window).height() - 139);
-            }
-        } else {
-            // Spalten sind untereinander. Baum 75px weniger hoch, damit Formulare immer erreicht werden können
-            if (($(".jstree-no-icons").height() + 157) > $(window).height() - 75) {
-                $("#tree").css("max-height", $(window).height() - 220);
-            }
-        }
-    };
-
     window.apf.berechneOlmapLayertreeMaxhoehe = function () {
         var lytMaxHeight;
         if ($(window).width() > 1000) {

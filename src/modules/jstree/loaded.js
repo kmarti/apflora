@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $           = require('jquery'),
-    initiiereAp = require('../initiiereAp');
+var $              = require('jquery'),
+    initiiereAp    = require('../initiiereAp'),
+    setzeTreehoehe = require('../setzeTreehoehe');
 
 module.exports = function (ApArtId) {
-    window.apf.setzeTreehoehe();
+    setzeTreehoehe();
     $("#suchen").show();
     $("#exportieren_2").show();
     $("#exportieren_1").hide();

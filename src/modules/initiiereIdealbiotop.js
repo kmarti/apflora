@@ -6,7 +6,8 @@ var $                            = require('jquery'),
     initiiereAp                  = require('./initiiereAp'),
     pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen'),
     zeigeFormular                = require('./zeigeFormular'),
-    melde                        = require('./melde');
+    melde                        = require('./melde'),
+    leereFelderVonFormular       = require('./leereFelderVonFormular');
 
 var initiiereIdealbiotop = function (apId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -23,7 +24,7 @@ var initiiereIdealbiotop = function (apId) {
     var $IbErstelldatum  = $("#IbErstelldatum");
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("idealbiotop");
+    leereFelderVonFormular("idealbiotop");
 
     // Daten für die idealbiotop aus der DB holen
     $.ajax({

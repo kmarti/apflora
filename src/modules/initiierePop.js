@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $             = require('jquery'),
-    limiter       = require('../lib/limiter'),
-    initiiereAp   = require('./initiiereAp'),
-    zeigeFormular = require('./zeigeFormular'),
-    melde         = require('./melde');
+var $                      = require('jquery'),
+    limiter                = require('../lib/limiter'),
+    initiiereAp            = require('./initiiereAp'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, popId, ohneZuZeigen) {
     var $PopName = $("#PopName"),
@@ -47,7 +48,7 @@ module.exports = function (apId, popId, ohneZuZeigen) {
     limiter($);
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("pop");
+    leereFelderVonFormular("pop");
 
     // Daten für die pop aus der DB holen
     $.ajax({

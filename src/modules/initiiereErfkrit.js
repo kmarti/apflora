@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $             = require('jquery'),
-    initiiereAp   = require('./initiiereAp'),
-    limiter       = require('../lib/limiter'),
-    zeigeFormular = require('./zeigeFormular'),
-    melde         = require('./melde');
+var $                      = require('jquery'),
+    initiiereAp            = require('./initiiereAp'),
+    limiter                = require('../lib/limiter'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, erfkritId) {
 
@@ -35,7 +36,7 @@ module.exports = function (apId, erfkritId) {
     limiter($);
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("erfkrit");
+    leereFelderVonFormular("erfkrit");
 
     // Daten für die erfkrit aus der DB holen
     $.ajax({

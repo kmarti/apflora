@@ -1,10 +1,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $             = require('jquery'),
-    initiiereAp   = require('./initiiereAp'),
-    initiierePop  = require('./initiierePop'),
-    zeigeFormular = require('./zeigeFormular');
+var $                      = require('jquery'),
+    initiiereAp            = require('./initiiereAp'),
+    initiierePop           = require('./initiierePop'),
+    zeigeFormular          = require('./zeigeFormular'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, popId, popberId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -49,7 +50,7 @@ module.exports = function (apId, popId, popberId) {
     popberId              = popberId || localStorage.popberId;
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("popber");
+    leereFelderVonFormular("popber");
 
     // Daten für die popber aus der DB holen
     $.ajax({

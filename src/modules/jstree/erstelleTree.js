@@ -15,7 +15,8 @@ var $                            = require('jquery'),
     loaded                       = require('./loaded'),
     select_node                  = require('./select_node'),
     pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen'),
-    beschrifteOrdner             = require('../beschrifteOrdner');
+    beschrifteOrdner             = require('../beschrifteOrdner'),
+    setzeTreehoehe               = require('../setzeTreehoehe');
 
 module.exports = function (ApArtId) {
     var jstreeErstellt = $.Deferred(),
@@ -86,9 +87,9 @@ module.exports = function (ApArtId) {
     }).bind("select_node.jstree", function (event, data) {
         select_node(event, data, ApArtId);
     }).bind("after_open.jstree", function () {
-        window.apf.setzeTreehoehe();
+        setzeTreehoehe();
     }).bind("after_close.jstree", function () {
-        window.apf.setzeTreehoehe();
+        setzeTreehoehe();
     }).bind("prepare_move.jstree", function (event, data) {
         // herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
         window.apf.herkunftParentNode = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);

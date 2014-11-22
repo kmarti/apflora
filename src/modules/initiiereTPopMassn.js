@@ -1,17 +1,18 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    dateFormat      = require('dateformat'),
-    _               = require('underscore'),
-    limiter         = require('../lib/limiter'),
-    initiiereAp     = require('./initiiereAp'),
-    initiierePop    = require('./initiierePop'),
-    initiiereTPop   = require('./initiiereTPop'),
-    getAdressenHtml = require('./getAdressenHtml'),
-    getMassntypHtml = require('./getMassntypHtml'),
-    zeigeFormular   = require('./zeigeFormular'),
-    melde           = require('./melde');
+var $                      = require('jquery'),
+    dateFormat             = require('dateformat'),
+    _                      = require('underscore'),
+    limiter                = require('../lib/limiter'),
+    initiiereAp            = require('./initiiereAp'),
+    initiierePop           = require('./initiierePop'),
+    initiiereTPop          = require('./initiiereTPop'),
+    getAdressenHtml        = require('./getAdressenHtml'),
+    getMassntypHtml        = require('./getMassntypHtml'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, popId, tpopId, massnId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -65,7 +66,7 @@ module.exports = function (apId, popId, tpopId, massnId) {
     limiter($);
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("tpopmassn");
+    leereFelderVonFormular("tpopmassn");
 
     // Daten für die pop aus der DB holen
     $.ajax({

@@ -1,14 +1,15 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    _               = require('underscore'),
-    limiter         = require('../lib/limiter'),
-    initiiereAp     = require('./initiiereAp'),
-    initiierePop    = require('./initiierePop'),
-    getAdressenHtml = require('./getAdressenHtml'),
-    zeigeFormular   = require('./zeigeFormular'),
-    melde           = require('./melde');
+var $                      = require('jquery'),
+    _                      = require('underscore'),
+    limiter                = require('../lib/limiter'),
+    initiiereAp            = require('./initiiereAp'),
+    initiierePop           = require('./initiierePop'),
+    getAdressenHtml        = require('./getAdressenHtml'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, popId, tpopId, ohneZuZeigen) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -58,7 +59,7 @@ module.exports = function (apId, popId, tpopId, ohneZuZeigen) {
     var $TPopFlurname = $("#TPopFlurname");
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("tpop");
+    leereFelderVonFormular("tpop");
 
     // Daten für die pop aus der DB holen
     $.ajax({

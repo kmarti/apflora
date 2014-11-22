@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    initiiereAp     = require('./initiiereAp'),
-    initiiereApziel = require('./initiiereApziel'),
-    zeigeFormular   = require('./zeigeFormular'),
-    melde           = require('./melde');
+var $                      = require('jquery'),
+    initiiereAp            = require('./initiiereAp'),
+    initiiereApziel        = require('./initiiereApziel'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, apZielId, zielberId) {
     var $ZielBerJahr = $("#ZielBerJahr");
@@ -40,7 +41,7 @@ module.exports = function (apId, apZielId, zielberId) {
     zielberId = zielberId || localStorage.zielberId;
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("zielber");
+    leereFelderVonFormular("zielber");
 
     // Daten für die zielber aus der DB holen
     $.ajax({

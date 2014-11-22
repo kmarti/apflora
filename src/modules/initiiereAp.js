@@ -1,10 +1,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    getAdressenHtml = require('./getAdressenHtml'),
-    zeigeFormular   = require('./zeigeFormular'),
-    melde           = require('./melde');
+var $                      = require('jquery'),
+    getAdressenHtml        = require('./getAdressenHtml'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId) {
 
@@ -23,7 +24,7 @@ module.exports = function (apId) {
     var programm_wahl = $("[name='programm_wahl']:checked").attr("id");
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("ap");
+    leereFelderVonFormular("ap");
 
     // Wenn ein ap ausgewählt ist: Seine Daten anzeigen
     if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {

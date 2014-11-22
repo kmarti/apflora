@@ -1,13 +1,14 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    dateFormat      = require('dateformat'),
-    limiter         = require('../lib/limiter'),
-    initiiereAp     = require('./initiiereAp'),
-    getAdressenHtml = require('./getAdressenHtml'),
-    zeigeFormular   = require('./zeigeFormular'),
-    melde           = require('./melde');
+var $                      = require('jquery'),
+    dateFormat             = require('dateformat'),
+    limiter                = require('../lib/limiter'),
+    initiiereAp            = require('./initiiereAp'),
+    getAdressenHtml        = require('./getAdressenHtml'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, apBerId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -36,7 +37,7 @@ module.exports = function (apId, apBerId) {
     limiter($);
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("jber");
+    leereFelderVonFormular("jber");
 
     // Daten für die jber aus der DB holen
     $.ajax({

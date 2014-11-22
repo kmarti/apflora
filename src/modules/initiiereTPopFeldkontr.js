@@ -17,7 +17,8 @@ var $                            = require('jquery'),
     getLrDelarzeHtml             = require('./getLrDelarzeHtml'),
     getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml'),
     zeigeFormular                = require('./zeigeFormular'),
-    melde                        = require('./melde');
+    melde                        = require('./melde'),
+    leereFelderVonFormular       = require('./leereFelderVonFormular');
 
 module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -92,7 +93,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     limiter($);
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("tpopfeldkontr");
+    leereFelderVonFormular("tpopfeldkontr");
 
     // alle Felder ausblenden. Später werden die benötigten eingeblendet
     $('.feld_tpopfeldkontr').each(function () {

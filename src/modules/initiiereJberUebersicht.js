@@ -1,10 +1,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $              = require('jquery'),
-    initiiereAp    = require('./initiiereAp'),
-    zeigeFormular  = require('./zeigeFormular'),
-    melde          = require('./melde');
+var $                      = require('jquery'),
+    initiiereAp            = require('./initiiereAp'),
+    zeigeFormular          = require('./zeigeFormular'),
+    melde                  = require('./melde'),
+    leereFelderVonFormular = require('./leereFelderVonFormular');
 
 module.exports = function (apId, uebId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -30,7 +31,7 @@ module.exports = function (apId, uebId) {
     var $JbuJahr = $("#JbuJahr");
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("jberUebersicht");
+    leereFelderVonFormular("jberUebersicht");
 
     // Daten für die jberUebersicht aus der DB holen
     $.ajax({
