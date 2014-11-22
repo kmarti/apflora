@@ -1,18 +1,19 @@
 /*jslint node: true, browser: true, nomen: true, todo: true, plusplus: true */
 'use strict';
 
-var $                              = require('jquery'),
-    _                              = require('underscore'),
-    ol                             = require('ol'),
-    styleTPop                      = require('./styleTPop'),
-    aktualisiereKoordinatenVonTPop = require('../aktualisiereKoordinatenVonTPop'),
-    erstelleContentFuerTPop        = require('./erstelleContentFuerTPop');
+var $                                 = require('jquery'),
+    _                                 = require('underscore'),
+    ol                                = require('ol'),
+    styleTPop                         = require('./styleTPop'),
+    aktualisiereKoordinatenVonTPop    = require('../aktualisiereKoordinatenVonTPop'),
+    erstelleContentFuerTPop           = require('./erstelleContentFuerTPop'),
+    entferneModifyInteractionFuerTpop = require('./entferneModifyInteractionFuerTpop');
 
 module.exports = function (modifySource) {
     var modifyOverlay;
 
     // allfällige bestehende Interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFuerTpop();
+    entferneModifyInteractionFuerTpop();
     // feature-overlay erstellen
     modifyOverlay = new ol.FeatureOverlay({
         style: function (feature, resolution) {

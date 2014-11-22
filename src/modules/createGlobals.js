@@ -23,40 +23,6 @@ module.exports = function () {
         return isDateSupported();
     };
 
-    window.apf.olmap.getLayerNames = function () {
-        var layerObjektArray = window.apf.olmap.map.getLayers().getArray(),
-            layers = _.map(layerObjektArray, function (layerObjekt) {
-                if (layerObjekt.values_ && layerObjekt.values_.title) {
-                    return layerObjekt.values_.title;
-                }
-            });
-        return layers;
-    };
-
-    window.apf.olmap.getLayersWithTitle = function () {
-        var layersArray = window.apf.olmap.map.getLayers().getArray(),
-            layers = _.map(layersArray, function (layer) {
-                if (layer.get('title')) {
-                    return layer;
-                }
-            });
-        return layers || [];
-    };
-
-    window.apf.olmap.entferneModifyInteractionFuerTpop = function () {
-        if (window.apf.olmap.modifyInteraction) {
-            window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteraction);
-            delete window.apf.olmap.modifyInteraction;
-        }
-    };
-
-    window.apf.download = function (filename, text) {
-        var pom = document.createElement('a');
-        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        pom.setAttribute('download', filename);
-        pom.click();
-    };
-
     // dieser Funktion kann man einen Wert zum speichern übergeben
     window.apf.speichereWert = function (tabelle, id, feld, wert) {
         var melde = require('./melde');

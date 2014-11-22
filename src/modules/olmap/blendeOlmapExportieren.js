@@ -13,13 +13,13 @@ module.exports = function () {
     // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
     anzKartenpixel = /*window.apf.olmap.map.getView().getResolution() * */mapSize[0] * mapSize[1];
     $('#olmap_exportieren').button();
-    if (anzKartenpixel > 500000) {
+    /*if (anzKartenpixel > 500000) {
         $('#olmap_exportieren').button("disable");
         tooltipTitle = 'Karte als png herunterladen<br>Diese Funktion ist inaktiv<br>Um sie zu aktivieren, müssen Sie die Karte verkleinern<br>Packen Sie dazu die untere rechte Ecke und ziehen Sie sie nach oben links';
-    } else {
+    } else {*/
         $('#olmap_exportieren').button("enable");
         tooltipTitle = 'Karte als png herunterladen';
-    }
+    //}
     $("#olmap_exportieren_div").tooltip({
         tooltipClass: "tooltip-styling-hinterlegt",
         content:      tooltipTitle

@@ -6,7 +6,8 @@
 var $                                      = require('jquery'),
     entfernePopupOverlays                  = require('./entfernePopupOverlays'),
     removeSelectFeaturesInSelectableLayers = require('./removeSelectFeaturesInSelectableLayers'),
-    removeMeasureInteraction               = require('./removeMeasureInteraction');
+    removeMeasureInteraction               = require('./removeMeasureInteraction'),
+    entferneModifyInteractionFuerTpop      = require('./entferneModifyInteractionFuerTpop');
 
 module.exports = function () {
     // messen deaktivieren
@@ -18,5 +19,5 @@ module.exports = function () {
     // allfällige tooltips von ga-karten verstecken
     $('div.ga-tooltip').hide();
     // allfällige modify-interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFuerTpop();
+    entferneModifyInteractionFuerTpop();
 };

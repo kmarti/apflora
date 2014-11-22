@@ -2,10 +2,11 @@
 'use strict';
 
 var _                               = require('underscore'),
-    aktualisiereEbeneInLocalStorage = require('./aktualisiereEbeneInLocalStorage');
+    aktualisiereEbeneInLocalStorage = require('./aktualisiereEbeneInLocalStorage'),
+    getLayersWithTitle              = require('./getLayersWithTitle');
 
 module.exports = function (name) {
-    var layersArray = window.apf.olmap.getLayersWithTitle(),
+    var layersArray = getLayersWithTitle(),
         layername,
         layerKategorie;
 

@@ -21,7 +21,8 @@
     "MarkerClusterer": "global:MarkerClusterer",
     "MarkerWithLabel": "global:MarkerWithLabel",
     "addruler": "global:addruler",
-    "removeruler": "global:removeruler"
+    "removeruler": "global:removeruler",
+    "canvas": "global:canvas"
   },
   "dependencies": {
     "async": "^0.9.0",

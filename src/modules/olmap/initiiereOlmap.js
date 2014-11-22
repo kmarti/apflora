@@ -1,24 +1,25 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                         = require('jquery'),
-    ol                        = require('ol'),
-    ga                        = require('ga'),
-    initiiereLayertree        = require('./initiiereLayertree'),
-    createLayers              = require('./createLayers'),
-    addDragAndDropGeofiles    = require('./addDragAndDropGeofiles'),
-    blendeOlmapExportieren    = require('./blendeOlmapExportieren'),
-    entferneAlleApfloraLayer  = require('./entferneAlleApfloraLayer'),
-    addShowFeatureInfoOnClick = require('./addShowFeatureInfoOnClick'),
-    changeCursorOverFeature   = require('./changeCursorOverFeature'),
-    addMousePositionControl   = require('./addMousePositionControl'),
-    addFullScreenControl      = require('./addFullScreenControl');
+var $                                 = require('jquery'),
+    ol                                = require('ol'),
+    ga                                = require('ga'),
+    initiiereLayertree                = require('./initiiereLayertree'),
+    createLayers                      = require('./createLayers'),
+    addDragAndDropGeofiles            = require('./addDragAndDropGeofiles'),
+    blendeOlmapExportieren            = require('./blendeOlmapExportieren'),
+    entferneAlleApfloraLayer          = require('./entferneAlleApfloraLayer'),
+    addShowFeatureInfoOnClick         = require('./addShowFeatureInfoOnClick'),
+    changeCursorOverFeature           = require('./changeCursorOverFeature'),
+    addMousePositionControl           = require('./addMousePositionControl'),
+    addFullScreenControl              = require('./addFullScreenControl'),
+    entferneModifyInteractionFuerTpop = require('./entferneModifyInteractionFuerTpop');
 
 module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
     entferneAlleApfloraLayer();
     // allfällige Modify-Interaktion entfernen
-    window.apf.olmap.entferneModifyInteractionFuerTpop();
+    entferneModifyInteractionFuerTpop();
 
     // Karte nur aufbauen, wenn dies nicht schon passiert ist
     if (!window.apf.olmap.map) {

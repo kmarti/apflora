@@ -23,6 +23,7 @@ gulp.task('prod_build_src', function () {
         'src/jquery.fileDownload.js',
         'src/xlsx.js',
         'src/FileSaver.js',
+        'src/canvas-toBlob.js',
         'src/apflora_browserified.js',
         'src/jquery.file.download.js',
         'src/underscore.js'

@@ -1,8 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var ol    = require('ol'),
-    melde = require('../melde');
+var ol       = require('ol'),
+    melde    = require('../melde'),
+    download = require('../download');
 
 module.exports = function (layer, selectedValue) {
     var layerName   = layer.get('title') || 'Eigene_Ebene',
