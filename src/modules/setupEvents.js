@@ -27,7 +27,8 @@ var $                             = require('jquery'),
     entferneLayerNachName         = require('./olmap/entferneLayerNachName'),
     deaktiviereOlmapAuswahl       = require('./olmap/deaktiviereOlmapAuswahl'),
     initiiereExporte              = require('./initiiereExporte'),
-    setzeTreehoehe                = require('./jstree/setzeTreehoehe');
+    setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
+    oeffneBeob                    = require('./oeffneBeob');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -201,7 +202,7 @@ module.exports = function () {
     $('#google_karten_div')
         .on('click', '.oeffneBeob', function (event) {
             event.preventDefault();
-            window.apf.oeffneBeob($(this).data('beob'));
+            oeffneBeob($(this).data('beob'));
         })
         .on('click', '.oeffneBeobInNeuemTab', function (event) {
             event.preventDefault();

@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $       = require('jquery'),
-    google  = require('google'),
-    ddInChY = require('../../lib/ddInChY'),
-    ddInChX = require('../../lib/ddInChX'),
-    melde   = require('../melde'),
+var $                            = require('jquery'),
+    google                       = require('google'),
+    ddInChY                      = require('../../lib/ddInChY'),
+    ddInChX                      = require('../../lib/ddInChX'),
+    melde                        = require('../melde'),
+    clearInfoWindows             = require('./clearInfoWindows'),
     pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
 
 module.exports = function (latLng, map, marker, tpop) {
@@ -36,7 +37,7 @@ module.exports = function (latLng, map, marker, tpop) {
             type: 'post',
             url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.user
         }).done(function () {
-            window.apf.gmap.clearInfoWindows();
+            clearInfoWindows();
             contentString = '<div id="content">' +
                 '<div id="siteNotice">' +
                 '</div>' +

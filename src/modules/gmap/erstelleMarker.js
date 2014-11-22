@@ -3,14 +3,15 @@
 
 var $               = require('jquery'),
     google          = require('google'),
-    setLocationTPop = require('./setLocationTPop');
+    setLocationTPop = require('./setLocationTPop'),
+    clearMarkers    = require('./clearMarkers');
 
 module.exports = function (location, map, marker, tpop) {
     // title muss String sein
     var title = (tpop && tpop.TPopFlurname ? tpop.TPopFlurname : "neue Teilpopulation");
 
     // zuerst bisherigen Marker löschen
-    window.apf.gmap.clearMarkers();
+    clearMarkers();
     marker = new google.maps.Marker({
         position:  location,
         map:       map,

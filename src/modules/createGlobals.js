@@ -23,52 +23,24 @@ module.exports = function () {
         return isDateSupported();
     };
 
-    // GoogleMap: alle Marker löschen
-    // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
-    window.apf.gmap.clearMarkers = function () {
-        _.each(window.apf.gmap.markersArray, function (marker) {
-            marker.setMap(null);
-        });
-    };
-
-    // GoogleMap: alle InfoWindows löschen
-    // benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
-    window.apf.gmap.clearInfoWindows = function () {
-        _.each(window.apf.gmap.infoWindowArray, function (info_window) {
-            info_window.setMap(null);
-        });
-    };
-
+    // wird in index.html benutzt
     window.apf.oeffneTPop = function (tpopId) {
-        localStorage.tpopId = tpopId;
-        $.jstree._reference("[typ='tpop']#" + tpopId).deselect_all();
-        $("#tree").jstree("select_node", "[typ='tpop']#" + tpopId);
+        require('./oeffneTPop')(tpopId);
     };
 
+    // wird in index.html benutzt
     window.apf.oeffneTPopInNeuemTab = function (tpopId) {
-        window.open("index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + tpopId, "_blank");
+        require('./oeffneTPopInNeuemTab')(tpopId);
     };
 
+    // wird in index.html benutzt
     window.apf.oeffnePop = function (popId) {
-        localStorage.popId = popId;
-        $.jstree._reference("[typ='pop']#" + popId).deselect_all();
-        $("#tree").jstree("select_node", "[typ='pop']#" + popId);
+        require('./oeffnePop')(popId);
     };
 
+    // wird in index.html benutzt
     window.apf.oeffnePopInNeuemTab = function (popId) {
-        window.open("index.html?ap=" + localStorage.apId + "&pop=" + popId, "_blank");
-    };
-
-    window.apf.oeffneBeob = function (beob) {
-        var initiiereBeob = require('./initiiereBeob'),
-            beobStatus,
-            beobTyp;
-
-        beobStatus = (beob.BeobNichtZuordnen ? 'nicht_zuzuordnen' : 'nicht_beurteilt');
-        beobTyp = (isNaN(beob.NO_NOTE) ? 'evab' : 'infospezies');
-
-        localStorage.beobtyp = beobTyp;
-        initiiereBeob(beobTyp, beob.NO_NOTE, beobStatus);
+        require('./oeffnePopInNeuemTab')(popId);
     };
 
     window.apf.oeffneBeobInNeuemTab = function (beob) {
