@@ -5,7 +5,8 @@ var $                            = require('jquery'),
     erstelleIdAusDomAttributId   = require('../erstelleIdAusDomAttributId'),
     melde                        = require('../melde'),
     frageObUndeleteDatensatz     = require('../frageObUndeleteDatensatz'),
-    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen'),
+    beschrifteOrdner             = require('../beschrifteOrdner');
 
 module.exports = function (aktiverNode, parentNode) {
     var grandparentNode,
@@ -43,10 +44,10 @@ module.exports = function (aktiverNode, parentNode) {
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // grandparent Node-Beschriftung: Anzahl anpassen
                     grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
-                    window.apf.beschrifteOrdner(grandparentNode);
+                    beschrifteOrdner(grandparentNode);
                     // parent Node-Beschriftung: Anzahl anpassen
                     if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-                        window.apf.beschrifteOrdner(parentNode);
+                        beschrifteOrdner(parentNode);
                     }
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");

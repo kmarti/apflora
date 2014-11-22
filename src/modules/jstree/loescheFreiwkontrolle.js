@@ -5,7 +5,8 @@ var $                            = require('jquery'),
     erstelleIdAusDomAttributId   = require('../erstelleIdAusDomAttributId'),
     melde                        = require('../melde'),
     frageObUndeleteDatensatz     = require('../frageObUndeleteDatensatz'),
-    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen'),
+    beschrifteOrdner             = require('../beschrifteOrdner');
 
 module.exports = function (aktiverNode, parentNode) {
     var bezeichnung;
@@ -36,7 +37,7 @@ module.exports = function (aktiverNode, parentNode) {
                     delete window.apf.tpopfeldkontr;
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                     // Parent Node-Beschriftung: Anzahl anpassen
-                    window.apf.beschrifteOrdner(parentNode);
+                    beschrifteOrdner(parentNode);
                     // Hinweis zum rückgängig machen anzeigen
                     frageObUndeleteDatensatz("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
                 }).fail(function () {

@@ -7,7 +7,8 @@ var $                               = require('jquery'),
     initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
     erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
     erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop'),
-    capitaliseFirstLetter           = require('../../lib/capitaliseFirstLetter');
+    capitaliseFirstLetter           = require('../../lib/capitaliseFirstLetter'),
+    beschrifteOrdner                = require('../beschrifteOrdner');
 
 module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
     var neuerNode,
@@ -51,15 +52,15 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
     if (strukturtyp === "apziel") {
         grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
         // grandparent Node-Beschriftung: Anzahl anpassen
-        window.apf.beschrifteOrdner(grandparentNode);
+        beschrifteOrdner(grandparentNode);
         // parent Node-Beschriftung: Anzahl anpassen
         // nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
         if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-            window.apf.beschrifteOrdner(parentNode);
+            beschrifteOrdner(parentNode);
         }
     } else {
         // Normalfall
-        window.apf.beschrifteOrdner(parentNode);
+        beschrifteOrdner(parentNode);
     }
 
     // node selecten

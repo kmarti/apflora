@@ -9,7 +9,8 @@ var $                               = require('jquery'),
     erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
     erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop'),
     erstelleIdAusDomAttributId      = require('../erstelleIdAusDomAttributId'),
-    capitaliseFirstLetter           = require('../../lib/capitaliseFirstLetter');
+    capitaliseFirstLetter           = require('../../lib/capitaliseFirstLetter'),
+    beschrifteOrdner                = require('../beschrifteOrdner');
 
 module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
     var neuerNode,
@@ -77,13 +78,13 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         // hier ist ein Ordner zwischengeschaltet
         // Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
         if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-            window.apf.beschrifteOrdner(parentNode);
+            beschrifteOrdner(parentNode);
         }
         // aktiver Node-Beschriftung: Anzahl anpassen
-        window.apf.beschrifteOrdner(aktiverNode);
+        beschrifteOrdner(aktiverNode);
         delete localStorage.apzielVonApzieljahr;
     } else if (strukturtyp !== "jberUebersicht") {
-        window.apf.beschrifteOrdner(aktiverNode);
+        beschrifteOrdner(aktiverNode);
     }
     // node selecten
     $.jstree._reference(aktiverNode).deselect_all();

@@ -14,7 +14,8 @@ var $                            = require('jquery'),
     types                        = require('./types.json'),
     loaded                       = require('./loaded'),
     select_node                  = require('./select_node'),
-    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen');
+    pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen'),
+    beschrifteOrdner             = require('../beschrifteOrdner');
 
 module.exports = function (ApArtId) {
     var jstreeErstellt = $.Deferred(),
@@ -135,8 +136,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + zielNodeId + '/feld=ApArtId/wert=' + zielParentNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielParentNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(zielNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -155,8 +156,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + zielParentNodeId + '/feld=TPopId/wert=' + zielNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielParentNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(zielNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -176,8 +177,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + zielNodeId + '/feld=TPopId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // select steuern
                     $.jstree._reference(zielNode).deselect_all();
                     $.jstree._reference(zielNode).select_node(herkunftNode);
@@ -198,8 +199,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + herkunftNodeId + '/feld=PopId/wert=' + zielParentNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielParentNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(zielParentNode).select_node(herkunftNode);
@@ -219,8 +220,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + herkunftNodeId + '/feld=PopId/wert=' + zielNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -242,8 +243,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + zielParentNodeId + '/feld=TPopMassnId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielParentNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(zielParentNode).select_node(herkunftNode);
@@ -263,8 +264,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + zielNodeId + '/feld=TPopMassnId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -286,8 +287,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielParentNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielParentNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -307,8 +308,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -330,8 +331,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielParentNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielParentNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -352,8 +353,8 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifteOrdner(zielNode);
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(zielNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunftNode).deselect_all();
                     $.jstree._reference(herkunftNode).select_node(herkunftNode);
@@ -388,11 +389,11 @@ module.exports = function (ApArtId) {
 
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     if (zielNodeTyp === "beobNichtBeurteilt") {
-                        window.apf.beschrifteOrdner(zielParentNode);
+                        beschrifteOrdner(zielParentNode);
                     } else {
-                        window.apf.beschrifteOrdner(zielNode);
+                        beschrifteOrdner(zielNode);
                     }
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
 
                     // Variablen aufräumen
                     delete window.apf.beobNodeAusgeschnitten;
@@ -411,11 +412,11 @@ module.exports = function (ApArtId) {
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     if (zielNodeTyp === "tpopOrdnerBeobZugeordnet") {
-                        window.apf.beschrifteOrdner(zielNode);
+                        beschrifteOrdner(zielNode);
                     } else {
-                        window.apf.beschrifteOrdner(zielParentNode);
+                        beschrifteOrdner(zielParentNode);
                     }
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
 
                     // selection steuern
                     if (localStorage.karteFokussieren) {
@@ -451,11 +452,11 @@ module.exports = function (ApArtId) {
 
                         // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                         if (zielNodeTyp === "apOrdnerBeobNichtZuzuordnen") {
-                            window.apf.beschrifteOrdner(zielNode);
+                            beschrifteOrdner(zielNode);
                         } else {
-                            window.apf.beschrifteOrdner(zielParentNode);
+                            beschrifteOrdner(zielParentNode);
                         }
-                        window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                        beschrifteOrdner(window.apf.herkunftParentNode);
 
                         // Variablen aufräumen
                         delete window.apf.beobNodeAusgeschnitten;
@@ -488,11 +489,11 @@ module.exports = function (ApArtId) {
                         localStorage.beobtyp = "beobZugeordnet";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                        beschrifteOrdner(window.apf.herkunftParentNode);
                         if (zielNodeTyp === "tpopOrdnerBeobZugeordnet") {
-                            window.apf.beschrifteOrdner(zielNode);
+                            beschrifteOrdner(zielNode);
                         } else {
-                            window.apf.beschrifteOrdner(zielParentNode);
+                            beschrifteOrdner(zielParentNode);
                         }
 
                         // Nicht beurteilt: Deaktivieren
@@ -529,11 +530,11 @@ module.exports = function (ApArtId) {
                         localStorage.beobtyp = "beobNichtZuzuordnen";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                        beschrifteOrdner(window.apf.herkunftParentNode);
                         if (zielNodeTyp === "apOrdnerBeobNichtZuzuordnen") {
-                            window.apf.beschrifteOrdner(zielNode);
+                            beschrifteOrdner(zielNode);
                         } else {
-                            window.apf.beschrifteOrdner(zielParentNode);
+                            beschrifteOrdner(zielParentNode);
                         }
 
                         // Nicht beurteilt: Deaktivieren
@@ -563,11 +564,11 @@ module.exports = function (ApArtId) {
                     localStorage.beobtyp = "beobNichtBeurteilt";
 
                     // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                    window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                    beschrifteOrdner(window.apf.herkunftParentNode);
                     if (zielNodeTyp === "apOrdnerBeobNichtBeurteilt") {
-                        window.apf.beschrifteOrdner(zielNode);
+                        beschrifteOrdner(zielNode);
                     } else {
-                        window.apf.beschrifteOrdner(zielParentNode);
+                        beschrifteOrdner(zielParentNode);
                     }
 
                     // nicht zuzuordnen deaktivieren
@@ -596,11 +597,11 @@ module.exports = function (ApArtId) {
                         localStorage.beobtyp = "beobZugeordnet";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifteOrdner(window.apf.herkunftParentNode);
+                        beschrifteOrdner(window.apf.herkunftParentNode);
                         if (zielNodeTyp === "tpopOrdnerBeobZugeordnet") {
-                            window.apf.beschrifteOrdner(zielNode);
+                            beschrifteOrdner(zielNode);
                         } else {
-                            window.apf.beschrifteOrdner(zielParentNode);
+                            beschrifteOrdner(zielParentNode);
                         }
 
                         // nicht zuzuordnen deaktivieren
