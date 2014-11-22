@@ -23,30 +23,6 @@ module.exports = function () {
         return isDateSupported();
     };
 
-    // sucht features an einem Ort in der Karte
-    window.apf.olmap.sucheFeatures = function (pixel) {
-        var features = [];
-        window.apf.olmap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
-            features.push(feature);
-        });
-        return features;
-    };
-
-
-    // ermöglicht es, nach dem toolip zu sortieren
-    window.apf.vergleicheTPopZumSortierenNachTooltip = function (a, b) {
-        if (a.tooltip < b.tooltip) { return -1; }
-        if (a.tooltip > b.tooltip) { return 1; }
-        return 0;
-    };
-
-    window.apf.erstelleTPopNrLabel = function (popnr, tpopnr) {
-        // tooltip bzw. label vorbereiten: nullwerte ausblenden
-        popnr  = popnr  || '?';
-        tpopnr = tpopnr || '?';
-        return popnr + '/' + tpopnr;
-    };
-
     // GoogleMap: alle Marker löschen
     // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
     window.apf.gmap.clearMarkers = function () {

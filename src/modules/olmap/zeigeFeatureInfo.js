@@ -4,11 +4,11 @@
 var $                     = require('jquery'),
     _                     = require('underscore'),
     ol                    = require('ol'),
-    entfernePopupOverlays = require('./entfernePopupOverlays');
+    entfernePopupOverlays = require('./entfernePopupOverlays'),
+    sucheFeaturesAtPixel  = require('./sucheFeaturesAtPixel');
 
-// braucht $ wegen $.qtip
 module.exports = function (pixel, coordinate) {
-    var features = window.apf.olmap.sucheFeatures(pixel),
+    var features = sucheFeaturesAtPixel(pixel),
         overlay,
         popupId,
         popupIdArray = [],
@@ -36,11 +36,11 @@ module.exports = function (pixel, coordinate) {
                     popupText += '<h3>' + feature.get('popupTitle') + '</h3>';
                     popupText += feature.get('popupContent');
                 }
-                if (index + 1 < featuresMitTyp.length) {
+                if (index + 1  < featuresMitTyp.length) {
                     popupText += '<hr>';
                 }
             });
-            popupTitle = featuresMitTyp.length + ' Treffer';
+            popupTitle  = featuresMitTyp.length + ' Treffer';
             // als Koordinaten den Ort des Klicks nehmen
             koordinaten = coordinate;
         } else {
