@@ -161,31 +161,6 @@ module.exports = function () {
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 
-    (function ($) {
-        // friendly helper //tinyurl.com/6aow6yn
-        // Läuft durch alle Felder im Formular
-        // Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
-        // nicht vergessen: Typ, _id und _rev dazu geben, um zu speichern
-        $.fn.serializeObject = function () {
-            var o, a;
-            o = {};
-            a = this.serializeArray();
-            $.each(a, function () {
-                if (this.value) {
-                    if (o[this.name]) {
-                        if (!o[this.name].push) {
-                            o[this.name] = [o[this.name]];
-                        }
-                        o[this.name].push(this.value);
-                    } else {
-                        o[this.name] = this.value;
-                    }
-                }
-            });
-            return o;
-        };
-    })(jQuery);
-
     window.apf.olmap.getLayerNames = function () {
         var layerObjektArray = window.apf.olmap.map.getLayers().getArray(),
             layers = _.map(layerObjektArray, function (layerObjekt) {
