@@ -1,31 +1,44 @@
 /*jslint node: true, browser: true, nomen: true, todo: true, white: true */
 'use strict';
 
-var $                       = require('jquery'),
-    _                       = require('underscore'),
-    Uri                     = require('Uri'),
-    initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
-    initiiereAp             = require('./initiiereAp'),
-    initiierePop            = require('./initiierePop'),
-    initiiereApziel         = require('./initiiereApziel'),
-    initiiereErfkrit        = require('./initiiereErfkrit'),
-    initiiereZielber        = require('./initiiereZielber'),
-    initiiereJber           = require('./initiiereJber'),
-    initiiereJberUebersicht = require('./initiiereJberUebersicht'),
-    initiiereBer            = require('./initiiereBer'),
-    initiierePopMassnBer    = require('./initiierePopMassnBer'),
-    initiiereTPop           = require('./initiiereTPop'),
-    initiierePopBer         = require('./initiierePopBer'),
-    initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
-    initiiereTPopMassn      = require('./initiiereTPopMassn'),
-    initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
-    initiiereTPopBer        = require('./initiiereTPopBer'),
-    initiiereBeob           = require('./initiiereBeob'),
-    erstelleTree            = require('./jstree/erstelleTree'),
-    setzeWindowAp           = require('./setzeWindowAp'),
-    setzeWindowPop          = require('./setzeWindowPop'),
-    setzeWindowApziel       = require('./setzeWindowApziel'),
-    setzeWindowZielber      = require('./setzeWindowZielber');
+var $                         = require('jquery'),
+    _                         = require('underscore'),
+    Uri                       = require('Uri'),
+    initiiereIdealbiotop      = require('./initiiereIdealbiotop'),
+    initiiereAp               = require('./initiiereAp'),
+    initiierePop              = require('./initiierePop'),
+    initiiereApziel           = require('./initiiereApziel'),
+    initiiereErfkrit          = require('./initiiereErfkrit'),
+    initiiereZielber          = require('./initiiereZielber'),
+    initiiereJber             = require('./initiiereJber'),
+    initiiereJberUebersicht   = require('./initiiereJberUebersicht'),
+    initiiereBer              = require('./initiiereBer'),
+    initiierePopMassnBer      = require('./initiierePopMassnBer'),
+    initiiereTPop             = require('./initiiereTPop'),
+    initiierePopBer           = require('./initiierePopBer'),
+    initiiereTPopFeldkontr    = require('./initiiereTPopFeldkontr'),
+    initiiereTPopMassn        = require('./initiiereTPopMassn'),
+    initiiereTPopMassnBer     = require('./initiiereTPopMassnBer'),
+    initiiereTPopBer          = require('./initiiereTPopBer'),
+    initiiereBeob             = require('./initiiereBeob'),
+    erstelleTree              = require('./jstree/erstelleTree'),
+    setzeWindowAp             = require('./setzeWindowAp'),
+    setzeWindowPop            = require('./setzeWindowPop'),
+    setzeWindowApziel         = require('./setzeWindowApziel'),
+    setzeWindowZielber        = require('./setzeWindowZielber'),
+    setzeWindowErfkrit        = require('./setzeWindowErfkrit'),
+    setzeWindowJber           = require('./setzeWindowJber'),
+    setzeWindowJberUebersicht = require('./setzeWindowJberUebersicht'),
+    setzeWindowBer            = require('./setzeWindowBer'),
+    setzeWindowIdealbiotop    = require('./setzeWindowIdealbiotop'),
+    setzeWindowAssozarten     = require('./setzeWindowAssozarten'),
+    setzeWindowPopmassnber    = require('./setzeWindowPopmassnber'),
+    setzeWindowTpop           = require('./setzeWindowTpop'),
+    setzeWindowPopber         = require('./setzeWindowPopber'),
+    setzeWindowTpopfeldkontr  = require('./setzeWindowTpopfeldkontr'),
+    setzeWindowTpopmassn      = require('./setzeWindowTpopmassn'),
+    setzeWindowTpopmassnber   = require('./setzeWindowTpopmassnber'),
+    setzeWindowTpopber        = require('./setzeWindowTpopber');
 
 module.exports = function () {
     var uri                     = new Uri($(location).attr('href')),
@@ -44,7 +57,7 @@ module.exports = function () {
         zielberId               = uri.getQueryParamValue('zielber'),
         erfkritId               = uri.getQueryParamValue('erfkrit'),
         jberId                  = uri.getQueryParamValue('jber'),
-        jber_uebersichtId       = uri.getQueryParamValue('jberUebersicht'),
+        jberUebersichtId        = uri.getQueryParamValue('jberUebersicht'),
         berId                   = uri.getQueryParamValue('ber'),
         idealbiotopId           = uri.getQueryParamValue('idealbiotop'),
         assozartenId            = uri.getQueryParamValue('assozarten'),
@@ -69,7 +82,7 @@ module.exports = function () {
     if (zielberId)         { zielberId         = parseInt(zielberId, 10); }
     if (erfkritId)         { erfkritId         = parseInt(erfkritId, 10); }
     if (jberId)            { jberId            = parseInt(jberId, 10); }
-    if (jber_uebersichtId) { jber_uebersichtId = parseInt(jber_uebersichtId, 10); }
+    if (jberUebersichtId)  { jberUebersichtId  = parseInt(jberUebersichtId, 10); }
     if (berId)             { berId             = parseInt(berId, 10); }
     if (idealbiotopId)     { idealbiotopId     = parseInt(idealbiotopId, 10); }
     if (assozartenId)      { assozartenId      = parseInt(assozartenId, 10); }
@@ -77,22 +90,22 @@ module.exports = function () {
     // zuerst die globalen Variabeln setzen
     if (apId)              { setzeWindowAp(apId); }
     if (popId)             { setzeWindowPop(popId); }
-    if (tpopId)            { window.apf.setzeWindowTpop(tpopId); }
-    if (tpopfeldkontrId)   { window.apf.setzeWindowTpopfeldkontr(tpopfeldkontrId); }
-    if (tpopfreiwkontrId)  { window.apf.setzeWindowTpopfeldkontr(tpopfreiwkontrId); }
-    if (tpopmassnId)       { window.apf.setzeWindowTpopmassn(tpopmassnId); }
-    if (tpopberId)         { window.apf.setzeWindowTpopber(tpopberId); }
-    if (tpopmassnberId)    { window.apf.setzeWindowTpopmassnber(tpopmassnberId); }
-    if (popberId)          { window.apf.setzeWindowPopber(popberId); }
-    if (popmassnberId)     { window.apf.setzeWindowPopmassnber(popmassnberId); }
+    if (tpopId)            { setzeWindowTpop(tpopId); }
+    if (tpopfeldkontrId)   { setzeWindowTpopfeldkontr(tpopfeldkontrId); }
+    if (tpopfreiwkontrId)  { setzeWindowTpopfeldkontr(tpopfreiwkontrId); }
+    if (tpopmassnId)       { setzeWindowTpopmassn(tpopmassnId); }
+    if (tpopberId)         { setzeWindowTpopber(tpopberId); }
+    if (tpopmassnberId)    { setzeWindowTpopmassnber(tpopmassnberId); }
+    if (popberId)          { setzeWindowPopber(popberId); }
+    if (popmassnberId)     { setzeWindowPopmassnber(popmassnberId); }
     if (apzielId)          { setzeWindowApziel(apzielId); }
     if (zielberId)         { setzeWindowZielber(zielberId); }
-    if (erfkritId)         { window.apf.setzeWindowErfkrit(erfkritId); }
-    if (jberId)            { window.apf.setzeWindowJber(jberId); }
-    if (jber_uebersichtId) { window.apf.setzeWindowJberUebersicht(jber_uebersichtId); }
-    if (berId)             { window.apf.setzeWindowBer(berId); }
-    if (idealbiotopId)     { window.apf.setzeWindowIdealbiotop(idealbiotopId); }
-    if (assozartenId)      { window.apf.setzeWindowAssozarten(assozartenId); }
+    if (erfkritId)         { setzeWindowErfkrit(erfkritId); }
+    if (jberId)            { setzeWindowJber(jberId); }
+    if (jberUebersichtId)  { setzeWindowJberUebersicht(jberUebersichtId); }
+    if (berId)             { setzeWindowBer(berId); }
+    if (idealbiotopId)     { setzeWindowIdealbiotop(idealbiotopId); }
+    if (assozartenId)      { setzeWindowAssozarten(assozartenId); }
 
     if (apId) {
         // Dem Feld im Formular den Wert zuweisen
@@ -195,11 +208,11 @@ module.exports = function () {
             window.apf.jberZeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
             initiiereJber(apId, jberId);
-        } else if (jber_uebersichtId) {
+        } else if (jberUebersichtId) {
             // markieren, dass nach dem loaded-event im Tree die jberUebersicht angezeigt werden soll 
             window.apf.jberUebersichtZeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
-            initiiereJberUebersicht(apId, jber_uebersichtId);
+            initiiereJberUebersicht(apId, jberUebersichtId);
         } else if (berId) {
             // markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
             window.apf.berZeigen = true;
