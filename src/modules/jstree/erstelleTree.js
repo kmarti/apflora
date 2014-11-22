@@ -16,7 +16,7 @@ var $                            = require('jquery'),
     select_node                  = require('./select_node'),
     pruefeSchreibvoraussetzungen = require('../pruefeSchreibvoraussetzungen'),
     beschrifteOrdner             = require('../beschrifteOrdner'),
-    setzeTreehoehe               = require('../setzeTreehoehe');
+    setzeTreehoehe               = require('./setzeTreehoehe');
 
 module.exports = function (ApArtId) {
     var jstreeErstellt = $.Deferred(),

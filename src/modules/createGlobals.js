@@ -23,17 +23,6 @@ module.exports = function () {
         return isDateSupported();
     };
 
-    window.apf.berechneOlmapLayertreeMaxhoehe = function () {
-        var lytMaxHeight;
-        if ($(window).width() > 1000) {
-            lytMaxHeight = $(window).height() - 115;
-        } else {
-            // Spalten sind untereinander
-            lytMaxHeight = 200;
-        }
-        return lytMaxHeight;
-    };
-
     window.apf.olmap.getLayerNames = function () {
         var layerObjektArray = window.apf.olmap.map.getLayers().getArray(),
             layers = _.map(layerObjektArray, function (layerObjekt) {

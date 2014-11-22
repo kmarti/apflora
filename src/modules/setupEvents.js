@@ -27,7 +27,7 @@ var $                             = require('jquery'),
     entferneLayerNachName         = require('./olmap/entferneLayerNachName'),
     deaktiviereOlmapAuswahl       = require('./olmap/deaktiviereOlmapAuswahl'),
     initiiereExporte              = require('./initiiereExporte'),
-    setzeTreehoehe                = require('./setzeTreehoehe');
+    setzeTreehoehe                = require('./jstree/setzeTreehoehe');
 
 module.exports = function () {
     $('#olmap_layertree')

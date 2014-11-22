@@ -3,7 +3,7 @@
 
 var $              = require('jquery'),
     initiiereAp    = require('../initiiereAp'),
-    setzeTreehoehe = require('../setzeTreehoehe');
+    setzeTreehoehe = require('./setzeTreehoehe');
 
 module.exports = function (ApArtId) {
     setzeTreehoehe();

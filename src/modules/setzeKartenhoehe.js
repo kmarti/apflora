@@ -1,11 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $      = require('jquery'),
-    google = require('google');
+var $                         = require('jquery'),
+    google                    = require('google'),
+    berechneLayertreeMaxhoehe = require('./olmap/berechneLayertreeMaxhoehe');
 
 module.exports = function () {
-    var lytMaxHeight = window.apf.berechneOlmapLayertreeMaxhoehe,
+    var lytMaxHeight = berechneLayertreeMaxhoehe,
         formsHeight,
         maxWidth;
 

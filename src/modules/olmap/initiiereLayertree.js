@@ -6,8 +6,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true, plusplus: true */
 'use strict';
 
-var _ = require('underscore'),
-    $ = require('jquery');
+var _                         = require('underscore'),
+    $                         = require('jquery'),
+    berechneLayertreeMaxhoehe = require('./berechneLayertreeMaxhoehe');
 
 module.exports = function (activeKategorie) {
     var layertitel,
@@ -208,7 +209,7 @@ module.exports = function (activeKategorie) {
     }
 
     // Maximalgrösse des Layertree begrenzen
-    $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhoehe);
+    $olmap_layertree_layers.css('max-height', berechneLayertreeMaxhoehe);
     // buttons initiieren
     $('.neues_layer')
         .button({
