@@ -25,7 +25,8 @@ var $                             = require('jquery'),
     kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop'),
     setzeKartenhoehe              = require('./setzeKartenhoehe'),
     entferneLayerNachName         = require('./olmap/entferneLayerNachName'),
-    deaktiviereOlmapAuswahl    = require('./olmap/deaktiviereOlmapAuswahl');
+    deaktiviereOlmapAuswahl       = require('./olmap/deaktiviereOlmapAuswahl'),
+    initiiereExporte              = require('./initiiereExporte');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -284,7 +285,7 @@ module.exports = function () {
             }
         })
         .on("click", ".exportieren", function () {
-            window.apf.initiiereExporte();
+            initiiereExporte();
         })
         .on("click", "[name=programm_wahl]", function () {
             waehleApListe($(this).attr("id"));

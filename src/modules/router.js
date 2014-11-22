@@ -18,7 +18,8 @@ var Backbone                = require('backbone'),
     initiiereTPopBer        = require('./initiiereTPopBer'),
     initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
     initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
-    initiiereTPopMassn      = require('./initiiereTPopMassn');
+    initiiereTPopMassn      = require('./initiiereTPopMassn'),
+    initiiereExporte        = require('./initiiereExporte');
 
 module.exports = Backbone.Router.extend({
     routes: {
@@ -133,7 +134,7 @@ module.exports = Backbone.Router.extend({
         initiiereTPopMassn(apId, popId, tpopId, massnId);
     },
     exportieren: function () {
-        window.apf.initiiereExporte();
+        initiiereExporte();
     },
     initialize: function() {
         //Backbone.history.start({pushState: true});

@@ -38,7 +38,8 @@ var $                         = require('jquery'),
     setzeWindowTpopfeldkontr  = require('./setzeWindowTpopfeldkontr'),
     setzeWindowTpopmassn      = require('./setzeWindowTpopmassn'),
     setzeWindowTpopmassnber   = require('./setzeWindowTpopmassnber'),
-    setzeWindowTpopber        = require('./setzeWindowTpopber');
+    setzeWindowTpopber        = require('./setzeWindowTpopber'),
+    initiiereExporte          = require('./initiiereExporte');
 
 module.exports = function () {
     var uri                     = new Uri($(location).attr('href')),
@@ -265,7 +266,7 @@ module.exports = function () {
         erstelleTree(apId);
     } else {
         if (exporte) {
-            window.apf.initiiereExporte(anchor);
+            initiiereExporte(anchor);
         }
     }
 };

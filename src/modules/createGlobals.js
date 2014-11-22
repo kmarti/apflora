@@ -23,17 +23,6 @@ module.exports = function () {
         return isDateSupported();
     };
 
-    window.apf.initiiereExporte = function (anchor) {
-        var zeigeFormular = require('./zeigeFormular');
-        $("#testart_div").hide();
-        $("#forms_titelzeile").hide();
-        zeigeFormular("exporte");
-        history.pushState(null, null, "index.html?exporte=true");
-        if (anchor) {
-            location.hash = "#" + anchor;
-        }
-    };
-
     // leert alle Felder und stellt ihre Breite ein
     window.apf.leereFelderVonFormular = function (Formular) {
         $('#' + Formular).find('input[type="text"]').each(function () {
