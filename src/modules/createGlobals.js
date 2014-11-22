@@ -23,24 +23,6 @@ module.exports = function () {
         return isDateSupported();
     };
 
-    // dieser Funktion kann man einen Wert zum speichern übergeben
-    window.apf.speichereWert = function (tabelle, id, feld, wert) {
-        var melde = require('./melde');
-
-        $.ajax({
-            type: 'post',
-            url: 'php/' + tabelle + '_update.php',
-            data: {
-                "id": id,
-                "Feld": feld,
-                "Wert": wert,
-                "user": sessionStorage.user
-            }
-        }).fail(function () {
-            melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
-        });
-    };
-
     // sucht features an einem Ort in der Karte
     window.apf.olmap.sucheFeatures = function (pixel) {
         var features = [];
