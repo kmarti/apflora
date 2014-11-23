@@ -10,7 +10,6 @@ var $                             = require('jquery'),
     fitTextareaToContent          = require('./fitTextareaToContent'),
     speichern                     = require('./speichern'),
     waehleApListe                 = require('./waehleApListe'),
-    frageNameFuerEbene            = require('./olmap/frageNameFuerEbene'),
     initiiereLayertree            = require('./olmap/initiiereLayertree'),
     stylePop                      = require('./olmap/stylePop'),
     styleTPop                     = require('./olmap/styleTPop'),
@@ -31,6 +30,7 @@ var $                             = require('jquery'),
     onClickLayertreePopStyle      = require('./events/onClickLayertreePopStyle'),
     onClickLayertreeTpopStyle     = require('./events/onClickLayertreeTpopStyle'),
     onClickModifyLayer            = require('./events/onClickModifyLayer'),
+    onClickRenameLayer            = require('./events/onClickRenameLayer'),
     onSelectmenuchangeExportLayerSelect      = require('./events/onSelectmenuchangeExportLayerSelect'),
     erstelleModifyInteractionFuerVectorLayer = require('./olmap/erstelleModifyInteractionFuerVectorLayer');
 
@@ -41,14 +41,7 @@ module.exports = function () {
         .on('click',            '.layertreeTpopStyle',     onClickLayertreeTpopStyle)
         .on('click',            '.modifyLayer',            onClickModifyLayer)
         .on('selectmenuchange', '.exportLayerSelect',      onSelectmenuchangeExportLayerSelect)
-        .on('click', '.rename_layer', function () {
-            // layer holen
-            var layerDiv   = $(this).parent().parent().siblings('input'),
-                layerIndex = layerDiv.val(),
-                layer      = window.apf.olmap.map.getLayers().getArray()[layerIndex];
-
-            frageNameFuerEbene(layer);
-        })
+        .on('click',            '.renameLayer',            onClickRenameLayer)
         .on('click', '.entferne_layer', function () {
             // layer holen
             var layerDiv   = $(this).parent().parent().siblings('input'),

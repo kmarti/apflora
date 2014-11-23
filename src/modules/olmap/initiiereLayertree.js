@@ -98,8 +98,8 @@ module.exports = function (activeKategorie) {
                 htmlProv += '<select id="modifyLayerGeomType' + layertitel.replace(" ", "_") + '" class="modifyLayerGeomType apf_tooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
                 htmlProv += '<div class="nonModifyOptions">';
                 htmlProv += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="exportLayerSelect apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
-                htmlProv += '<input type="checkbox" class="rename_layer" id="rename_layer_' + layertitel.replace(" ", "_") + '">';
-                htmlProv += '<label for="rename_layer_' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
+                htmlProv += '<input type="checkbox" class="renameLayer" id="renameLayer' + layertitel.replace(" ", "_") + '">';
+                htmlProv += '<label for="renameLayer' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
                 htmlProv += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
                 htmlProv += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
                 htmlProv += '</div>';
@@ -251,7 +251,7 @@ module.exports = function (activeKategorie) {
                     at: 'left top'
                 }
             });
-        $('.rename_layer')
+        $('.renameLayer')
             .button({
                 icons: { primary: 'ui-icon-tag' },
                 text: false
