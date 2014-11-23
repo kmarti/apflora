@@ -7,7 +7,7 @@ module.exports = function () {
     var layersArray,
         layers;
 
-    layersArray = window.apf.olmap.map.getLayers().getArray();
+    layersArray = window.apf.olMap.map.getLayers().getArray();
     layers = _.map(layersArray, function (layer) {
         if (layer.get('title')) {
             return layer;

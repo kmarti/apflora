@@ -2,9 +2,9 @@
 'use strict';
 
 module.exports = function () {
-    if (window.apf.olmap.dragBoxInteraction) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.dragBoxInteraction);
-        //window.apf.olmap.dragBoxInteraction.off('boxend');
-        delete window.apf.olmap.dragBoxInteraction;
+    if (window.apf.olMap.dragBoxInteraction) {
+        window.apf.olMap.map.removeInteraction(window.apf.olMap.dragBoxInteraction);
+        //window.apf.olMap.dragBoxInteraction.off('boxend');
+        delete window.apf.olMap.dragBoxInteraction;
     }
 };

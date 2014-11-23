@@ -2,13 +2,13 @@
 'use strict';
 
 var $               = require('jquery'),
-    exportiereLayer = require('../olmap/exportiereLayer');
+    exportiereLayer = require('../../olMap/exportiereLayer');
 
 module.exports = function () {
     // layer holen
     var $layerDiv     = $(this).parent().parent().siblings('input'),
         layerIndex    = $layerDiv.val(),
-        layer         = window.apf.olmap.map.getLayers().getArray()[layerIndex],
+        layer         = window.apf.olMap.map.getLayers().getArray()[layerIndex],
         $selectDiv    = this,
         selectedValue = $selectDiv.options[$selectDiv.selectedIndex].value;
 

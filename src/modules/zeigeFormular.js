@@ -8,7 +8,7 @@
 'use strict';
 
 var $                    = require('jquery'),
-    initiiereOlmap       = require('./olmap/initiiereOlmap'),
+    initiiereOlmap       = require('./olMap/initiiereOlmap'),
     fitTextareaToContent = require('./fitTextareaToContent'),
     setzeKartenhoehe     = require('./setzeKartenhoehe');
 
@@ -42,7 +42,7 @@ module.exports = function (Formularname) {
         // titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
         //$("#forms_titelzeile").css("display", "inline");
         $forms_titelzeile.css("display", "none");
-        if ($ap_waehlen.val() <= 150 && Formularname !== "jberUebersicht" && Formularname !== "exporte" && Formularname !== "GeoAdminKarte") {
+        if ($ap_waehlen.val() <= 150 && Formularname !== "jberUebersicht" && Formularname !== "exporte" && Formularname !== "olMap") {
             // titelzeile inline-block, sonst werden Tabs nach rechts verschoben
             $("#forms_titelzeile").css("display", "inline-block");
             $testart_div
@@ -62,7 +62,7 @@ module.exports = function (Formularname) {
         $forms.show();
         $("#ap_loeschen").show();
         $("#exportieren_1").hide();
-        if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
+        if (Formularname === "gMap" || Formularname === "olMap") {
             // Titelzeile entfernen
             $("#forms_titelzeile").css("display", "none");
             // höhe einstellen
@@ -72,7 +72,7 @@ module.exports = function (Formularname) {
             window.apf.kartenhoeheManuell = true;
             setzeKartenhoehe();
             $Formularname.show();
-            if (Formularname === "GeoAdminKarte") {
+            if (Formularname === "olMap") {
                 initiiereOlmap();
             }
         } else {

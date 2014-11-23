@@ -8,7 +8,7 @@ var ol                      = require('ol'),
     detailplanStyleSelected = require('./detailplanStyleSelected');
 
 module.exports = function () {
-    window.apf.olmap.map.olmapSelectInteraction = new ol.interaction.Select({
+    window.apf.olMap.map.olmapSelectInteraction = new ol.interaction.Select({
         layers: function (layer) {
             return layer.get('selectable') === true;
         },
@@ -23,7 +23,7 @@ module.exports = function () {
             }
         }
     });
-    window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmapSelectInteraction);
+    window.apf.olMap.map.addInteraction(window.apf.olMap.map.olmapSelectInteraction);
     // man soll auch mit dragbox selecten können
     addDragBoxForPopTpop();
 };

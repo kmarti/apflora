@@ -6,8 +6,8 @@ var pruefeObAngemeldet = require('./pruefeObAngemeldet'),
 
 // benötigte globale Variabeln initialisieren
 window.apf       = window.apf       || {};
-window.apf.gmap  = window.apf.gmap  || {};
-window.apf.olmap = window.apf.olmap || {};
+window.apf.gMap  = window.apf.gMap  || {};
+window.apf.olMap = window.apf.olMap || {};
 
 module.exports = function () {
     // das muss aus unerfindlichem Grund direkt von index.html aus aufgerufen werden
@@ -57,12 +57,12 @@ module.exports = function () {
     };
 
     // wird in index.html verwendet
-    window.apf.olmap.messe = function (element) {
-        require('./olmap/messe')(element);
+    window.apf.olMap.messe = function (element) {
+        require('./olMap/messe')(element);
     };
 
     // wird in index.html verwendet
-    window.apf.olmap.waehleAus = function () {
-        require('./olmap/waehleAus')();
+    window.apf.olMap.waehleAus = function () {
+        require('./olMap/waehleAus')();
     };
 };

@@ -5,12 +5,12 @@ var zeigeFeatureInfo              = require('./zeigeFeatureInfo'),
     pruefeObPopTpopGewaehltWurden = require('./pruefeObPopTpopGewaehltWurden');
 
 module.exports = function () {
-    window.apf.olmap.map.on('singleclick', function (event) {
+    window.apf.olMap.map.on('singleclick', function (event) {
         var pixel      = event.pixel,
             coordinate = event.coordinate;
 
         // nur machen, wenn nicht selektiert wird
-        if (!window.apf.olmap.map.olmapSelectInteraction) {
+        if (!window.apf.olMap.map.olmapSelectInteraction) {
             zeigeFeatureInfo(pixel, coordinate);
         }
         // prüfen, ob pop / tpop gewählt wurden

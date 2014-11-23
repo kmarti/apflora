@@ -3,7 +3,7 @@
 
 var $                         = require('jquery'),
     google                    = require('google'),
-    berechneLayertreeMaxhoehe = require('./olmap/berechneLayertreeMaxhoehe');
+    berechneLayertreeMaxhoehe = require('./olMap/berechneLayertreeMaxhoehe');
 
 module.exports = function () {
     var lytMaxHeight = berechneLayertreeMaxhoehe,
@@ -20,13 +20,13 @@ module.exports = function () {
             .css('max-width', maxWidth)
             //.css('height', formsHeight)
             .css('max-height', formsHeight);
-        if (window.apf.olmap && window.apf.olmap.map) {
-            window.apf.olmap.map.updateSize();
+        if (window.apf.olMap && window.apf.olMap.map) {
+            window.apf.olMap.map.updateSize();
             // Maximalgrösse des Layertree begrenzen
             $('#olmap_layertree_layers').css('max-height', lytMaxHeight);
         }
-        if (google !== undefined && google.maps && window.apf.gmap && window.apf.gmap.map !== undefined) {
-            google.maps.event.trigger(window.apf.gmap.map, 'resize');
+        if (google !== undefined && google.maps && window.apf.gMap && window.apf.gMap.map !== undefined) {
+            google.maps.event.trigger(window.apf.gMap.map, 'resize');
         }
     } else {
         $("#forms").height('auto');

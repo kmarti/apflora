@@ -10,16 +10,16 @@ module.exports = function () {
 
     if ('download' in exportPNGElement) {
         exportPNGElement.addEventListener('click', function (e) {
-            window.apf.olmap.map.once('postcompose', function (e) {
+            window.apf.olMap.map.once('postcompose', function (e) {
                 var canvas = e.context.canvas;
                 exportPNGElement.href = canvas.toDataURL('image/png');
             });
-            window.apf.olmap.map.renderSync();
+            window.apf.olMap.map.renderSync();
         }, false);
         // jetzt wird es schräg: der Download beginnt erst beim zweiten Click
-        if (!window.apf.olmap.recentlyClicked) {
+        if (!window.apf.olMap.recentlyClicked) {
             // beim ersten mal soll der Event gleich wiederholt werden
-            window.apf.olmap.recentlyClicked = true;
+            window.apf.olMap.recentlyClicked = true;
             // warten, sonst kommen zwei Downloads
             setTimeout(function () {
                 exportPNGElement.click();

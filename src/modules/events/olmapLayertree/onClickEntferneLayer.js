@@ -2,15 +2,15 @@
 'use strict';
 
 var $ = require('jquery'),
-    entferneLayerNachName = require('../olmap/entferneLayerNachName'),
-    initiiereLayertree    = require('../olmap/initiiereLayertree'),
-    melde                 = require('../melde');
+    entferneLayerNachName = require('../../olMap/entferneLayerNachName'),
+    initiiereLayertree    = require('../../olMap/initiiereLayertree'),
+    melde                 = require('../../melde');
 
 module.exports = function () {
     // layer holen
     var layerDiv   = $(this).parent().parent().siblings('input'),
         layerIndex = layerDiv.val(),
-        layer      = window.apf.olmap.map.getLayers().getArray()[layerIndex],
+        layer      = window.apf.olMap.map.getLayers().getArray()[layerIndex],
         layerName  = layer.get('title');
 
     if (layerName) {

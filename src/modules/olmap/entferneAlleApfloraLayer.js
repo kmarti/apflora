@@ -10,10 +10,10 @@ module.exports = function () {
         title,
         zuLoeschendeLayer = [];
 
-    if (window.apf.olmap && window.apf.olmap.map) {
+    if (window.apf.olMap && window.apf.olMap.map) {
         // getLayers retourniert ein Objekt!!!
         // um die eigentlichen Layers zu erhalten, muss man .getLayers().getArray() aufrufen!!!
-        layersArray = window.apf.olmap.map.getLayers().getArray();
+        layersArray = window.apf.olMap.map.getLayers().getArray();
         // zuerst nur einen Array mit den zu löschenden Layern erstellen
         // wenn man sofort löscht, wird nur der erste entfernt!
         _.each(layersArray, function (layer) {
@@ -24,7 +24,7 @@ module.exports = function () {
             }
         });
         _.each(zuLoeschendeLayer, function (layer) {
-            window.apf.olmap.map.removeLayer(layer);
+            window.apf.olMap.map.removeLayer(layer);
         });
         initiiereLayertree();
     }

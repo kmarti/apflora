@@ -2132,25 +2132,25 @@
                     </div>
                 </form>
 
-                <div id="google_karte" class="karte">
-                    <button id='distanz_messen'>Distanz messen</button>
-                    <button id='distanz_messen_entfernen'>Messung entfernen</button>
-                    <div class="google_detailplaene_div"><input id="google_karte_detailplaene_checkbox" type="checkbox" class="google_karte_detailplaene_checkbox"><label for="google_karte_detailplaene_checkbox">Detailpläne</label></div>
-                    <div id="google_karten_div" style="width:100%; height:100%;">
+                <div id="gMap" class="karte">
+                    <button id='gMapDistanzMessen'>Distanz messen</button>
+                    <button id='gMapDistanzMessenEntfernen'>Messung entfernen</button>
+                    <div class="gMapDetailplaeneDiv"><input id="gMapDetailplaeneCheckbox" type="checkbox" class="gMapDetailplaeneCheckbox"><label for="gMapDetailplaeneCheckbox">Detailpläne</label></div>
+                    <div id="gMapDiv" style="width:100%; height:100%;">
                     </div>
                 </div>
                 
-                <div id="GeoAdminKarte" class="karte">
+                <div id="olMap" class="karte">
                     <div id="ga_karten_div">
                         <div id='menuleiste'>
                             <span id="messen">
-                                <input type="radio" name="type" value="olmap_infos_abfragen" id="olmap_infos_abfragen" onclick="window.apf.olmap.messe(this);" checked="checked">
+                                <input type="radio" name="type" value="olmap_infos_abfragen" id="olmap_infos_abfragen" onclick="window.apf.olMap.messe(this);" checked="checked">
                                 <label id="label_olmap_infos_abfragen" for="olmap_infos_abfragen" title="Infos abfragen: auf Objekte klicken<br>Zoomen: Mausrad drehen<br>Auf Rechteck Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Infos abfragen</label>
-                                <input type="radio" name="type" value="line" id="olmap_distanz_messen" onclick="window.apf.olmap.messe(this);">
+                                <input type="radio" name="type" value="line" id="olmap_distanz_messen" onclick="window.apf.olMap.messe(this);">
                                 <label id="label_olmap_distanz_messen" for="olmap_distanz_messen" title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
-                                <input type="radio" name="type" value="polygon" id="olmap_flaeche_messen" onclick="window.apf.olmap.messe(this);">
+                                <input type="radio" name="type" value="polygon" id="olmap_flaeche_messen" onclick="window.apf.olMap.messe(this);">
                                 <label id="label_olmap_flaeche_messen" for="olmap_flaeche_messen" title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
-                                <input type="radio" name="type" value="drawPolygon" id="olmap_auswaehlen" onclick="window.apf.olmap.waehleAus();">
+                                <input type="radio" name="type" value="drawPolygon" id="olmap_auswaehlen" onclick="window.apf.olMap.waehleAus();">
                                 <label id="label_olmap_auswaehlen" for="olmap_auswaehlen" title="Einzelne Objekte wählen: drauf klicken<br>Weitere hinzufügen: SHIFT-Taste halten und weitere Objekte anklicken<br>Rechteck wählen: ALT-Taste halten und mit der Maus ein Rechteck aufziehen<br>Auswahl löschen: auf einen leeren Bereich der Karte klicken">auswählen</label>
                             </span>
                             <ol id='ergebnisMessung' reversed></ol>

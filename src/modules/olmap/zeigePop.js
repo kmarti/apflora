@@ -13,21 +13,21 @@ module.exports = function (popListeMarkiert) {
     var markiertePop;
 
     // falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
-    if (window.apf.olmap.LetzterKlickHandler) {
-        window.apf.olmap.LetzterKlickHandler.deactivate();
+    if (window.apf.olMap.LetzterKlickHandler) {
+        window.apf.olMap.LetzterKlickHandler.deactivate();
     }
 
     markiertePop = waehleAusschnittFuerUebergebenePop(popListeMarkiert);
 
     // Grundkarte aufbauen
-    $.when(zeigeFormular("GeoAdminKarte")).then(function () {
+    $.when(zeigeFormular("olMap")).then(function () {
         // Karte zum richtigen Ausschnitt zoomen
         // aber nur, wenn keine Auswahl aktiv
-        if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
+        if (window.apf.olMap.auswahlPolygonLayer && window.apf.olMap.auswahlPolygonLayer.features.length > 0) {
             // Auswahl aktiv, Zoomstufe belassen
         } else {
-            window.apf.olmap.map.updateSize();
-            window.apf.olmap.map.getView().fitExtent(markiertePop.bounds, window.apf.olmap.map.getSize());
+            window.apf.olMap.map.updateSize();
+            window.apf.olMap.map.getView().fitExtent(markiertePop.bounds, window.apf.olMap.map.getSize());
         }
         // tpop und pop ergänzen
         // alle tpop holen

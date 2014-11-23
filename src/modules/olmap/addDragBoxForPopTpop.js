@@ -7,7 +7,7 @@ var $                             = require('jquery'),
 
 module.exports = function () {
     // interaction erstellen
-    window.apf.olmap.dragBoxInteraction = new ol.interaction.DragBox({
+    window.apf.olMap.dragBoxInteraction = new ol.interaction.DragBox({
         /* dragbox interaction is active only if alt key is pressed */
         condition: ol.events.condition.altKeyOnly,
         /* style the box */
@@ -21,20 +21,20 @@ module.exports = function () {
             })
         })
     });
-    window.apf.olmap.map.addInteraction(window.apf.olmap.dragBoxInteraction);
+    window.apf.olMap.map.addInteraction(window.apf.olMap.dragBoxInteraction);
 
     // Aktion bei boxend erstellen
-    window.apf.olmap.dragBoxInteraction.on('boxend', function () {
-        var geometry         = window.apf.olmap.dragBoxInteraction.getGeometry(),
+    window.apf.olMap.dragBoxInteraction.on('boxend', function () {
+        var geometry         = window.apf.olMap.dragBoxInteraction.getGeometry(),
             extent           = geometry.getExtent(),
-            layers           = window.apf.olmap.map.getLayers().getArray(),
+            layers           = window.apf.olMap.map.getLayers().getArray(),
             popLayerNr       = $('#olmapLayertreePopulationen').val(),
             popLayer         = layers[popLayerNr],
             tpopLayerNr      = $('#olmapLayertreeTeilpopulationen').val(),
             tpopLayer        = layers[tpopLayerNr],
             popLayerSource   = popLayer.getSource(),
             tpopLayerSource  = tpopLayer.getSource(),
-            selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
+            selectedFeatures = window.apf.olMap.map.olmapSelectInteraction.getFeatures().getArray();
 
         if (popLayer.get('visible') === true) {
             popLayerSource.forEachFeatureInExtent(extent, function (feature) {

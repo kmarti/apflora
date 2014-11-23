@@ -2,13 +2,13 @@
 'use strict';
 
 var $                  = require('jquery'),
-    frageNameFuerEbene = require('../olmap/frageNameFuerEbene');
+    frageNameFuerEbene = require('../../olMap/frageNameFuerEbene');
 
 module.exports = function () {
     // layer holen
     var layerDiv   = $(this).parent().parent().siblings('input'),
         layerIndex = layerDiv.val(),
-        layer      = window.apf.olmap.map.getLayers().getArray()[layerIndex];
+        layer      = window.apf.olMap.map.getLayers().getArray()[layerIndex];
 
     frageNameFuerEbene(layer);
 };

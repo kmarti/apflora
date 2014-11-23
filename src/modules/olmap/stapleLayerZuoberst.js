@@ -5,8 +5,8 @@ var _                  = require('underscore'),
     initiiereLayertree = require('./initiiereLayertree');
 
 module.exports = function (layerTitle) {
-    var layers      = window.apf.olmap.map.getLayers(),
-        layersArray = window.apf.olmap.map.getLayers().getArray(),
+    var layers      = window.apf.olMap.map.getLayers(),
+        layersArray = window.apf.olMap.map.getLayers().getArray(),
         topLayer;
 
     _.each(layersArray, function (layer, index) {

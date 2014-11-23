@@ -6,7 +6,7 @@ var $  = require('jquery'),
 
 module.exports = function () {
     var myFullScreenControl = new ol.control.FullScreen();
-    window.apf.olmap.map.addControl(myFullScreenControl);
+    window.apf.olMap.map.addControl(myFullScreenControl);
     // auf Deutsch beschriften
     $('#ga_karten_div')
         .find('.ol-full-screen')

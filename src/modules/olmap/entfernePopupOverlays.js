@@ -5,7 +5,7 @@ var _ = require('underscore'),
     $ = require('jquery');
 
 module.exports = function () {
-    var overlays = window.apf.olmap.map.getOverlays().getArray(),
+    var overlays = window.apf.olMap.map.getOverlays().getArray(),
         zuLoeschendeOverlays = [];
 
     _.each(overlays, function (overlay) {
@@ -15,7 +15,7 @@ module.exports = function () {
     });
 
     _.each(zuLoeschendeOverlays, function (overlay) {
-        window.apf.olmap.map.removeOverlay(overlay);
+        window.apf.olMap.map.removeOverlay(overlay);
     });
 
     // alle qtips entfernen

@@ -2,10 +2,10 @@
 'use strict';
 
 var $        = require('jquery'),
-    stylePop = require('../olmap/stylePop');
+    stylePop = require('../../olMap/stylePop');
 
 module.exports = function () {
-    var layers = window.apf.olmap.map.getLayers().getArray(),
+    var layers = window.apf.olMap.map.getLayers().getArray(),
         layer  = $('#olmapLayertreePopulationen').val(),
         that   = this;
 

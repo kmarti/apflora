@@ -4,8 +4,8 @@
 var $  = require('jquery');
 
 module.exports = function () {
-    if (window.apf.olmap.auswahlPolygonLayer) {
-        window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
+    if (window.apf.olMap.auswahlPolygonLayer) {
+        window.apf.olMap.auswahlPolygonLayer.removeAllFeatures();
     }
     if (window.drawControl) {
         window.drawControl.deactivate();

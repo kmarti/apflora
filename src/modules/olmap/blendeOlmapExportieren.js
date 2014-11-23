@@ -9,9 +9,9 @@ module.exports = function () {
         anzKartenpixel,
         tooltipTitle;
 
-    mapSize = window.apf.olmap.map.getSize();
+    mapSize = window.apf.olMap.map.getSize();
     // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
-    anzKartenpixel = /*window.apf.olmap.map.getView().getResolution() * */mapSize[0] * mapSize[1];
+    anzKartenpixel = /*window.apf.olMap.map.getView().getResolution() * */mapSize[0] * mapSize[1];
     $('#olmap_exportieren').button();
     /*if (anzKartenpixel > 500000) {
         $('#olmap_exportieren').button("disable");

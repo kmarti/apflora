@@ -19,8 +19,8 @@ module.exports = function (popSelected, tpopSelected) {
         exportierenTPop;
 
     // globale Variabeln anlegen, damit die Exportfunktionen sie später nutzen können
-    window.apf.olmap.popSelected  = popSelected;
-    window.apf.olmap.tpopSelected = tpopSelected;
+    window.apf.olMap.popSelected  = popSelected;
+    window.apf.olMap.tpopSelected = tpopSelected;
 
     if (popSelected.length > 0) {
         // pop nach nr sortieren

@@ -4,7 +4,7 @@
 var $                          = require('jquery'),
     erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
     melde                      = require('../melde'),
-    verorteTPop                = require('../gmap/verorteTPop');
+    verorteTPop                = require('../gMap/verorteTPop');
 
 module.exports = function (nodeTpopId) {
     $.ajax({

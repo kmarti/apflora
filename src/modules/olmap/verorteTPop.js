@@ -41,7 +41,7 @@ module.exports = function (tpop) {
                 return styleTPop(feature, resolution, false, true);
             }
         });
-        window.apf.olmap.map.addLayer(modifyLayer);
+        window.apf.olMap.map.addLayer(modifyLayer);
 
         if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
             // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
@@ -57,21 +57,21 @@ module.exports = function (tpop) {
             // modify-handler erstellen
             erstelleModifyInteractionFuerTPop(modifySource);
             // Karte zum richtigen Ausschnitt zoomen
-            window.apf.olmap.map.updateSize();
-            window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
+            window.apf.olMap.map.updateSize();
+            window.apf.olMap.map.getView().fitExtent(bounds, window.apf.olMap.map.getSize());
             // verzögern, sonst funktioniert es nicht
             setTimeout(function () {
                 stapleLayerZuoberst('verortende Teilpopulation');
             }, 200);
         } else {
             // wenn keine Koordinate existiert:
-            window.apf.olmap.draw_interaction = new ol.interaction.Draw({
+            window.apf.olMap.draw_interaction = new ol.interaction.Draw({
                 source: modifySource,
                 type: /** @type {ol.geom.GeometryType} */ ('Point')
             });
-            window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
+            window.apf.olMap.map.addInteraction(window.apf.olMap.draw_interaction);
 
-            window.apf.olmap.draw_interaction.once('drawend', function (event) {
+            window.apf.olMap.draw_interaction.once('drawend', function (event) {
                 var coordinates = event.feature.getGeometry().getCoordinates();
                 // Koordinaten in tpop ergänzen
                 tpop.TPopXKoord = parseInt(coordinates[0], 10);
@@ -79,7 +79,7 @@ module.exports = function (tpop) {
                 $.when(aktualisiereKoordinatenVonTPop(tpop)).then(function () {
                     // marker in tpopLayer ergänzen
                     // tpopLayer holen
-                    var layers          = window.apf.olmap.map.getLayers().getArray(),
+                    var layers          = window.apf.olMap.map.getLayers().getArray(),
                         tpopLayerNr     = $('#olmapLayertreeTeilpopulationen').val(),
                         tpopLayer       = layers[tpopLayerNr],
                         tpopLayerSource = tpopLayer.getSource();
@@ -88,7 +88,7 @@ module.exports = function (tpop) {
                     // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
                     removeSelectFeaturesInSelectableLayers();
                 });
-                window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
+                window.apf.olMap.map.removeInteraction(window.apf.olMap.draw_interaction);
                 // modify-interaction erstellen
                 erstelleModifyInteractionFuerTPop(modifySource);
             }, this);

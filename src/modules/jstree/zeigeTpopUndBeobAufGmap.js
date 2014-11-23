@@ -4,8 +4,8 @@
 var $                          = require('jquery'),
     erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
     melde                      = require('../melde'),
-    zeigeBeobUndTPop           = require('../gmap/zeigeBeobUndTPop'),
-    zeigeBeob                  = require('../gmap/zeigeBeob');
+    zeigeBeobUndTPop           = require('../gMap/zeigeBeobUndTPop'),
+    zeigeBeob                  = require('../gMap/zeigeBeob');
 
 module.exports = function (nodeBeobId) {
     $.ajax({

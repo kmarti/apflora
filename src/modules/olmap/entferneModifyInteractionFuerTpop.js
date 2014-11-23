@@ -2,8 +2,8 @@
 'use strict';
 
 module.exports = function () {
-    if (window.apf.olmap.modifyInteraction) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteraction);
-        delete window.apf.olmap.modifyInteraction;
+    if (window.apf.olMap.modifyInteraction) {
+        window.apf.olMap.map.removeInteraction(window.apf.olMap.modifyInteraction);
+        delete window.apf.olMap.modifyInteraction;
     }
 };

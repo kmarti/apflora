@@ -7,7 +7,7 @@
 var _ = require('underscore');
 
 module.exports = function () {
-    _.each(window.apf.gmap.infoWindowArray, function (infoWindow) {
+    _.each(window.apf.gMap.infoWindowArray, function (infoWindow) {
         infoWindow.setMap(null);
     });
 };

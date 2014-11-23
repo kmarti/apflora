@@ -23,11 +23,11 @@ module.exports = function (popliste, popidMarkiert, visible) {
         popMitNrLayer,
         selectedFeatures;
 
-    if (window.apf.olmap.map && window.apf.olmap.map.olmapSelectInteraction && popidMarkiert) {
-        selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
+    if (window.apf.olMap.map && window.apf.olMap.map.olmapSelectInteraction && popidMarkiert) {
+        selectedFeatures = window.apf.olMap.map.olmapSelectInteraction.getFeatures().getArray();
     } else if (popidMarkiert) {
         addSelectFeaturesInSelectableLayers();
-        selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
+        selectedFeatures = window.apf.olMap.map.olmapSelectInteraction.getFeatures().getArray();
     }
 
     visible = (visible === true);
@@ -57,7 +57,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
         // marker in Array speichern
         markers.push(marker);
 
-        // markierte in window.apf.olmap.map.olmapSelectInteraction ergänzen
+        // markierte in window.apf.olMap.map.olmapSelectInteraction ergänzen
         if (popidMarkiert && popidMarkiert.indexOf(pop.PopId) !== -1) {
             selectedFeatures.push(marker);
         }
@@ -76,7 +76,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
     });
     popMitNrLayer.set('visible', visible);
     popMitNrLayer.set('kategorie', 'AP Flora');
-    window.apf.olmap.map.addLayer(popMitNrLayer);
+    window.apf.olMap.map.addLayer(popMitNrLayer);
 
     if (selectedFeatures && selectedFeatures.length > 0) {
         setTimeout(function () {

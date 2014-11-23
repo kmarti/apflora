@@ -2,14 +2,14 @@
 'use strict';
 
 var $                                        = require('jquery'),
-    entferneModifyInteractionFuerVectorLayer = require('../olmap/entferneModifyInteractionFuerVectorLayer'),
-    erstelleModifyInteractionFuerVectorLayer = require('../olmap/erstelleModifyInteractionFuerVectorLayer');
+    entferneModifyInteractionFuerVectorLayer = require('../../olMap/entferneModifyInteractionFuerVectorLayer'),
+    erstelleModifyInteractionFuerVectorLayer = require('../../olMap/erstelleModifyInteractionFuerVectorLayer');
 
 module.exports = function () {
     // layer holen
     var layerDiv            = $(this).parent().siblings('input'),
         layerIndex          = layerDiv.val(),
-        layer               = window.apf.olmap.map.getLayers().getArray()[layerIndex],
+        layer               = window.apf.olMap.map.getLayers().getArray()[layerIndex],
         buttonDiv           = $(this).siblings('label').first(),
         geomSelectDiv       = $(this).siblings('.modifyLayerGeomType'),
         geomSelectDivId     = geomSelectDiv.attr('id'),
@@ -18,7 +18,7 @@ module.exports = function () {
         tooltipContent;
 
     // modify-layer steuern
-    if (window.apf.olmap.modifyInteractionFuerVectorlayer) {
+    if (window.apf.olMap.modifyInteractionFuerVectorlayer) {
         // modify entfernen
         // input_div mitgeben, damit alle übrigen Layer deaktiviert werden können
         entferneModifyInteractionFuerVectorLayer(layerDiv);

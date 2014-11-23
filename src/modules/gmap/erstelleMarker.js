@@ -20,7 +20,7 @@ module.exports = function (location, map, marker, tpop) {
         draggable: true
     });
     // Marker in Array speichern, damit er gelöscht werden kann
-    window.apf.gmap.markersArray.push(marker);
+    window.apf.gMap.markersArray.push(marker);
     google.maps.event.addListener(marker, "dragend", function (event) {
         setLocationTPop(event.latLng, map, marker, tpop);
     });

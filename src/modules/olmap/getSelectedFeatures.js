@@ -2,8 +2,8 @@
 'use strict';
 
 module.exports = function () {
-    if (window.apf.olmap.map.olmapSelectInteraction) {
-        return window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray();
+    if (window.apf.olMap.map.olmapSelectInteraction) {
+        return window.apf.olMap.map.olmapSelectInteraction.getFeatures().getArray();
     }
     return [];
 };

@@ -18,17 +18,17 @@ module.exports = function (tpop) {
         zoomLevel,
         options,
         map,
-        mapCanvas = $('#google_karten_div'),
+        mapCanvas = $('#gMapDiv'),
         verorted,
         marker,
         contentString,
         tpopBeschriftung,
         myFlurname;
 
-    window.apf.gmap.markersArray = [];
+    window.apf.gMap.markersArray = [];
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
+    zeigeFormular("gMap");
 
     // Optionen für die Anzeige
     if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
@@ -53,7 +53,7 @@ module.exports = function (tpop) {
     };
 
     // Karte gründen. ruler.js braucht window.map
-    window.apf.gmap.map = window.map = map = new google.maps.Map(mapCanvas[0], options);
+    window.apf.gMap.map = window.map = map = new google.maps.Map(mapCanvas[0], options);
 
     if (verorted) {
         // marker erstellen
@@ -66,7 +66,7 @@ module.exports = function (tpop) {
             draggable: true
         });
         // Marker in Array speichern, damit er gelöscht werden kann
-        window.apf.gmap.markersArray.push(marker);
+        window.apf.gMap.markersArray.push(marker);
 
         // infowindow erstellen
         myFlurname = tpop.TPopFlurname || '(kein Flurname)';
@@ -84,8 +84,8 @@ module.exports = function (tpop) {
         infowindow = new google.maps.InfoWindow({
             content: contentString
         });
-        window.apf.gmap.infoWindowArray = window.apf.gmap.infoWindowArray || [];
-        window.apf.gmap.infoWindowArray.push(infowindow);
+        window.apf.gMap.infoWindowArray = window.apf.gMap.infoWindowArray || [];
+        window.apf.gMap.infoWindowArray.push(infowindow);
 
         google.maps.event.addListener(marker, 'click', function () {
             infowindow.open(map, marker);

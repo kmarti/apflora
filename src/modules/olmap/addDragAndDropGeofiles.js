@@ -30,7 +30,7 @@ module.exports = function () {
         ]
     });
 
-    window.apf.olmap.map.addInteraction(dragAndDropInteraction);
+    window.apf.olMap.map.addInteraction(dragAndDropInteraction);
 
     dragAndDropInteraction.on('addfeatures', function (event) {
         var vectorSource,
@@ -47,9 +47,9 @@ module.exports = function () {
             title:     'eigene Ebene',
             kategorie: 'Eigene Ebenen'
         });
-        window.apf.olmap.map.addLayer(dragAndDropLayer);
-        view = window.apf.olmap.map.getView();
-        view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
+        window.apf.olMap.map.addLayer(dragAndDropLayer);
+        view = window.apf.olMap.map.getView();
+        view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olMap.map.getSize()));
         // layertree aktualisieren
         initiiereLayertree('Eigene Ebenen');
         frageNameFuerEbene(dragAndDropLayer);

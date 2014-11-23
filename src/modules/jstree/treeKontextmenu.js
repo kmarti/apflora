@@ -3,7 +3,7 @@
 
 var _                                         = require('underscore'),
     $                                         = require('jquery'),
-    zeigeTPopAufGmap                          = require('../gmap/zeigeTPop'),
+    zeigeTPopAufGmap                          = require('../gMap/zeigeTPop'),
     insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
     insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
     frageObUndeleteDatensatz                  = require('../frageObUndeleteDatensatz'),

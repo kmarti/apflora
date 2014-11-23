@@ -24,11 +24,11 @@ module.exports = function (modifySource) {
     modifyOverlay.addFeature(modifySource.getFeatures()[0]);
     // modify-interaction erstellen
     // global, weil es später entfernt werden muss
-    window.apf.olmap.modifyInteraction = new ol.interaction.Modify({
+    window.apf.olMap.modifyInteraction = new ol.interaction.Modify({
         features: modifyOverlay.getFeatures()
     });
     // zählt, wieviele male .on('change') ausgelöst wurde
-    window.apf.olmap.modifyInteraction.zaehler = 0;
+    window.apf.olMap.modifyInteraction.zaehler = 0;
     // interaction.Modify meldet nicht, wenn etwas verändert wurde
     // daher muss registriert werden, wann das feature geändert wird
     modifyOverlay.getFeatures().getArray()[0].on('change', function () {
@@ -36,11 +36,11 @@ module.exports = function (modifySource) {
         var zaehler,
             coordinates = this.getGeometry().getCoordinates();
 
-        window.apf.olmap.modifyInteraction.zaehler++;
+        window.apf.olMap.modifyInteraction.zaehler++;
         // speichert, wieviele male .on('change') ausgelöst wurde, bis setTimout aufgerufen wurde
-        zaehler = window.apf.olmap.modifyInteraction.zaehler;
+        zaehler = window.apf.olMap.modifyInteraction.zaehler;
         setTimeout(function () {
-            if (zaehler === window.apf.olmap.modifyInteraction.zaehler) {
+            if (zaehler === window.apf.olMap.modifyInteraction.zaehler) {
                 // in den letzten 200 Millisekunden hat sich nichts geändert > speichern
                 // Koordinaten in tpop ergänzen
                 window.apf.tpop.TPopXKoord = parseInt(coordinates[0], 10);
@@ -48,7 +48,7 @@ module.exports = function (modifySource) {
                 $.when(aktualisiereKoordinatenVonTPop(window.apf.tpop)).then(function () {
                     // marker in tpopLayer ergänzen
                     // tpopLayer neu zeichnen
-                    var layers            = window.apf.olmap.map.getLayers().getArray(),
+                    var layers            = window.apf.olMap.map.getLayers().getArray(),
                         tpopLayerNr       = $('#olmapLayertreeTeilpopulationen').val(),
                         tpopLayer         = layers[tpopLayerNr],
                         tpopLayerSource   = tpopLayer.getSource(),
@@ -70,9 +70,9 @@ module.exports = function (modifySource) {
     });
     /*
     // change scheint nicht zu passieren. Probiert: change, pointerdrag, click, drawend
-    window.apf.olmap.modifyInteraction.on('move', function (event) {
+    window.apf.olMap.modifyInteraction.on('move', function (event) {
         console.log('jetzt die Koordinaten aktualisieren');
 
     });*/
-    window.apf.olmap.map.addInteraction(window.apf.olmap.modifyInteraction);
+    window.apf.olMap.map.addInteraction(window.apf.olMap.modifyInteraction);
 };

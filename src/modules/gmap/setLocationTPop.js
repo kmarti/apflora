@@ -52,8 +52,8 @@ module.exports = function (latLng, map, marker, tpop) {
             infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
-            window.apf.gmap.infoWindowArray = window.apf.gmap.infoWindowArray || [];
-            window.apf.gmap.infoWindowArray.push(infowindow);
+            window.apf.gMap.infoWindowArray = window.apf.gMap.infoWindowArray || [];
+            window.apf.gMap.infoWindowArray.push(infowindow);
             google.maps.event.addListener(marker, 'click', function () {
                 infowindow.open(map, marker);
             });

@@ -498,8 +498,8 @@
  *
  * 3. FORMS....................die rechte Spalte
  *    allgemein / querbeet
- *    google_karte
- *    GeoAdminKarte
+ *    gMap
+ *    olMap
  *    exporte
  *
  * 4. TOOLS/QUERBEET
@@ -1022,17 +1022,17 @@ label.erforderlich span {
 
 /*--------------------------------*\
     2. #FORMS
-       google_karte
+       gMap
 \*--------------------------------*/
 
-#GeoAdminKarte,
-#google_karte {
+#olMap,
+#gMap {
     height: 100%;
     width:  100%;
     display: none;
 }
 
-#google_karte {
+#gMap {
     border-radius: 8px;
     overflow: hidden;
     position: relative;
@@ -1057,7 +1057,7 @@ label.erforderlich span {
     width: 150px;
 }
 
-#distanz_messen {
+#gMapDistanzMessen {
     position: absolute;
     top:   4px;
     left: 80px;
@@ -1065,7 +1065,7 @@ label.erforderlich span {
     z-index: 90;
 }
 
-#distanz_messen_entfernen {
+#gMapDistanzMessenEntfernen {
     position: absolute;
     top:    4px;
     left: 200px;
@@ -1075,12 +1075,12 @@ label.erforderlich span {
 .google_karte_checkbox {
     margin-right: 5px;
 }
-.google_karte_detailplaene_checkbox + label {
+.gMapDetailplaeneCheckbox + label {
     color: yellow;
     padding-left: 5px;
 }
 
-.google_detailplaene_div {
+.gMapDetailplaeneDiv {
     position: absolute;
     top:    4px;
     left: 350px;
@@ -1116,7 +1116,7 @@ label.erforderlich span {
 
 /*--------------------------------*\
     2. #FORMS
-       GeoAdminKarte
+       olMap
 \*--------------------------------*/
 
 /*
@@ -1320,7 +1320,7 @@ label.erforderlich span {
 }
 
 /*Koordinatenanzeige gestalten*/
-#GeoAdminKarte .ol-mouse-position {
+#olMap .ol-mouse-position {
     font-weight:900;
     font-family: Arial, Verdana, Helvetica, sans-serif;
     /*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
@@ -1329,7 +1329,7 @@ label.erforderlich span {
     right: 362px;
 }
 
-#GeoAdminKarte .ol-full-screen {
+#olMap .ol-full-screen {
     top: 0.55em;
 }
 

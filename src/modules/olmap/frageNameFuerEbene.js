@@ -11,7 +11,7 @@ module.exports = function (eigeneEbene) {
         $eigene_ebene_name_container = $('#eigene_ebene_name_container');
 
     // eigene Ebene global speichern, damit der eventhandler darauf zugreifen kann
-    window.apf.olmap.eigeneEbene = eigeneEbene;
+    window.apf.olMap.eigeneEbene = eigeneEbene;
 
     $eigene_ebene_name_container.dialog({
         title: 'Ebene taufen',
@@ -50,8 +50,8 @@ module.exports = function (eigeneEbene) {
             // Namen zurücksetzen
             $eigene_ebene_name.val('');
             $('#eigene_ebene_name_container').dialog("close");
-            $('#GeoAdminKarte').off('keyup', '#eigene_ebene_name');
-            delete window.apf.olmap.eigeneEbene;
+            $('#olMap').off('keyup', '#eigene_ebene_name');
+            delete window.apf.olMap.eigeneEbene;
             nameErfragt.resolve();
         }
     });

@@ -22,8 +22,8 @@ module.exports = function () {
     entferneModifyInteractionFuerTpop();
 
     // Karte nur aufbauen, wenn dies nicht schon passiert ist
-    if (!window.apf.olmap.map) {
-        window.apf.olmap.map = new ga.Map({
+    if (!window.apf.olMap.map) {
+        window.apf.olMap.map = new ga.Map({
             target: 'ga_karten_div',
             layers: createLayers(),
             view: new ol.View2D({
@@ -40,7 +40,7 @@ module.exports = function () {
         addMousePositionControl();
         addFullScreenControl();
 
-        window.apf.olmap.map.on('change:size', function () {
+        window.apf.olMap.map.on('change:size', function () {
             // steuern, ob das Export-Tool sichtbar ist
             // wenn es bei hoher Pixelzahl sichtbar ist, gibt es Probleme
             blendeOlmapExportieren();

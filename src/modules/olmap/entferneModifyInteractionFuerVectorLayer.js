@@ -8,13 +8,13 @@ var $ = require('jquery');
 module.exports = function (inputDiv) {
     var $modifyLayer = $('.modifyLayer');
     inputDiv = inputDiv || null;
-    if (window.apf.olmap.modifyInteractionFuerVectorlayer) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteractionFuerVectorlayer);
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.selectInteractionFuerVectorlayer);
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.drawInteractionFuerVectorlayer);
-        delete window.apf.olmap.modifyInteractionFuerVectorlayer;
-        delete window.apf.olmap.selectInteractionFuerVectorlayer;
-        delete window.apf.olmap.drawInteractionFuerVectorlayer;
+    if (window.apf.olMap.modifyInteractionFuerVectorlayer) {
+        window.apf.olMap.map.removeInteraction(window.apf.olMap.modifyInteractionFuerVectorlayer);
+        window.apf.olMap.map.removeInteraction(window.apf.olMap.selectInteractionFuerVectorlayer);
+        window.apf.olMap.map.removeInteraction(window.apf.olMap.drawInteractionFuerVectorlayer);
+        delete window.apf.olMap.modifyInteractionFuerVectorlayer;
+        delete window.apf.olMap.selectInteractionFuerVectorlayer;
+        delete window.apf.olMap.drawInteractionFuerVectorlayer;
     }
     // alle buttons im layer-tool zurückstellen
     $modifyLayer

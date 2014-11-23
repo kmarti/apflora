@@ -11,5 +11,5 @@ module.exports = function () {
         projection: "EPSG:21781",
         undefinedHTML: '&nbsp;' //what openlayers will use if the map returns undefined for a map coordinate
     });
-    window.apf.olmap.map.addControl(mousePositionControl);
+    window.apf.olMap.map.addControl(mousePositionControl);
 };

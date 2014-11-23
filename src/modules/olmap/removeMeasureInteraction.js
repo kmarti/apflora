@@ -6,8 +6,8 @@ var $                     = require('jquery'),
 
 module.exports = function () {
     entferneLayerNachName('messen');
-    window.apf.olmap.map.removeInteraction(window.apf.olmap.drawMeasure);
-    delete window.apf.olmap.drawMeasure;
+    window.apf.olMap.map.removeInteraction(window.apf.olMap.drawMeasure);
+    delete window.apf.olMap.drawMeasure;
     $("#ergebnisMessung").text("");
-    $(window.apf.olmap.map.getViewport()).off('mousemove');
+    $(window.apf.olMap.map.getViewport()).off('mousemove');
 };

@@ -2,6 +2,6 @@
 'use strict';
 
 module.exports = function (event) {
-    var layers = window.apf.olmap.map.getLayers().getArray();
+    var layers = window.apf.olMap.map.getLayers().getArray();
     layers[event.target.value].setVisible(event.target.checked);
 };

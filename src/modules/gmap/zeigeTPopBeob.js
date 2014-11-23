@@ -33,9 +33,9 @@ module.exports = function (tpopBeobListe) {
         ort;
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
-    window.apf.gmap.markersArray    = [];
-    window.apf.gmap.infoWindowArray = [];
+    zeigeFormular("gMap");
+    window.apf.gMap.markersArray    = [];
+    window.apf.gMap.infoWindowArray = [];
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
@@ -70,9 +70,9 @@ module.exports = function (tpopBeobListe) {
             ]
         }
     };
-    // document.getElementById("google_karten_div") verwenden statt $("#google_karten_div")!!!!
+    // document.getElementById("gMapDiv") verwenden statt $("#gMapDiv")!!!!
     // ruler.js braucht window.map
-    window.apf.gmap.map = window.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
+    window.apf.gMap.map = window.map = map = new google.maps.Map(document.getElementById("gMapDiv"), options);
     // Versuch: SVO einblenden
     //loadWMS(map, "//wms.zh.ch/FnsSVOZHWMS?");
     //loadWMS(map, "//www.gis.zh.ch/scripts/wmsfnssvo2.asp?");

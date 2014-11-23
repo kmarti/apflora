@@ -4,7 +4,7 @@
 var $                          = require('jquery'),
     erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
     melde                      = require('../melde'),
-    zeigeTPop                  = require('../olmap/zeigeTPop');
+    zeigeTPop                  = require('../olMap/zeigeTPop');
 
 module.exports = function (nodePopId) {
     $.ajax({

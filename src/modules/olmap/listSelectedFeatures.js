@@ -8,7 +8,7 @@
 var _  = require('underscore');
 
 module.exports = function (typ) {
-    var selectedFeatures = window.apf.olmap.map.olmapSelectInteraction.getFeatures().getArray(),
+    var selectedFeatures = window.apf.olMap.map.olmapSelectInteraction.getFeatures().getArray(),
         featuresToReturn;
     featuresToReturn = _.filter(selectedFeatures, function (feature) {
         if (typ) {

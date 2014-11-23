@@ -10,27 +10,27 @@ var $                             = require('jquery'),
     fitTextareaToContent          = require('./fitTextareaToContent'),
     speichern                     = require('./speichern'),
     waehleApListe                 = require('./waehleApListe'),
-    stylePop                      = require('./olmap/stylePop'),
-    styleTPop                     = require('./olmap/styleTPop'),
-    exportiereKarte               = require('./olmap/exportiereKarte'),
+    stylePop                      = require('./olMap/stylePop'),
+    styleTPop                     = require('./olMap/styleTPop'),
+    exportiereKarte               = require('./olMap/exportiereKarte'),
     waehleAp                      = require('./waehleAp'),
     loescheAp                     = require('./loescheAp'),
     undeleteDatensatz             = require('./undeleteDatensatz'),
     kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop'),
     setzeKartenhoehe              = require('./setzeKartenhoehe'),
-    deaktiviereOlmapAuswahl       = require('./olmap/deaktiviereOlmapAuswahl'),
+    deaktiviereOlmapAuswahl       = require('./olMap/deaktiviereOlmapAuswahl'),
     initiiereExporte              = require('./initiiereExporte'),
     setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
     oeffneBeob                    = require('./oeffneBeob'),
     oeffneBeobInNeuemTab          = require('./oeffneBeobInNeuemTab'),
-    onClickOlmapLayertreeCheckbox = require('./events/onClickOlmapLayertreeCheckbox'),
-    onClickLayertreePopStyle      = require('./events/onClickLayertreePopStyle'),
-    onClickLayertreeTpopStyle     = require('./events/onClickLayertreeTpopStyle'),
-    onClickModifyLayer            = require('./events/onClickModifyLayer'),
-    onClickRenameLayer            = require('./events/onClickRenameLayer'),
-    onClickEntferneLayer          = require('./events/onClickEntferneLayer'),
-    onClickNeuesLayer             = require('./events/onClickNeuesLayer'),
-    onSelectmenuchangeExportLayerSelect = require('./events/onSelectmenuchangeExportLayerSelect');
+    onClickOlmapLayertreeCheckbox = require('./events/olmapLayertree/onClickOlmapLayertreeCheckbox'),
+    onClickLayertreePopStyle      = require('./events/olmapLayertree/onClickLayertreePopStyle'),
+    onClickLayertreeTpopStyle     = require('./events/olmapLayertree/onClickLayertreeTpopStyle'),
+    onClickModifyLayer            = require('./events/olmapLayertree/onClickModifyLayer'),
+    onClickRenameLayer            = require('./events/olmapLayertree/onClickRenameLayer'),
+    onClickEntferneLayer          = require('./events/olmapLayertree/onClickEntferneLayer'),
+    onClickNeuesLayer             = require('./events/olmapLayertree/onClickNeuesLayer'),
+    onSelectmenuchangeExportLayerSelect = require('./events/olmapLayertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
     $('#olmapLayertree')
@@ -43,7 +43,7 @@ module.exports = function () {
         .on('click',            '.entferneLayer',          onClickEntferneLayer)
         .on('click',            '.neuesLayer',             onClickNeuesLayer);
 
-    $('#google_karten_div')
+    $('#gMapDiv')
         .on('click', '.oeffneBeob', function (event) {
             event.preventDefault();
             oeffneBeob($(this).data('beob'));
@@ -53,7 +53,7 @@ module.exports = function () {
             oeffneBeobInNeuemTab($(this).data('beob'));
         });
 
-    $('#GeoAdminKarte')
+    $('#olMap')
         .on('click', '#olmap_exportieren', function (event) {
             exportiereKarte(event);
         });
@@ -202,12 +202,12 @@ module.exports = function () {
             $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#tpopOrdnerBeobZugeordnet" + tpopId, "first");
         });
 
-    $("#google_karte")
-        .on("click", "#distanz_messen", function (event) {
+    $("#gMap")
+        .on("click", "#gMapDistanzMessen", function (event) {
             event.preventDefault();
             addruler();
         })
-        .on("click", "#distanz_messen_entfernen", function (event) {
+        .on("click", "#gMapDistanzMessenEntfernen", function (event) {
             event.preventDefault();
             removeruler();
         });
@@ -255,9 +255,9 @@ module.exports = function () {
         }
     });
 
-    $(".karte").on("change", ".google_karte_detailplaene_checkbox", function () {
+    $(".karte").on("change", ".gMapDetailplaeneCheckbox", function () {
         if (window.apf.googleKarteDetailplaene.getMap() === null) {
-            window.apf.googleKarteDetailplaene.setMap(window.apf.gmap.map);
+            window.apf.googleKarteDetailplaene.setMap(window.apf.gMap.map);
         } else {
             window.apf.googleKarteDetailplaene.setMap(null);
         }
@@ -278,10 +278,10 @@ module.exports = function () {
         .on("click", ".export_pop", function () {
             // wenn pop ausgewählt, diese übergeben
             var pop_id_liste = "";
-            if (window.apf.olmap.popSelected) {
-                _.each(window.apf.olmap.popSelected, function (pop, index) {
+            if (window.apf.olMap.popSelected) {
+                _.each(window.apf.olMap.popSelected, function (pop, index) {
                     pop_id_liste +=  pop.get('myId');
-                    if (index + 1 < window.apf.olmap.popSelected.length) {
+                    if (index + 1 < window.apf.olMap.popSelected.length) {
                         pop_id_liste += ",";
                     }
                 });
@@ -294,10 +294,10 @@ module.exports = function () {
         .on("click", ".export_kontr", function () {
             // wenn tpop ausgewählt, diese übergeben
             var tpop_id_liste = "";
-            if (window.apf.olmap.tpopSelected) {
-                _.each(window.apf.olmap.tpopSelected, function (tpop, index) {
+            if (window.apf.olMap.tpopSelected) {
+                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
                     tpop_id_liste +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olmap.tpopSelected.length) {
+                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
                         tpop_id_liste += ",";
                     }
                 });
@@ -310,10 +310,10 @@ module.exports = function () {
         .on("click", ".export_tpop", function () {
             // wenn tpop ausgewählt, diese übergeben
             var tpop_id_liste = "";
-            if (window.apf.olmap.tpopSelected) {
-                _.each(window.apf.olmap.tpopSelected, function (tpop, index) {
+            if (window.apf.olMap.tpopSelected) {
+                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
                     tpop_id_liste +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olmap.tpopSelected.length) {
+                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
                         tpop_id_liste += ",";
                     }
                 });
@@ -326,10 +326,10 @@ module.exports = function () {
         .on("click", ".export_massn", function () {
             // wenn tpop ausgewählt, diese übergeben
             var tpop_id_liste = "";
-            if (window.apf.olmap.tpopSelected) {
-                _.each(window.apf.olmap.tpopSelected, function (tpop, index) {
+            if (window.apf.olMap.tpopSelected) {
+                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
                     tpop_id_liste +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olmap.tpopSelected.length) {
+                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
                         tpop_id_liste += ",";
                     }
                 });

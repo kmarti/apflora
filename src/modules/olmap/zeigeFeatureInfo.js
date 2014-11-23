@@ -86,7 +86,7 @@ module.exports = function (pixel, coordinate) {
                     my:       'top left',
                     at:       'bottom right',
                     target:   $(this),
-                    viewport: $('#GeoAdminKarte')
+                    viewport: $('#olMap')
                 }
             });
             $(this).qtip('toggle', true);
@@ -102,7 +102,7 @@ module.exports = function (pixel, coordinate) {
         overlay = new ol.Overlay({
             element: $('#qtip-' + popupId)
         });
-        window.apf.olmap.map.addOverlay(overlay);
+        window.apf.olMap.map.addOverlay(overlay);
         overlay.setPosition(koordinaten);
         overlay.set('typ', 'popup');
     } else {

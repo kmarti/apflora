@@ -15,8 +15,8 @@ var $                         = require('jquery'),
 
 // benötigte globale Variabeln initialisieren
 window.apf       = window.apf       || {};
-window.apf.gmap  = window.apf.gmap  || {};
-window.apf.olmap = window.apf.olmap || {};
+window.apf.gMap  = window.apf.gMap  || {};
+window.apf.olMap = window.apf.olMap || {};
 
 // initiiereApp als globale Variable bereitstellen,
 // damit es wenn nötig später wieder aufgerufen werden kann

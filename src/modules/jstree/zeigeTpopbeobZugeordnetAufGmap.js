@@ -4,7 +4,7 @@
 var $                          = require('jquery'),
     erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
     melde                      = require('../melde'),
-    zeigeTPopBeob              = require('../gmap/zeigeTPopBeob');
+    zeigeTPopBeob              = require('../gMap/zeigeTPopBeob');
 
 module.exports = function (nodeTpopId, nodeBeobId) {
     var tpopId          = '',

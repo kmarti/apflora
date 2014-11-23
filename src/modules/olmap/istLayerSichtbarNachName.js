@@ -8,8 +8,8 @@ module.exports = function (layername) {
         layerIstSichtbar;
 
     // prüfen, ob eine map existiert
-    if (window.apf.olmap.map) {
-        layerObjektArray = window.apf.olmap.map.getLayers().getArray();
+    if (window.apf.olMap.map) {
+        layerObjektArray = window.apf.olMap.map.getLayers().getArray();
         layerIstSichtbar = _.find(layerObjektArray, function (layerObjekt) {
             return layerObjekt.get('title') === layername && layerObjekt.get('visible');
         });

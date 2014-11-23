@@ -14,7 +14,7 @@ module.exports = function (name) {
         layername      = layer.get('title');
         layerKategorie = layer.get('kategorie');
         if (layername === name) {
-            window.apf.olmap.map.removeLayer(layer);
+            window.apf.olMap.map.removeLayer(layer);
             if (layerKategorie === 'Eigene Ebenen') {
                 // ebene aus localStorage entfernen
                 aktualisiereEbeneInLocalStorage(layer, true);

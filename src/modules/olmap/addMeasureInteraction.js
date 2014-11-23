@@ -46,7 +46,7 @@ module.exports = function (type) {
         })
     });
 
-    window.apf.olmap.map.addLayer(messenLayer);
+    window.apf.olMap.map.addLayer(messenLayer);
 
     // handle pointer move
     // @param {Event} evt
@@ -65,15 +65,15 @@ module.exports = function (type) {
         }
     };
 
-    $(window.apf.olmap.map.getViewport()).on('mousemove', mouseMoveHandler);
+    $(window.apf.olMap.map.getViewport()).on('mousemove', mouseMoveHandler);
 
-    window.apf.olmap.drawMeasure = new ol.interaction.Draw({
+    window.apf.olMap.drawMeasure = new ol.interaction.Draw({
         source: source,
         type: /** @type {ol.geom.GeometryType} */ (type)
     });
-    window.apf.olmap.map.addInteraction(window.apf.olmap.drawMeasure);
+    window.apf.olMap.map.addInteraction(window.apf.olMap.drawMeasure);
 
-    window.apf.olmap.drawMeasure.on('drawstart',
+    window.apf.olMap.drawMeasure.on('drawstart',
         function (evt) {
             // set sketch
             sketch         = evt.feature;
@@ -86,7 +86,7 @@ module.exports = function (type) {
             }
         }, this);
 
-    window.apf.olmap.drawMeasure.on('drawend', function () {
+    window.apf.olMap.drawMeasure.on('drawend', function () {
         // unset sketch
         sketch        = null;
         sketchElement = null;

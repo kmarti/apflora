@@ -20,10 +20,10 @@ module.exports = function (TPopListeMarkiert) {
     markierteTpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
 
     // Grundkarte aufbauen
-    $.when(zeigeFormular("GeoAdminKarte")).then(function () {
+    $.when(zeigeFormular("olMap")).then(function () {
         // Karte zum richtigen Ausschnitt zoomen
-        window.apf.olmap.map.updateSize();
-        window.apf.olmap.map.getView().fitExtent(markierteTpop.bounds, window.apf.olmap.map.getSize());
+        window.apf.olMap.map.updateSize();
+        window.apf.olMap.map.getView().fitExtent(markierteTpop.bounds, window.apf.olMap.map.getSize());
         // tpop und pop ergänzen
         // alle tpop holen
         $.ajax({

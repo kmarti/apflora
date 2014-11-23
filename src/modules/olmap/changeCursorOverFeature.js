@@ -4,12 +4,12 @@
 var $ = require('jquery');
 
 module.exports = function () {
-    $(window.apf.olmap.map.getViewport()).on('mousemove', function (e) {
+    $(window.apf.olMap.map.getViewport()).on('mousemove', function (e) {
         var pixel,
             hit;
 
-        pixel = window.apf.olmap.map.getEventPixel(e.originalEvent);
-        hit   = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
+        pixel = window.apf.olMap.map.getEventPixel(e.originalEvent);
+        hit   = window.apf.olMap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
             return true;
         });
         if (hit) {

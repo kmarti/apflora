@@ -32,9 +32,9 @@ module.exports = function (tpopListe) {
         myFlurname;
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
-    window.apf.gmap.markersArray = [];
-    window.apf.gmap.infoWindowArray = [];
+    zeigeFormular("gMap");
+    window.apf.gMap.markersArray = [];
+    window.apf.gMap.infoWindowArray = [];
 
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
@@ -64,7 +64,7 @@ module.exports = function (tpopListe) {
     };
 
     // ruler.js braucht window.map
-    window.apf.gmap.map = window.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
+    window.apf.gMap.map = window.map = map = new google.maps.Map(document.getElementById("gMapDiv"), options);
     bounds = new google.maps.LatLngBounds();
 
     // für alle TPop Marker erstellen
