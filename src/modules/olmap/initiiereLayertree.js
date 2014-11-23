@@ -49,7 +49,7 @@ module.exports = function (activeKategorie) {
     htmlEigeneLayerText += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase.<br>Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
     htmlEigeneLayerText += '</div>';
     htmlEigeneLayerText += '<div id="olmap_neues_layer_container">';
-    htmlEigeneLayerText += '<input type="checkbox" class="neues_layer" id="olmap_neues_layer">';
+    htmlEigeneLayerText += '<input type="checkbox" class="neuesLayer" id="olmap_neues_layer">';
     htmlEigeneLayerText += '<label for="olmap_neues_layer" class="neues_layer_label">neue Ebene erstellen</label>';
     htmlEigeneLayerText += '</div>';
 
@@ -100,8 +100,8 @@ module.exports = function (activeKategorie) {
                 htmlProv += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="exportLayerSelect apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
                 htmlProv += '<input type="checkbox" class="renameLayer" id="renameLayer' + layertitel.replace(" ", "_") + '">';
                 htmlProv += '<label for="renameLayer' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
-                htmlProv += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
-                htmlProv += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
+                htmlProv += '<input type="checkbox" class="entferneLayer" id="entferneLayer' + layertitel.replace(" ", "_") + '">';
+                htmlProv += '<label for="entferneLayer' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
                 htmlProv += '</div>';
                 htmlProv += '<div id="eigene_layer_meldung_' + layertitel.replace(" ", "_") + '" class="eigene_layer_meldung"></div>';
                 htmlProv += '</div>';
@@ -211,7 +211,7 @@ module.exports = function (activeKategorie) {
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', berechneLayertreeMaxhoehe);
     // buttons initiieren
-    $('.neues_layer')
+    $('.neuesLayer')
         .button({
             icons: {primary: 'ui-icon-plusthick'}
         })
@@ -257,7 +257,7 @@ module.exports = function (activeKategorie) {
                 text: false
             })
             .button('refresh');
-        $('.entferne_layer')
+        $('.entferneLayer')
             .button({
                 icons: { primary: 'ui-icon-closethick' },
                 text: false

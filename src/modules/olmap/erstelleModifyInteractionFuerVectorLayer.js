@@ -14,7 +14,7 @@ module.exports = function (vectorlayer) {
     var layerTitle,
         $geom_type_select;
 
-    if (vectorlayer === 'neuer_layer') {
+    if (vectorlayer === 'neuerLayer') {
         vectorlayer = new ol.layer.Vector({
             guid:      erstelleGuid(),
             source:    new ol.source.Vector(),

@@ -10,17 +10,14 @@ var $                             = require('jquery'),
     fitTextareaToContent          = require('./fitTextareaToContent'),
     speichern                     = require('./speichern'),
     waehleApListe                 = require('./waehleApListe'),
-    initiiereLayertree            = require('./olmap/initiiereLayertree'),
     stylePop                      = require('./olmap/stylePop'),
     styleTPop                     = require('./olmap/styleTPop'),
     exportiereKarte               = require('./olmap/exportiereKarte'),
     waehleAp                      = require('./waehleAp'),
     loescheAp                     = require('./loescheAp'),
     undeleteDatensatz             = require('./undeleteDatensatz'),
-    melde                         = require('./melde'),
     kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop'),
     setzeKartenhoehe              = require('./setzeKartenhoehe'),
-    entferneLayerNachName         = require('./olmap/entferneLayerNachName'),
     deaktiviereOlmapAuswahl       = require('./olmap/deaktiviereOlmapAuswahl'),
     initiiereExporte              = require('./initiiereExporte'),
     setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
@@ -31,8 +28,9 @@ var $                             = require('jquery'),
     onClickLayertreeTpopStyle     = require('./events/onClickLayertreeTpopStyle'),
     onClickModifyLayer            = require('./events/onClickModifyLayer'),
     onClickRenameLayer            = require('./events/onClickRenameLayer'),
-    onSelectmenuchangeExportLayerSelect      = require('./events/onSelectmenuchangeExportLayerSelect'),
-    erstelleModifyInteractionFuerVectorLayer = require('./olmap/erstelleModifyInteractionFuerVectorLayer');
+    onClickEntferneLayer          = require('./events/onClickEntferneLayer'),
+    onClickNeuesLayer             = require('./events/onClickNeuesLayer'),
+    onSelectmenuchangeExportLayerSelect = require('./events/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
     $('#olmapLayertree')
@@ -42,37 +40,8 @@ module.exports = function () {
         .on('click',            '.modifyLayer',            onClickModifyLayer)
         .on('selectmenuchange', '.exportLayerSelect',      onSelectmenuchangeExportLayerSelect)
         .on('click',            '.renameLayer',            onClickRenameLayer)
-        .on('click', '.entferne_layer', function () {
-            // layer holen
-            var layerDiv   = $(this).parent().parent().siblings('input'),
-                layerIndex = layerDiv.val(),
-                layer      = window.apf.olmap.map.getLayers().getArray()[layerIndex],
-                layerName  = layer.get('title');
-            if (layerName) {
-                // open a dialog
-                $("#entferne_eigene_ebene_dialog").dialog({
-                    resizable: false,
-                    height:    'auto',
-                    width:     400,
-                    modal:     true,
-                    buttons: {
-                        "ja, entfernen!": function () {
-                            $(this).dialog("close");
-                            entferneLayerNachName(layerName);
-                            initiiereLayertree('Eigene Ebenen');
-                        },
-                        "abbrechen": function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
-            } else {
-                melde('Fehler: Layer nicht entfernt');
-            }
-        })
-        .on('click', '.neues_layer', function () {
-            erstelleModifyInteractionFuerVectorLayer('neuer_layer');
-        });
+        .on('click',            '.entferneLayer',          onClickEntferneLayer)
+        .on('click',            '.neuesLayer',             onClickNeuesLayer);
 
     $('#google_karten_div')
         .on('click', '.oeffneBeob', function (event) {
