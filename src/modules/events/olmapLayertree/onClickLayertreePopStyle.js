@@ -6,7 +6,7 @@ var $        = require('jquery'),
 
 module.exports = function () {
     var layers = window.apf.olMap.map.getLayers().getArray(),
-        layer  = $('#olmapLayertreePopulationen').val(),
+        layer  = $('#olMapLayertreePopulationen').val(),
         that   = this;
 
     // style setzen

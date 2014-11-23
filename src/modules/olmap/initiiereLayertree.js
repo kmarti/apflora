@@ -22,7 +22,7 @@ module.exports = function (activeKategorie) {
         htmlApflora              = '<h3>ZH AP Flora</h3><div>',
         htmlProv,
         html,
-        $olmap_layertree_layers  = $('#olmap_layertree_layers'),
+        $olMapLayertreeLayers  = $('#olMapLayertreeLayers'),
         $ga_karten_div_accordion = $("#olMapDiv").find(".accordion"),
         layers                   = window.apf.olMap.map.getLayers().getArray(),
         htmlEigeneLayerText,
@@ -67,13 +67,13 @@ module.exports = function (activeKategorie) {
         legendeUrl = layer.get('legendeUrl') || null;
 
         if (layertitel !== 'messen') {
-            htmlProv = '<li><input type="checkbox" class="olmapLayertreeCheckbox" id="olmapLayertree' + layertitel + '" value="' + index + '"';
+            htmlProv = '<li><input type="checkbox" class="olmapLayertreeCheckbox" id="olMapLayertree' + layertitel + '" value="' + index + '"';
             // sichtbare Layer sollen gecheckt sein
             if (visible) {
                 htmlProv += ' checked="checked"';
             }
             htmlProv += '>';
-            htmlProv += '<label for="olmapLayertree' + layertitel + '">' + layertitel + '</label>';
+            htmlProv += '<label for="olMapLayertree' + layertitel + '">' + layertitel + '</label>';
             // bei pop und tpop muss style gewählt werden können
             if (layertitel === 'Populationen') {
                 htmlProv += '<div class="layeroptionen">';
@@ -178,7 +178,7 @@ module.exports = function (activeKategorie) {
     // alles zusammensetzen
     html = /*html_welt_hintergrund + */htmlChHintergrund + htmlChSachinfos + htmlChBiotopinv + htmlZhSachinfos + htmlApflora + htmlEigeneLayerText;
     // und einsetzen
-    $olmap_layertree_layers.html(html);
+    $olMapLayertreeLayers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
     if (activeKategorie) {
         // ohne die erste Aktivierung funktioniert es nicht
@@ -195,7 +195,7 @@ module.exports = function (activeKategorie) {
         if (activeKategorie === 'Eigene Ebenen') {
             active = 5;
         }
-        $('#olmap_layertree_layers').accordion({
+        $('#olMapLayertreeLayers').accordion({
             collapsible: true,
             active:      active,
             heightStyle: 'content'
@@ -209,7 +209,7 @@ module.exports = function (activeKategorie) {
     }
 
     // Maximalgrösse des Layertree begrenzen
-    $olmap_layertree_layers.css('max-height', berechneLayertreeMaxhoehe);
+    $olMapLayertreeLayers.css('max-height', berechneLayertreeMaxhoehe);
     // buttons initiieren
     $('.neuesLayer')
         .button({

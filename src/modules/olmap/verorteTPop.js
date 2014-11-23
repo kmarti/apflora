@@ -80,7 +80,7 @@ module.exports = function (tpop) {
                     // marker in tpopLayer ergänzen
                     // tpopLayer holen
                     var layers          = window.apf.olMap.map.getLayers().getArray(),
-                        tpopLayerNr     = $('#olmapLayertreeTeilpopulationen').val(),
+                        tpopLayerNr     = $('#olMapLayertreeTeilpopulationen').val(),
                         tpopLayer       = layers[tpopLayerNr],
                         tpopLayerSource = tpopLayer.getSource();
                     // marker ergänzen

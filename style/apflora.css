@@ -636,7 +636,7 @@ label.erforderlich span {
     border-radius: 8px;
 }*/
 
-#olmapLayertree {
+#olMapLayertree {
     width: 302px;
     overflow: hidden;
     position: absolute;
@@ -646,18 +646,18 @@ label.erforderlich span {
     border-radius: 6px;
 }
 
-#olmapLayertree li .ui-button-text {
+#olMapLayertree li .ui-button-text {
     font-size: 16px !important;
 }
 
-#olmapLayertree .ui-accordion-header {
+#olMapLayertree .ui-accordion-header {
     padding-left:  1.9em;
     padding-top:    .2em;
     padding-bottom: .2em;
     font-size: 16px;
 }
 
-#olmapLayertree .ui-accordion-content {
+#olMapLayertree .ui-accordion-content {
     padding: 7px 0;
     font-size: 14px;
     line-height: 1em;
@@ -665,7 +665,7 @@ label.erforderlich span {
     position: relative;
 }
 
-#olmapLayertree .ui-accordion-content:last-child {
+#olMapLayertree .ui-accordion-content:last-child {
     margin-bottom: 0;
 }
 
@@ -679,43 +679,43 @@ label.erforderlich span {
     margin-left: 11px;
 }
 
-#olmap_layertree_layers {
+#olMapLayertreeLayers {
     padding-top:    0 !important;
     padding-bottom: 0 !important;
 }
 
-#olmapLayertree .ui-accordion-content li {
+#olMapLayertree .ui-accordion-content li {
     padding-left:  0.8em;
     padding-right: 0.8em;
 }
 
-#olmapLayertree .ui-accordion-content p {
+#olMapLayertree .ui-accordion-content p {
     padding-left:    1em;
     padding-right:   1em;
     margin-top:    0.2em;
     margin-bottom: 0.2em;
 }
 
-#olmapLayertree .ui-accordion-content p:first-child {
+#olMapLayertree .ui-accordion-content p:first-child {
     margin-top:    0;
     margin-bottom: 0;
 }
 
-#olmapLayertree .ui-accordion-content ul {
+#olMapLayertree .ui-accordion-content ul {
     margin-top:    0.2em;
     margin-bottom: 0.4em;
 }
 
-#olmapLayertree .ui-accordion-content ul li {
+#olMapLayertree .ui-accordion-content ul li {
     padding-left: 0;
 }
 
-#olmapLayertree .ui-accordion-content hr {
+#olMapLayertree .ui-accordion-content hr {
     color: #E0CFC2;
     border-style: inherit;
 }
 
-#olmapLayertree .ui-accordion-content .eigene_layer_meldung {
+#olMapLayertree .ui-accordion-content .eigene_layer_meldung {
     display: none;
     padding-left: 6px;
     padding-top:  3px;
@@ -723,33 +723,33 @@ label.erforderlich span {
     font-size: 12px;
 }
 
-#olmapLayertree [type=checkbox]:first-child {
+#olMapLayertree [type=checkbox]:first-child {
     margin-top:  0;
     margin-left: 0 !important;
 }
 
-#olmapLayertree [type=checkbox] {
+#olMapLayertree [type=checkbox] {
     vertical-align: bottom;
     margin-bottom: 0;
 }
 
-#olmapLayertree li label {
+#olMapLayertree li label {
     padding-left:  5px;
     padding-right: 3px;
 }
 
-#olmapLayertree .layeroptionen {
+#olMapLayertree .layeroptionen {
     margin-left: -5px;
     margin-top:   3px;
 }
 
-#olmapLayertree li .ui-button {
+#olMapLayertree li .ui-button {
     width:  14px;
     height: 16px;
     margin-left: 5px;
 }
 
-#olmapLayertree li .ui-button.entferne_layer_label {
+#olMapLayertree li .ui-button.entferne_layer_label {
     position: absolute;
     right: 7px;
 }
@@ -765,30 +765,30 @@ label.erforderlich span {
     font-size: 12px !important;
 }
 
-#olmapLayertree .ui-selectmenu-button {
+#olMapLayertree .ui-selectmenu-button {
     margin-bottom: -5px;
     margin-left:    2px;
 }
 
-#olmapLayertree .ui-selectmenu-button span.ui-selectmenu-text {
+#olMapLayertree .ui-selectmenu-button span.ui-selectmenu-text {
     padding: 0 2.1em 0 .8em !important;
     font-size: 12px;
 }
 
-#olmapLayertree .layeroptionen select {
+#olMapLayertree .layeroptionen select {
     font-size: 12px !important;
 }
 
-#olmapLayertree .layeroptionen select.exportLayerSelect {
+#olMapLayertree .layeroptionen select.exportLayerSelect {
     width: 100px;
 }
 
-#olmapLayertree .layeroptionen select.modifyLayerGeomType {
+#olMapLayertree .layeroptionen select.modifyLayerGeomType {
     width: 125px;
     display: none;
 }
 
-#olmapLayertree .nonModifyOptions {
+#olMapLayertree .nonModifyOptions {
     display: inline;
     margin-top: 3px;
 }
@@ -798,7 +798,7 @@ label.erforderlich span {
     min-width: 300px;
 }
 
-#olmap_exportieren_div {
+#olMapExportierenDiv {
     width:  25px;
     height: 26px;
     top:    10px;
@@ -807,7 +807,7 @@ label.erforderlich span {
     z-index: 90;
 }
 
-#olmap_exportieren {
+#olMapExportieren {
     width:  25px;
     height: 26px;
 }
@@ -842,7 +842,7 @@ label.erforderlich span {
     top: 0.55em;
 }
 
-#ergebnisMessung {
+#olMapErgebnisMessung {
     font-weight: 900;
     font-size: 16px;
     font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -852,7 +852,7 @@ label.erforderlich span {
     padding-left:  7px;
     margin-bottom: 8px;
 }
-#ergebnisAuswahl {
+#olMapErgebnisAuswahl {
     display: none;
     border: 1px solid #e0cfc2;
     background: #f4f0ec url(images/ui-bg_inset-soft_100_f4f0ec_1x100.png) 50% bottom repeat-x;
@@ -862,24 +862,24 @@ label.erforderlich span {
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: 13px;
 }
-#ergebnisAuswahl #ergebnisAuswahlHeader {
+#olMapErgebnisAuswahl #olMapErgebnisAuswahlHeader {
     padding: 3px 1px 3px 6px;
     font-weight: bold;
     border-bottom: 1px solid #e0cfc2;
 }
-#ergebnisAuswahlHeaderText {
+#olMapErgebnisAuswahlHeaderText {
     display: inline;
 }
-#ergebnisAuswahlHeader .ui-icon.ui-icon-closethick {
+#olMapErgebnisAuswahlHeader .ui-icon.ui-icon-closethick {
     float: right;
     margin: 0 0 1px 1px;
     background-image: url(images/ui-icons_1E1B1D_256x240.png);
     height: 18px;
 }
-#ergebnisAuswahlHeader .ui-icon.ui-icon-closethick:hover {
+#olMapErgebnisAuswahlHeader .ui-icon.ui-icon-closethick:hover {
     background-image: url(images/ui-icons_f08000_256x240.png);
 }
-#ergebnisAuswahlListe {
+#olMapErgebnisAuswahlListe {
     overflow: auto;
     max-height: 400px;
     padding-top:    3px;
@@ -899,27 +899,27 @@ p.ergebnisAuswahlListeTitelTPop {
     padding-top: 3px;
     border-top: 1px solid #e0cfc2;
 }
-#ergebnisAuswahl a {
+#olMapErgebnisAuswahl a {
     color: #1E1B1D;
     border-bottom: 1px #848384 dotted;
     text-decoration: none;
 }
-#ergebnisAuswahl a:hover {
+#olMapErgebnisAuswahl a:hover {
     border-bottom: 1px #848384 solid;
 }
-#ergebnisAuswahlListe td:first-child {
+#olMapErgebnisAuswahlListe td:first-child {
     text-align: right;
     padding-right: 0;
     padding-left:  6px;
     min-width:    35px;
 }
-#ergebnisAuswahlListe td {
+#olMapErgebnisAuswahlListe td {
     padding-right: 6px;
 }
-#ergebnisAuswahlFooter {
+#olMapErgebnisAuswahlFooter {
     padding: 3px 6px 3px 6px;
 }
-#ergebnisAuswahlFooter a {
+#olMapErgebnisAuswahlFooter a {
     color: #1E1B1D;
 }
 #toggleLayertree {

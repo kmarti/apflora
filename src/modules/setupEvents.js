@@ -23,17 +23,17 @@ var $                             = require('jquery'),
     setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
     oeffneBeob                    = require('./oeffneBeob'),
     oeffneBeobInNeuemTab          = require('./oeffneBeobInNeuemTab'),
-    onClickOlmapLayertreeCheckbox = require('./events/olmapLayertree/onClickOlmapLayertreeCheckbox'),
-    onClickLayertreePopStyle      = require('./events/olmapLayertree/onClickLayertreePopStyle'),
-    onClickLayertreeTpopStyle     = require('./events/olmapLayertree/onClickLayertreeTpopStyle'),
-    onClickModifyLayer            = require('./events/olmapLayertree/onClickModifyLayer'),
-    onClickRenameLayer            = require('./events/olmapLayertree/onClickRenameLayer'),
-    onClickEntferneLayer          = require('./events/olmapLayertree/onClickEntferneLayer'),
-    onClickNeuesLayer             = require('./events/olmapLayertree/onClickNeuesLayer'),
-    onSelectmenuchangeExportLayerSelect = require('./events/olmapLayertree/onSelectmenuchangeExportLayerSelect');
+    onClickOlmapLayertreeCheckbox = require('./events/olMapLayertree/onClickOlmapLayertreeCheckbox'),
+    onClickLayertreePopStyle      = require('./events/olMapLayertree/onClickLayertreePopStyle'),
+    onClickLayertreeTpopStyle     = require('./events/olMapLayertree/onClickLayertreeTpopStyle'),
+    onClickModifyLayer            = require('./events/olMapLayertree/onClickModifyLayer'),
+    onClickRenameLayer            = require('./events/olMapLayertree/onClickRenameLayer'),
+    onClickEntferneLayer          = require('./events/olMapLayertree/onClickEntferneLayer'),
+    onClickNeuesLayer             = require('./events/olMapLayertree/onClickNeuesLayer'),
+    onSelectmenuchangeExportLayerSelect = require('./events/olMapLayertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
-    $('#olmapLayertree')
+    $('#olMapLayertree')
         .on('click',            '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
         .on('click',            '.layertreePopStyle',      onClickLayertreePopStyle)
         .on('click',            '.layertreeTpopStyle',     onClickLayertreeTpopStyle)
@@ -54,7 +54,7 @@ module.exports = function () {
         });
 
     $('#olMap')
-        .on('click', '#olmap_exportieren', function (event) {
+        .on('click', '#olMapExportieren', function (event) {
             exportiereKarte(event);
         });
 
@@ -340,7 +340,7 @@ module.exports = function () {
             return false; // this is critical to stop the click event which will trigger a normal file download!
         });
 
-    $("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function () {
+    $("#olMapErgebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function () {
         deaktiviereOlmapAuswahl();
     });
 

@@ -23,7 +23,7 @@ module.exports = function () {
         if (window.apf.olMap && window.apf.olMap.map) {
             window.apf.olMap.map.updateSize();
             // Maximalgrösse des Layertree begrenzen
-            $('#olmap_layertree_layers').css('max-height', lytMaxHeight);
+            $('#olMapLayertreeLayers').css('max-height', lytMaxHeight);
         }
         if (google !== undefined && google.maps && window.apf.gMap && window.apf.gMap.map !== undefined) {
             google.maps.event.trigger(window.apf.gMap.map, 'resize');

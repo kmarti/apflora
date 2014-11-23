@@ -17,6 +17,6 @@ module.exports = function () {
     if (popSelected.length > 0 || tpopSelected.length > 0) {
         erstelleListeDerAusgewaehltenPopTPop(popSelected, tpopSelected);
     } else {
-        $("#ergebnisAuswahl").hide();
+        $("#olMapErgebnisAuswahl").hide();
     }
 };

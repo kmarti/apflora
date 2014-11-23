@@ -1,26 +1,16 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    ol = require('ol');
+var $  = require('jquery');
 
 module.exports = function () {
-    var mapSize,
-        anzKartenpixel,
-        tooltipTitle;
+    var tooltipTitle;
 
-    mapSize = window.apf.olMap.map.getSize();
-    // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
-    anzKartenpixel = /*window.apf.olMap.map.getView().getResolution() * */mapSize[0] * mapSize[1];
-    $('#olmap_exportieren').button();
-    /*if (anzKartenpixel > 500000) {
-        $('#olmap_exportieren').button("disable");
-        tooltipTitle = 'Karte als png herunterladen<br>Diese Funktion ist inaktiv<br>Um sie zu aktivieren, müssen Sie die Karte verkleinern<br>Packen Sie dazu die untere rechte Ecke und ziehen Sie sie nach oben links';
-    } else {*/
-        $('#olmap_exportieren').button("enable");
-        tooltipTitle = 'Karte als png herunterladen';
-    //}
-    $("#olmap_exportieren_div").tooltip({
+    $('#olMapExportieren').button();
+    $('#olMapExportieren').button("enable");
+
+    tooltipTitle = 'Karte als png herunterladen';
+    $("#olMapExportierenDiv").tooltip({
         tooltipClass: "tooltip-styling-hinterlegt",
         content:      tooltipTitle
     });

@@ -10,5 +10,5 @@ module.exports = function () {
     if (window.drawControl) {
         window.drawControl.deactivate();
     }
-    $("#ergebnisAuswahl").css("display", "none");
+    $("#olMapErgebnisAuswahl").css("display", "none");
 };

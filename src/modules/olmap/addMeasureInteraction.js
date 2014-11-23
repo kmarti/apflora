@@ -78,7 +78,7 @@ module.exports = function (type) {
             // set sketch
             sketch         = evt.feature;
             sketchElement  = document.createElement('li');
-            var outputList = document.getElementById('ergebnisMessung');
+            var outputList = document.getElementById('olMapErgebnisMessung');
             if (outputList.childNodes) {
                 outputList.insertBefore(sketchElement, outputList.firstChild);
             } else {

@@ -84,9 +84,9 @@ module.exports = function (popSelected, tpopSelected) {
         listentitel = "Keine Populationen/Teilpopulationen gewählt";
         exportieren = "";
     }
-    $("#ergebnisAuswahlHeaderText").html(listentitel);
-    $("#ergebnisAuswahlListe").html(rueckmeldung);
-    $("#ergebnisAuswahlFooter").html(exportieren);
+    $("#olMapErgebnisAuswahlHeaderText").html(listentitel);
+    $("#olMapErgebnisAuswahlListe").html(rueckmeldung);
+    $("#olMapErgebnisAuswahlFooter").html(exportieren);
     // Ergebnis-Div einblenden
-    $("#ergebnisAuswahl").css("display", "block");
+    $("#olMapErgebnisAuswahl").css("display", "block");
 };

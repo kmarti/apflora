@@ -9,6 +9,6 @@ module.exports = function () {
         window.apf.olMap.map.removeInteraction(window.apf.olMap.map.olmapSelectInteraction);
         delete window.apf.olMap.map.olmapSelectInteraction;
         removeDragBox();
-        $("#ergebnisAuswahl").hide();
+        $("#olMapErgebnisAuswahl").hide();
     }
 };

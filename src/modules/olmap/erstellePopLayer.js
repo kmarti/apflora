@@ -43,7 +43,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
         marker = new ol.Feature({
             geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
             popNr:        myLabel,
-            popName:     myName,
+            popName:      myName,
             name:         myLabel, // noch benötigt? TODO: entfernen
             popupContent: popupContent,
             popupTitle:   myName,
@@ -82,8 +82,8 @@ module.exports = function (popliste, popidMarkiert, visible) {
         setTimeout(function () {
             pruefeObPopTpopGewaehltWurden();
         }, 100);
-        // Schaltfläche olmap_auswaehlen aktivieren
-        $('#olmap_auswaehlen')
+        // Schaltfläche olMapAuswaehlen aktivieren
+        $('#olMapAuswaehlen')
             .prop('checked', true)
             .button()
             .button("refresh");
