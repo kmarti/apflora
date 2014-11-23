@@ -67,7 +67,7 @@ module.exports = function (activeKategorie) {
         legendeUrl = layer.get('legendeUrl') || null;
 
         if (layertitel !== 'messen') {
-            htmlProv = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
+            htmlProv = '<li><input type="checkbox" class="olmapLayertreeCheckbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
             // sichtbare Layer sollen gecheckt sein
             if (visible) {
                 htmlProv += ' checked="checked"';
@@ -77,10 +77,10 @@ module.exports = function (activeKategorie) {
             // bei pop und tpop muss style gewählt werden können
             if (layertitel === 'Populationen') {
                 htmlProv += '<div class="layeroptionen">';
-                htmlProv += '<label for="layertree_pop_nr" class="layertree_pop_style popNr">Nr.</label>';
-                htmlProv += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style popNr" checked="checked"> ';
-                htmlProv += '<label for="layertree_pop_name" class="layertree_pop_style pop_name">Namen</label>';
-                htmlProv += '<input type="checkbox" id="layertree_pop_name" class="layertree_pop_style pop_name">';
+                htmlProv += '<label for="layertreePopNr" class="layertreePopStyle popNr">Nr.</label>';
+                htmlProv += '<input type="checkbox" id="layertreePopNr" class="layertreePopStyle popNr" checked="checked"> ';
+                htmlProv += '<label for="layertreePopName" class="layertreePopStyle popName">Namen</label>';
+                htmlProv += '<input type="checkbox" id="layertreePopName" class="layertreePopStyle popName">';
                 htmlProv += '</div>';
             }
             if (layertitel === 'Teilpopulationen') {

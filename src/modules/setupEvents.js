@@ -10,8 +10,6 @@ var $                             = require('jquery'),
     fitTextareaToContent          = require('./fitTextareaToContent'),
     speichern                     = require('./speichern'),
     waehleApListe                 = require('./waehleApListe'),
-    entferneModifyInteractionFuerVectorLayer = require('./olmap/entferneModifyInteractionFuerVectorLayer'),
-    erstelleModifyInteractionFuerVectorLayer = require('./olmap/erstelleModifyInteractionFuerVectorLayer'),
     exportiereLayer               = require('./olmap/exportiereLayer'),
     frageNameFuerEbene            = require('./olmap/frageNameFuerEbene'),
     initiiereLayertree            = require('./olmap/initiiereLayertree'),
@@ -29,27 +27,16 @@ var $                             = require('jquery'),
     initiiereExporte              = require('./initiiereExporte'),
     setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
     oeffneBeob                    = require('./oeffneBeob'),
-    oeffneBeobInNeuemTab          = require('./oeffneBeobInNeuemTab');
+    oeffneBeobInNeuemTab          = require('./oeffneBeobInNeuemTab'),
+    onClickOlmapLayertreeCheckbox = require('./events/onClickOlmapLayertreeCheckbox'),
+    onClickLayertreePopStyle      = require('./events/onClickLayertreePopStyle'),
+    entferneModifyInteractionFuerVectorLayer = require('./olmap/entferneModifyInteractionFuerVectorLayer'),
+    erstelleModifyInteractionFuerVectorLayer = require('./olmap/erstelleModifyInteractionFuerVectorLayer');
 
 module.exports = function () {
     $('#olmap_layertree')
-        .on('click', '.olmap_layertree_checkbox', function (event) {
-            var layers = window.apf.olmap.map.getLayers().getArray();
-            layers[event.target.value].setVisible(event.target.checked);
-        })
-        .on('click', '.layertree_pop_style', function () {
-            var layers = window.apf.olmap.map.getLayers().getArray(),
-                layer  = $('#olmap_layertree_Populationen').val(),
-                that   = this;
-            // style setzen
-            layers[layer].setStyle(stylePop);
-            // jeweils andere box unchecken
-            if ($(that).hasClass('popNr') && that.checked) {
-                $('#layertree_pop_name').prop('checked', false);
-            } else if ($(that).hasClass('pop_name') && that.checked) {
-                $('#layertree_pop_nr').prop('checked', false);
-            }
-        })
+        .on('click', '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
+        .on('click', '.layertreePopStyle', onClickLayertreePopStyle)
         .on('click', '.layertree_tpop_style', function () {
             var layers = window.apf.olmap.map.getLayers().getArray(),
                 layer  = $('#olmap_layertree_Teilpopulationen').val(),

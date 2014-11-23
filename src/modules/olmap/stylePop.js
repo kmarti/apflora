@@ -15,7 +15,7 @@ module.exports = function (feature, resolution, selected) {
         strokeColor = 'white',
         styleWithText,
         styleWithoutText,
-        $layertree_pop_nr = $('#layertree_pop_nr');
+        $layertreePopNr = $('#layertreePopNr');
 
     // markierte: icon ist orange und Text hat roten Hintergrund
     if (selected) {
@@ -32,10 +32,10 @@ module.exports = function (feature, resolution, selected) {
     }));
 
     // text bestimmen, abhängig von der Einstellung im Layertree
-    if ($layertree_pop_nr.is(':checked')) {
+    if ($layertreePopNr.is(':checked')) {
         textInhalt = feature.get('popNr');
-    } else if ($('#layertree_pop_name').is(':checked')) {
-        textInhalt = feature.get('pop_name');
+    } else if ($('#layertreePopName').is(':checked')) {
+        textInhalt = feature.get('popName');
     }
 
     textStyle = new ol.style.Text({
@@ -59,10 +59,10 @@ module.exports = function (feature, resolution, selected) {
     });
 
     // style bestimmen
-    if ($layertree_pop_nr.is(':checked')) {
+    if ($layertreePopNr.is(':checked')) {
         return [styleWithText];
     }
-    if ($('#layertree_pop_name').is(':checked')) {
+    if ($('#layertreePopName').is(':checked')) {
         return [styleWithText];
     }
     return [styleWithoutText];

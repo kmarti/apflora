@@ -43,7 +43,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
         marker = new ol.Feature({
             geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
             popNr:        myLabel,
-            pop_name:     myName,
+            popName:     myName,
             name:         myLabel, // noch benötigt? TODO: entfernen
             popupContent: popupContent,
             popupTitle:   myName,

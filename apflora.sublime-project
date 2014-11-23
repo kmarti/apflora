@@ -2,6 +2,11 @@
 	"folders":
 	[
 		{
+            "follow_symlinks": true,
+            "path": "/",
+            "folder_exclude_patterns": ["*"]
+        },
+        {
 			"follow_symlinks": true,
 			"path": "geojson"
 		},

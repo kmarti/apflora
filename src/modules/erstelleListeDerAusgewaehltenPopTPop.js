@@ -36,7 +36,7 @@ module.exports = function (popSelected, tpopSelected) {
         _.each(popSelected, function (pop) {
             popId         = pop.get('myId');
             rueckmeldung += '<tr><td><a href="#" onclick="window.apf.oeffnePop(\'' + popId + '\')">';
-            rueckmeldung += pop.get('popNr') + ':<\/a></td><td><a href="#" onclick="window.apf.oeffnePop(\'' + popId + '\')">' + pop.get('pop_name') + '<\/a></td></tr>';
+            rueckmeldung += pop.get('popNr') + ':<\/a></td><td><a href="#" onclick="window.apf.oeffnePop(\'' + popId + '\')">' + pop.get('popName') + '<\/a></td></tr>';
         });
         rueckmeldung += "</table>";
     }
