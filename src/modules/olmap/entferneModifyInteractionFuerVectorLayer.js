@@ -6,7 +6,7 @@
 var $ = require('jquery');
 
 module.exports = function (inputDiv) {
-    var $modify_layer = $('.modify_layer');
+    var $modifyLayer = $('.modifyLayer');
     inputDiv = inputDiv || null;
     if (window.apf.olmap.modifyInteractionFuerVectorlayer) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteractionFuerVectorlayer);
@@ -17,7 +17,7 @@ module.exports = function (inputDiv) {
         delete window.apf.olmap.drawInteractionFuerVectorlayer;
     }
     // alle buttons im layer-tool zurückstellen
-    $modify_layer
+    $modifyLayer
         .button({
             icons: {primary: 'ui-icon-locked'},
             text: false
@@ -31,9 +31,9 @@ module.exports = function (inputDiv) {
             content: 'Ebene bearbeiten'
         });
     // geom_select ausblenden
-    $('.modify_layer_geom_type').hide();
+    $('.modifyLayerGeomType').hide();
     // übrige Layer deaktivieren
-    $modify_layer.each(function () {
+    $modifyLayer.each(function () {
         // sicherstellen, dass der jetzt zu aktivierende Layer nicht deaktiviert wird
         if ($(this).prop('checked') && !$(this).is(inputDiv)) {
             $(this).prop("checked", false).change();

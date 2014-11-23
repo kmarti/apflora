@@ -34,5 +34,5 @@ module.exports = function (layer, selectedValue) {
             melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
         }
     }
-    window.apf.download(layerName, dataStringified);
+    download(layerName, dataStringified);
 };

@@ -1270,16 +1270,16 @@ label.erforderlich span {
     font-size: 12px !important;
 }
 
-#olmapLayertree .layeroptionen select.export_layer_select {
+#olmapLayertree .layeroptionen select.exportLayerSelect {
     width: 100px;
 }
 
-#olmapLayertree .layeroptionen select.modify_layer_geom_type {
+#olmapLayertree .layeroptionen select.modifyLayerGeomType {
     width: 125px;
     display: none;
 }
 
-#olmapLayertree .non_modify_options {
+#olmapLayertree .nonModifyOptions {
     display: inline;
     margin-top: 3px;
 }

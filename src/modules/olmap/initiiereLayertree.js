@@ -93,11 +93,11 @@ module.exports = function (activeKategorie) {
             }
             if (kategorie === 'Eigene Ebenen') {
                 htmlProv += '<div class="layeroptionen">';
-                htmlProv += '<input type="checkbox" class="modify_layer" id="modify_layer_' + layertitel.replace(" ", "_") + '">';
-                htmlProv += '<label for="modify_layer_' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
-                htmlProv += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
-                htmlProv += '<div class="non_modify_options">';
-                htmlProv += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="export_layer_select apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
+                htmlProv += '<input type="checkbox" class="modifyLayer" id="modifyLayer' + layertitel.replace(" ", "_") + '">';
+                htmlProv += '<label for="modifyLayer' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
+                htmlProv += '<select id="modifyLayerGeomType' + layertitel.replace(" ", "_") + '" class="modifyLayerGeomType apf_tooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
+                htmlProv += '<div class="nonModifyOptions">';
+                htmlProv += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="exportLayerSelect apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
                 htmlProv += '<input type="checkbox" class="rename_layer" id="rename_layer_' + layertitel.replace(" ", "_") + '">';
                 htmlProv += '<label for="rename_layer_' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
                 htmlProv += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
@@ -216,7 +216,7 @@ module.exports = function (activeKategorie) {
             icons: {primary: 'ui-icon-plusthick'}
         })
         .button('refresh');
-    $('.export_layer_select').selectmenu();
+    $('.exportLayerSelect').selectmenu();
     // jetzt tooltips erstellen
     _.each(exportLayerSelectIds, function (id) {
         // give the selectmenu a tooltip
@@ -231,7 +231,7 @@ module.exports = function (activeKategorie) {
         });
     });
     if (initializeModifyLayer) {
-        $('.modify_layer')
+        $('.modifyLayer')
             .button({
                 icons: { primary: 'ui-icon-locked' },
                 text: false

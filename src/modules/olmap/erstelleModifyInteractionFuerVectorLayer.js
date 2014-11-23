@@ -31,7 +31,7 @@ module.exports = function (vectorlayer) {
     }
 
     layerTitle = vectorlayer.get('title');
-    $geom_type_select = $('#modify_layer_geom_type_' + layerTitle.replace(" ", "_"));
+    $geom_type_select = $('#modifyLayerGeomType' + layerTitle.replace(" ", "_"));
 
     // darin werden die ids von selectierten features gespeichert
     window.apf.olmap.modifiedFeatures = [];

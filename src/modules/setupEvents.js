@@ -10,7 +10,6 @@ var $                             = require('jquery'),
     fitTextareaToContent          = require('./fitTextareaToContent'),
     speichern                     = require('./speichern'),
     waehleApListe                 = require('./waehleApListe'),
-    exportiereLayer               = require('./olmap/exportiereLayer'),
     frageNameFuerEbene            = require('./olmap/frageNameFuerEbene'),
     initiiereLayertree            = require('./olmap/initiiereLayertree'),
     stylePop                      = require('./olmap/stylePop'),
@@ -31,109 +30,17 @@ var $                             = require('jquery'),
     onClickOlmapLayertreeCheckbox = require('./events/onClickOlmapLayertreeCheckbox'),
     onClickLayertreePopStyle      = require('./events/onClickLayertreePopStyle'),
     onClickLayertreeTpopStyle     = require('./events/onClickLayertreeTpopStyle'),
-    entferneModifyInteractionFuerVectorLayer = require('./olmap/entferneModifyInteractionFuerVectorLayer'),
+    onClickModifyLayer            = require('./events/onClickModifyLayer'),
+    onSelectmenuchangeExportLayerSelect      = require('./events/onSelectmenuchangeExportLayerSelect'),
     erstelleModifyInteractionFuerVectorLayer = require('./olmap/erstelleModifyInteractionFuerVectorLayer');
 
 module.exports = function () {
     $('#olmapLayertree')
-        .on('click', '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
-        .on('click', '.layertreePopStyle', onClickLayertreePopStyle)
-        .on('click', '.layertreeTpopStyle', onClickLayertreeTpopStyle)
-        .on('click', '.modify_layer', function () {
-            // layer holen
-            var layerDiv            = $(this).parent().siblings('input'),
-                layerIndex          = layerDiv.val(),
-                layer               = window.apf.olmap.map.getLayers().getArray()[layerIndex],
-                buttonDiv           = $(this).siblings('label').first(),
-                geomSelectDiv       = $(this).siblings('.modify_layer_geom_type'),
-                geomSelectDivId     = geomSelectDiv.attr('id'),
-                buttonIcon          = $(this).button('option', 'icons').primary,
-                $non_modify_options = $(this).siblings('.non_modify_options'),
-                tooltipContent;
-
-            // modify-layer steuern
-            if (window.apf.olmap.modifyInteractionFuerVectorlayer) {
-                // modify entfernen
-                // input_div mitgeben, damit alle übrigen Layer deaktiviert werden können
-                entferneModifyInteractionFuerVectorLayer(layerDiv);
-            }
-
-            // modify_layer_geom_type selectmenu zurücksetzen...
-            $('.modify_layer_geom_type')
-                .selectmenu()
-                .selectmenu('destroy')
-                .hide();
-
-            // Zustand der Layeranzeige steuern
-            if (buttonIcon === 'ui-icon-locked') {
-                // war inaktiv, also aktivieren
-                erstelleModifyInteractionFuerVectorLayer(layer);
-                // title ändern
-                tooltipContent = 'Ebene schützen';
-                // selectmenu initiieren
-                geomSelectDiv.selectmenu({
-                    width: 140
-                });
-                // give the selectmenu a tooltip
-                // oberhalb, sonst verdeckt er den Inhalt, wenn der öffnet...
-                $('#' + geomSelectDivId + '-button').tooltip({
-                    tooltipClass: "tooltip-styling-hinterlegt",
-                    items:        'span',
-                    content:      geomSelectDiv.attr('title'),
-                    position: {
-                        my: 'left bottom-5',
-                        at: 'left top'
-                    }
-                });
-                // Optionen, die nicht der Bearbeitung dienen, auf zweite Zeile
-                $non_modify_options
-                    .css('display', 'block')
-                    .css('margin-left', '3px');
-                // button is pencil
-                $(this)
-                    .button({
-                        icons: { primary: 'ui-icon-pencil' },
-                        text: false
-                    })
-                    .button('refresh');
-            } else {
-                // button war aktiv > deaktivieren
-                // title ändern
-                tooltipContent = 'Ebene bearbeiten';
-                // Optionen, die nicht der Bearbeitung dienen, auf gleiche Zeile
-                $non_modify_options
-                    .css('display', 'inline')
-                    .css('margin-left', '0');
-                // button is locked
-                $(this)
-                    .button({
-                        icons: { primary: 'ui-icon-locked' },
-                        text:  false
-                    })
-                    .button('refresh');
-            }
-            // tooltip von .modify_layer anpassen
-            buttonDiv
-                .attr('title', tooltipContent)
-                .tooltip({
-                    tooltipClass: "tooltip-styling-hinterlegt",
-                    content:      tooltipContent
-                });
-        })
-        .on('selectmenuchange', '.export_layer_select', function () {
-            // layer holen
-            var $layerDiv     = $(this).parent().parent().siblings('input'),
-                layerIndex    = $layerDiv.val(),
-                layer         = window.apf.olmap.map.getLayers().getArray()[layerIndex],
-                $select_div   = this,
-                selectedValue = $select_div.options[$select_div.selectedIndex].value;
-
-            if (selectedValue !== 'leerwert') {
-                exportiereLayer(layer, selectedValue);
-                $select_div.value = 'leerwert';
-                $(this).selectmenu('refresh');
-            }
-        })
+        .on('click',            '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
+        .on('click',            '.layertreePopStyle',      onClickLayertreePopStyle)
+        .on('click',            '.layertreeTpopStyle',     onClickLayertreeTpopStyle)
+        .on('click',            '.modifyLayer',            onClickModifyLayer)
+        .on('selectmenuchange', '.exportLayerSelect',      onSelectmenuchangeExportLayerSelect)
         .on('click', '.rename_layer', function () {
             // layer holen
             var layerDiv   = $(this).parent().parent().siblings('input'),
