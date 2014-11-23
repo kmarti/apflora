@@ -636,7 +636,7 @@ label.erforderlich span {
     border-radius: 8px;
 }*/
 
-#olmap_layertree {
+#olmapLayertree {
     width: 302px;
     overflow: hidden;
     position: absolute;
@@ -646,18 +646,18 @@ label.erforderlich span {
     border-radius: 6px;
 }
 
-#olmap_layertree li .ui-button-text {
+#olmapLayertree li .ui-button-text {
     font-size: 16px !important;
 }
 
-#olmap_layertree .ui-accordion-header {
+#olmapLayertree .ui-accordion-header {
     padding-left:  1.9em;
     padding-top:    .2em;
     padding-bottom: .2em;
     font-size: 16px;
 }
 
-#olmap_layertree .ui-accordion-content {
+#olmapLayertree .ui-accordion-content {
     padding: 7px 0;
     font-size: 14px;
     line-height: 1em;
@@ -665,7 +665,7 @@ label.erforderlich span {
     position: relative;
 }
 
-#olmap_layertree .ui-accordion-content:last-child {
+#olmapLayertree .ui-accordion-content:last-child {
     margin-bottom: 0;
 }
 
@@ -684,38 +684,38 @@ label.erforderlich span {
     padding-bottom: 0 !important;
 }
 
-#olmap_layertree .ui-accordion-content li {
+#olmapLayertree .ui-accordion-content li {
     padding-left:  0.8em;
     padding-right: 0.8em;
 }
 
-#olmap_layertree .ui-accordion-content p {
+#olmapLayertree .ui-accordion-content p {
     padding-left:    1em;
     padding-right:   1em;
     margin-top:    0.2em;
     margin-bottom: 0.2em;
 }
 
-#olmap_layertree .ui-accordion-content p:first-child {
+#olmapLayertree .ui-accordion-content p:first-child {
     margin-top:    0;
     margin-bottom: 0;
 }
 
-#olmap_layertree .ui-accordion-content ul {
+#olmapLayertree .ui-accordion-content ul {
     margin-top:    0.2em;
     margin-bottom: 0.4em;
 }
 
-#olmap_layertree .ui-accordion-content ul li {
+#olmapLayertree .ui-accordion-content ul li {
     padding-left: 0;
 }
 
-#olmap_layertree .ui-accordion-content hr {
+#olmapLayertree .ui-accordion-content hr {
     color: #E0CFC2;
     border-style: inherit;
 }
 
-#olmap_layertree .ui-accordion-content .eigene_layer_meldung {
+#olmapLayertree .ui-accordion-content .eigene_layer_meldung {
     display: none;
     padding-left: 6px;
     padding-top:  3px;
@@ -723,38 +723,38 @@ label.erforderlich span {
     font-size: 12px;
 }
 
-#olmap_layertree [type=checkbox]:first-child {
+#olmapLayertree [type=checkbox]:first-child {
     margin-top:  0;
     margin-left: 0 !important;
 }
 
-#olmap_layertree [type=checkbox] {
+#olmapLayertree [type=checkbox] {
     vertical-align: bottom;
     margin-bottom: 0;
 }
 
-#olmap_layertree li label {
+#olmapLayertree li label {
     padding-left:  5px;
     padding-right: 3px;
 }
 
-#olmap_layertree .layeroptionen {
+#olmapLayertree .layeroptionen {
     margin-left: -5px;
     margin-top:   3px;
 }
 
-#olmap_layertree li .ui-button {
+#olmapLayertree li .ui-button {
     width:  14px;
     height: 16px;
     margin-left: 5px;
 }
 
-#olmap_layertree li .ui-button.entferne_layer_label {
+#olmapLayertree li .ui-button.entferne_layer_label {
     position: absolute;
     right: 7px;
 }
 
-.olmap_layertreee_legende {
+.olmapLayertreeLegende {
     display: inline-block;
     right: 7px;
     position: absolute;
@@ -765,30 +765,30 @@ label.erforderlich span {
     font-size: 12px !important;
 }
 
-#olmap_layertree .ui-selectmenu-button {
+#olmapLayertree .ui-selectmenu-button {
     margin-bottom: -5px;
     margin-left:    2px;
 }
 
-#olmap_layertree .ui-selectmenu-button span.ui-selectmenu-text {
+#olmapLayertree .ui-selectmenu-button span.ui-selectmenu-text {
     padding: 0 2.1em 0 .8em !important;
     font-size: 12px;
 }
 
-#olmap_layertree .layeroptionen select {
+#olmapLayertree .layeroptionen select {
     font-size: 12px !important;
 }
 
-#olmap_layertree .layeroptionen select.export_layer_select {
+#olmapLayertree .layeroptionen select.export_layer_select {
     width: 100px;
 }
 
-#olmap_layertree .layeroptionen select.modify_layer_geom_type {
+#olmapLayertree .layeroptionen select.modify_layer_geom_type {
     width: 125px;
     display: none;
 }
 
-#olmap_layertree .non_modify_options {
+#olmapLayertree .non_modify_options {
     display: inline;
     margin-top: 3px;
 }

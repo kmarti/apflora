@@ -17,7 +17,7 @@ module.exports = function (feature, resolution, selected, verorten) {
         strokeColor = 'white',
         styleWithText,
         styleWithoutText,
-        $layertree_tpop_nr = $('#layertree_tpop_nr');
+        $layertreeTpopNr = $('#layertreeTpopNr');
 
     // markierte: icon ist gelb
     if (selected) {
@@ -38,10 +38,10 @@ module.exports = function (feature, resolution, selected, verorten) {
     }));
 
     // text bestimmen, abhängig von der Einstellung im Layertree
-    if ($layertree_tpop_nr.is(':checked')) {
+    if ($layertreeTpopNr.is(':checked')) {
         textInhalt = feature.get('tpop_nr_label');
-    } else if ($('#layertree_tpop_name').is(':checked')) {
-        textInhalt = feature.get('tpop_name');
+    } else if ($('#layertreeTpopName').is(':checked')) {
+        textInhalt = feature.get('tpopName');
     }
 
     textStyle = new ol.style.Text({
@@ -65,10 +65,10 @@ module.exports = function (feature, resolution, selected, verorten) {
     });
 
     // style bestimmen und zurück geben
-    if ($layertree_tpop_nr.is(':checked')) {
+    if ($layertreeTpopNr.is(':checked')) {
         return [styleWithText];
     }
-    if ($('#layertree_tpop_name').is(':checked')) {
+    if ($('#layertreeTpopName').is(':checked')) {
         return [styleWithText];
     }
     return [styleWithoutText];

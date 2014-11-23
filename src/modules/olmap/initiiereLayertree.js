@@ -67,13 +67,13 @@ module.exports = function (activeKategorie) {
         legendeUrl = layer.get('legendeUrl') || null;
 
         if (layertitel !== 'messen') {
-            htmlProv = '<li><input type="checkbox" class="olmapLayertreeCheckbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
+            htmlProv = '<li><input type="checkbox" class="olmapLayertreeCheckbox" id="olmapLayertree' + layertitel + '" value="' + index + '"';
             // sichtbare Layer sollen gecheckt sein
             if (visible) {
                 htmlProv += ' checked="checked"';
             }
             htmlProv += '>';
-            htmlProv += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label>';
+            htmlProv += '<label for="olmapLayertree' + layertitel + '">' + layertitel + '</label>';
             // bei pop und tpop muss style gewählt werden können
             if (layertitel === 'Populationen') {
                 htmlProv += '<div class="layeroptionen">';
@@ -85,10 +85,10 @@ module.exports = function (activeKategorie) {
             }
             if (layertitel === 'Teilpopulationen') {
                 htmlProv += '<div class="layeroptionen">';
-                htmlProv += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpopNr">Nr.</label>';
-                htmlProv += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpopNr" checked="checked"> ';
-                htmlProv += '<label for="layertree_tpop_name" class="layertree_tpop_style tpop_name">Namen</label>';
-                htmlProv += '<input type="checkbox" id="layertree_tpop_name" class="layertree_tpop_style tpop_name">';
+                htmlProv += '<label for="layertreeTpopNr" class="layertreeTpopStyle tpopNr">Nr.</label>';
+                htmlProv += '<input type="checkbox" id="layertreeTpopNr" class="layertreeTpopStyle tpopNr" checked="checked"> ';
+                htmlProv += '<label for="layertreeTpopName" class="layertreeTpopStyle tpopName">Namen</label>';
+                htmlProv += '<input type="checkbox" id="layertreeTpopName" class="layertreeTpopStyle tpopName">';
                 htmlProv += '</div>';
             }
             if (kategorie === 'Eigene Ebenen') {
@@ -112,7 +112,7 @@ module.exports = function (activeKategorie) {
             if (legende && legendeUrl) {
                 // Symbol ergänzen
                 // beim hovern erscheint popup mit Legende
-                htmlProv += '<a class="ui-icon ui-icon-info olmap_layertreee_legende" href="' + legendeUrl + '" target="_blank" title="' + legendeUrl + '"></a>';
+                htmlProv += '<a class="ui-icon ui-icon-info olmapLayertreeLegende" href="' + legendeUrl + '" target="_blank" title="' + legendeUrl + '"></a>';
                 initializeLegende = true;
             }
             htmlProv += '</li>';
@@ -265,7 +265,7 @@ module.exports = function (activeKategorie) {
             .button('refresh');
     }
     if (initializeLegende) {
-        $(".olmap_layertreee_legende").tooltip({
+        $(".olmapLayertreeLegende").tooltip({
             tooltipClass: "tooltip_olmap_layertree_legende",
             position: {
                 my: "right top+15",
@@ -280,7 +280,7 @@ module.exports = function (activeKategorie) {
         // die tooltips sind beim ersten Öffnen zu weit rechts > nicht sichtbar!
         // darum alle einmal öffnen
         // ab dem zweiten mal liegen sie am richtigen Ort
-        $(".olmap_layertreee_legende").each(function () {
+        $(".olmapLayertreeLegende").each(function () {
             $(this).tooltip('open');
             $(this).tooltip('close');
         });

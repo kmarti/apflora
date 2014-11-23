@@ -30,28 +30,15 @@ var $                             = require('jquery'),
     oeffneBeobInNeuemTab          = require('./oeffneBeobInNeuemTab'),
     onClickOlmapLayertreeCheckbox = require('./events/onClickOlmapLayertreeCheckbox'),
     onClickLayertreePopStyle      = require('./events/onClickLayertreePopStyle'),
+    onClickLayertreeTpopStyle     = require('./events/onClickLayertreeTpopStyle'),
     entferneModifyInteractionFuerVectorLayer = require('./olmap/entferneModifyInteractionFuerVectorLayer'),
     erstelleModifyInteractionFuerVectorLayer = require('./olmap/erstelleModifyInteractionFuerVectorLayer');
 
 module.exports = function () {
-    $('#olmap_layertree')
+    $('#olmapLayertree')
         .on('click', '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
         .on('click', '.layertreePopStyle', onClickLayertreePopStyle)
-        .on('click', '.layertree_tpop_style', function () {
-            var layers = window.apf.olmap.map.getLayers().getArray(),
-                layer  = $('#olmap_layertree_Teilpopulationen').val(),
-                that   = this;
-            // style setzen
-            layers[layer].setStyle(styleTPop);
-            // jeweils andere box unchecken
-            if ($(that).hasClass('tpopNr') && that.checked) {
-                // andere box unchecken
-                $('#layertree_tpop_name').prop('checked', false);
-            } else if ($(that).hasClass('tpop_name') && that.checked) {
-                // andere box unchecken
-                $('#layertree_tpop_nr').prop('checked', false);
-            }
-        })
+        .on('click', '.layertreeTpopStyle', onClickLayertreeTpopStyle)
         .on('click', '.modify_layer', function () {
             // layer holen
             var layerDiv            = $(this).parent().siblings('input'),

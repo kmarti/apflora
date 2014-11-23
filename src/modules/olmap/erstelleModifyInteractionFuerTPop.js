@@ -49,7 +49,7 @@ module.exports = function (modifySource) {
                     // marker in tpopLayer ergänzen
                     // tpopLayer neu zeichnen
                     var layers            = window.apf.olmap.map.getLayers().getArray(),
-                        tpopLayerNr       = $('#olmap_layertree_Teilpopulationen').val(),
+                        tpopLayerNr       = $('#olmapLayertreeTeilpopulationen').val(),
                         tpopLayer         = layers[tpopLayerNr],
                         tpopLayerSource   = tpopLayer.getSource(),
                         tpopLayerFeatures = tpopLayerSource.getFeatures(),

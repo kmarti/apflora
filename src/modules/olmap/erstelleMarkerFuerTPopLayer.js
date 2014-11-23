@@ -11,7 +11,7 @@ module.exports = function (tpop) {
         tpopNr:        tpop.TPopNr,
         popNr:         tpop.PopNr,
         tpop_nr_label: erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
-        tpop_name:     tpop.TPopFlurname || '(kein Name)',
+        tpopName:     tpop.TPopFlurname || '(kein Name)',
         name:          erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
         popupContent:  erstelleContentFuerTPop(tpop),
         popupTitle:    tpop.Artname,

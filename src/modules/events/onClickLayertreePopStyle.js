@@ -1,7 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $         = require('jquery'),
+var $        = require('jquery'),
     stylePop = require('../olmap/stylePop');
 
 module.exports = function () {
