@@ -33,6 +33,11 @@ var $                             = require('jquery'),
     onSelectmenuchangeExportLayerSelect = require('./events/olMapLayertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
+    $('#olMap')
+        .on('click', '#olMapExportieren', function (event) {
+            exportiereKarte(event);
+        });
+
     $('#olMapLayertree')
         .on('click',            '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
         .on('click',            '.layertreePopStyle',      onClickLayertreePopStyle)
@@ -43,7 +48,7 @@ module.exports = function () {
         .on('click',            '.entferneLayer',          onClickEntferneLayer)
         .on('click',            '.neuesLayer',             onClickNeuesLayer);
 
-    $('#gMapDiv')
+    $('#gMap')
         .on('click', '.oeffneBeob', function (event) {
             event.preventDefault();
             oeffneBeob($(this).data('beob'));
@@ -51,11 +56,6 @@ module.exports = function () {
         .on('click', '.oeffneBeobInNeuemTab', function (event) {
             event.preventDefault();
             oeffneBeobInNeuemTab($(this).data('beob'));
-        });
-
-    $('#olMap')
-        .on('click', '#olMapExportieren', function (event) {
-            exportiereKarte(event);
         });
 
     $("#ber").on("change", "#BerURL", function () {
