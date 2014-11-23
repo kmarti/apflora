@@ -23,7 +23,7 @@ module.exports = function (activeKategorie) {
         htmlProv,
         html,
         $olmap_layertree_layers  = $('#olmap_layertree_layers'),
-        $ga_karten_div_accordion = $("#ga_karten_div").find(".accordion"),
+        $ga_karten_div_accordion = $("#olMapDiv").find(".accordion"),
         layers                   = window.apf.olMap.map.getLayers().getArray(),
         htmlEigeneLayerText,
         htmlEigeneLayer          = '<hr>',

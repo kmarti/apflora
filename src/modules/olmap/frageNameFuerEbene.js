@@ -19,7 +19,7 @@ module.exports = function (eigeneEbene) {
         position: {
             my: 'center',
             at: 'center',
-            of: $('#ga_karten_div')
+            of: $('#olMapDiv')
         },
         buttons: [
             {

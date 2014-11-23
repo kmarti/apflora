@@ -1090,7 +1090,7 @@ label.erforderlich span {
     display: none;
 }
 
-#ga_karten_div {
+#olMapDiv {
     width:  100%;
     height: 100%;
     border-radius: 8px;
@@ -1303,7 +1303,7 @@ label.erforderlich span {
     height: 26px;
 }
 
-#menuleiste {
+#olMapMenuleiste {
     position: absolute;
     top:  10px;
     left: 57px;
@@ -1311,11 +1311,11 @@ label.erforderlich span {
     z-index: 90;
 }
 
-#menuleiste .ui-state-disabled {
+#olMapMenuleiste .ui-state-disabled {
     opacity: .7;
 }
 
-#menuleiste .ui-button {
+#olMapMenuleiste .ui-button {
     padding: .2em .2em !important;
 }
 

@@ -13,9 +13,9 @@ module.exports = function () {
             return true;
         });
         if (hit) {
-            $('#ga_karten_div').css('cursor', 'pointer');
+            $('#olMapDiv').css('cursor', 'pointer');
         } else {
-            $('#ga_karten_div').css('cursor', '');
+            $('#olMapDiv').css('cursor', '');
         }
     });
 };

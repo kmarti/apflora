@@ -2141,9 +2141,9 @@
                 </div>
                 
                 <div id="olMap" class="karte">
-                    <div id="ga_karten_div">
-                        <div id='menuleiste'>
-                            <span id="messen">
+                    <div id="olMapDiv">
+                        <div id='olMapMenuleiste'>
+                            <span id="olMapMessen">
                                 <input type="radio" name="type" value="olmap_infos_abfragen" id="olmap_infos_abfragen" onclick="window.apf.olMap.messe(this);" checked="checked">
                                 <label id="label_olmap_infos_abfragen" for="olmap_infos_abfragen" title="Infos abfragen: auf Objekte klicken<br>Zoomen: Mausrad drehen<br>Auf Rechteck Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Infos abfragen</label>
                                 <input type="radio" name="type" value="line" id="olmap_distanz_messen" onclick="window.apf.olMap.messe(this);">
@@ -2363,7 +2363,7 @@
                         $("#programm_wahl").show();
                     }
                 });
-                $("#messen").buttonset();
+                $("#olMapMessen").buttonset();
                 $("button").button();
                 $("#tpopfeldkontr_tabs").tabs();
 

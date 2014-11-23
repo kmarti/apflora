@@ -24,7 +24,7 @@ module.exports = function () {
     // Karte nur aufbauen, wenn dies nicht schon passiert ist
     if (!window.apf.olMap.map) {
         window.apf.olMap.map = new ga.Map({
-            target: 'ga_karten_div',
+            target: 'olMapDiv',
             layers: createLayers(),
             view: new ol.View2D({
                 resolution: 4,

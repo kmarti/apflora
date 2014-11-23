@@ -8,7 +8,7 @@ module.exports = function () {
     var myFullScreenControl = new ol.control.FullScreen();
     window.apf.olMap.map.addControl(myFullScreenControl);
     // auf Deutsch beschriften
-    $('#ga_karten_div')
+    $('#olMapDiv')
         .find('.ol-full-screen')
         .find('span[role="tooltip"]')
         .html('Vollbild wechseln');

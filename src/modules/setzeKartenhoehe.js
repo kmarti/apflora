@@ -15,7 +15,7 @@ module.exports = function () {
         formsHeight = $(window).height() - 17;
         maxWidth    = $("#forms").width();
         $("#forms").height(formsHeight);
-        $('#ga_karten_div')
+        $('#olMapDiv')
             //.css('width', maxWidth)
             .css('max-width', maxWidth)
             //.css('height', formsHeight)
