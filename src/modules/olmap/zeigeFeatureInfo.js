@@ -64,7 +64,7 @@ module.exports = function (pixel, coordinate) {
         }
 
         // zuerst mit gtip einen popup erzeugen
-        $('.olmap_popup').each(function () {
+        $('.olMapPopup').each(function () {
             $(this).qtip({
                 content: {
                     text:   popupText,

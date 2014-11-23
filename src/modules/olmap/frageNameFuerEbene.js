@@ -7,13 +7,13 @@ var $            = require('jquery'),
 
 module.exports = function (eigeneEbene) {
     var nameErfragt = $.Deferred(),
-        $eigene_ebene_name = $('#eigene_ebene_name'),
-        $eigene_ebene_name_container = $('#eigene_ebene_name_container');
+        $olMapEigeneEbeneName = $('#olMapEigeneEbeneName'),
+        $olMapEigeneEbeneNameContainer = $('#olMapEigeneEbeneNameContainer');
 
     // eigene Ebene global speichern, damit der eventhandler darauf zugreifen kann
     window.apf.olMap.eigeneEbene = eigeneEbene;
 
-    $eigene_ebene_name_container.dialog({
+    $olMapEigeneEbeneNameContainer.dialog({
         title: 'Ebene taufen',
         modal: true,
         position: {
@@ -26,9 +26,9 @@ module.exports = function (eigeneEbene) {
                 text: "speichern",
                 click: function () {
                     // umbenennen
-                    nenneEbeneUm(eigeneEbene, $eigene_ebene_name.val());
+                    nenneEbeneUm(eigeneEbene, $olMapEigeneEbeneName.val());
                     // Namen zurücksetzen
-                    $eigene_ebene_name.val('');
+                    $olMapEigeneEbeneName.val('');
                     $(this).dialog("close");
                     nameErfragt.resolve();
                 }
@@ -42,15 +42,15 @@ module.exports = function (eigeneEbene) {
         ]
     }).dialog('open');
 
-    $eigene_ebene_name.on('keyup', function (event) {
+    $olMapEigeneEbeneName.on('keyup', function (event) {
         if (event.which == 13 && eigeneEbene) {
             // enter pressed
             // umbenennen
             nenneEbeneUm(eigeneEbene, event.target.value);
             // Namen zurücksetzen
-            $eigene_ebene_name.val('');
-            $('#eigene_ebene_name_container').dialog("close");
-            $('#olMap').off('keyup', '#eigene_ebene_name');
+            $olMapEigeneEbeneName.val('');
+            $('#olMapEigeneEbeneNameContainer').dialog("close");
+            $('#olMap').off('keyup', '#olMapEigeneEbeneName');
             delete window.apf.olMap.eigeneEbene;
             nameErfragt.resolve();
         }
