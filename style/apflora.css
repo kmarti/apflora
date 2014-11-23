@@ -595,6 +595,8 @@ label.erforderlich span {
     left: 350px;
     /* vor die Karte aber nicht vor die Meldungen */
     z-index: 90;
+    /* ausblenden, weil die Pläne nicht angezeigt werden */
+    display: none;
 }
 
 #ga_karten_div {

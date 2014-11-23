@@ -1,9 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var _                  = require('underscore'),
-    $                  = require('jquery'),
-    pruefeObAngemeldet = require('./pruefeObAngemeldet'),
+var pruefeObAngemeldet = require('./pruefeObAngemeldet'),
     isDateSupported    = require('./isDateSupported');
 
 // benötigte globale Variabeln initialisieren
@@ -43,19 +41,14 @@ module.exports = function () {
         require('./oeffnePopInNeuemTab')(popId);
     };
 
-    window.apf.oeffneBeobInNeuemTab = function (beob) {
-        var beobStatus = (beob.BeobNichtZuordnen ? 'beobNichtZuzuordnen' : 'beobNichtBeurteilt');
-        window.open("index.html?ap=" + localStorage.apId + "&" + beobStatus + "=" + beob.NO_NOTE, "_blank");
-    };
-
+    // wird in index.html benutzt
     window.apf.oeffneTPopBeob = function (beobId) {
-        localStorage.beobId = beobId;
-        $.jstree._reference("[typ='beobZugeordnet']#beob" + beobId).deselect_all();
-        $("#tree").jstree("select_node", "[typ='beobZugeordnet']#beob" + beobId);
+        require('./oeffneTPopBeob')(beobId);
     };
 
+    // wird in index.html benutzt
     window.apf.oeffneTPopBeobInNeuemTab = function (beobId) {
-        window.open("index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beobNichtBeurteilt=" + beobId, "_blank");
+        require('./oeffneTPopBeobInNeuemTab')(beobId);
     };
 
     // wird in index.html verwendet
@@ -71,9 +64,5 @@ module.exports = function () {
     // wird in index.html verwendet
     window.apf.olmap.waehleAus = function () {
         require('./olmap/waehleAus')();
-    };
-
-    window.apf.olmap.schliesseLayeroptionen = function () {
-        $("#olmap_layertree").accordion("option", "active", false);
     };
 };

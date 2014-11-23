@@ -28,7 +28,8 @@ var $                             = require('jquery'),
     deaktiviereOlmapAuswahl       = require('./olmap/deaktiviereOlmapAuswahl'),
     initiiereExporte              = require('./initiiereExporte'),
     setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
-    oeffneBeob                    = require('./oeffneBeob');
+    oeffneBeob                    = require('./oeffneBeob'),
+    oeffneBeobInNeuemTab          = require('./oeffneBeobInNeuemTab');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -206,7 +207,7 @@ module.exports = function () {
         })
         .on('click', '.oeffneBeobInNeuemTab', function (event) {
             event.preventDefault();
-            window.apf.oeffneBeobInNeuemTab($(this).data('beob'));
+            oeffneBeobInNeuemTab($(this).data('beob'));
         });
 
     $('#GeoAdminKarte')
