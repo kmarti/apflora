@@ -2,7 +2,7 @@
 'use strict';
 
 var $                  = require('jquery'),
-    frageNameFuerEbene = require('../../olMap/frageNameFuerEbene');
+    frageNameFuerEbene = require('../../../../olMap/frageNameFuerEbene');
 
 module.exports = function () {
     // layer holen

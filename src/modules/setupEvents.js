@@ -12,7 +12,6 @@ var $                             = require('jquery'),
     waehleApListe                 = require('./waehleApListe'),
     stylePop                      = require('./olMap/stylePop'),
     styleTPop                     = require('./olMap/styleTPop'),
-    exportiereKarte               = require('./olMap/exportiereKarte'),
     waehleAp                      = require('./waehleAp'),
     loescheAp                     = require('./loescheAp'),
     undeleteDatensatz             = require('./undeleteDatensatz'),
@@ -21,22 +20,25 @@ var $                             = require('jquery'),
     deaktiviereOlmapAuswahl       = require('./olMap/deaktiviereOlmapAuswahl'),
     initiiereExporte              = require('./initiiereExporte'),
     setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
-    oeffneBeob                    = require('./oeffneBeob'),
-    oeffneBeobInNeuemTab          = require('./oeffneBeobInNeuemTab'),
-    onClickOlmapLayertreeCheckbox = require('./events/olMapLayertree/onClickOlmapLayertreeCheckbox'),
-    onClickLayertreePopStyle      = require('./events/olMapLayertree/onClickLayertreePopStyle'),
-    onClickLayertreeTpopStyle     = require('./events/olMapLayertree/onClickLayertreeTpopStyle'),
-    onClickModifyLayer            = require('./events/olMapLayertree/onClickModifyLayer'),
-    onClickRenameLayer            = require('./events/olMapLayertree/onClickRenameLayer'),
-    onClickEntferneLayer          = require('./events/olMapLayertree/onClickEntferneLayer'),
-    onClickNeuesLayer             = require('./events/olMapLayertree/onClickNeuesLayer'),
-    onSelectmenuchangeExportLayerSelect = require('./events/olMapLayertree/onSelectmenuchangeExportLayerSelect');
+    onKeydownForm                 = require('./events/forms/onKeydownForm'),
+    onClickOlMapExportieren       = require('./events/forms/olMap/onClickOlMapExportieren'),
+    onClickOlmapLayertreeCheckbox = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
+    onClickLayertreePopStyle      = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
+    onClickLayertreeTpopStyle     = require('./events/forms/olMap/layertree/onClickLayertreeTpopStyle'),
+    onClickModifyLayer            = require('./events/forms/olMap/layertree/onClickModifyLayer'),
+    onClickRenameLayer            = require('./events/forms/olMap/layertree/onClickRenameLayer'),
+    onClickEntferneLayer          = require('./events/forms/olMap/layertree/onClickEntferneLayer'),
+    onClickNeuesLayer             = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
+    onClickOeffneBeob             = require('./events/forms/gMap/onClickOeffneBeob'),
+    onClickOeffneBeobInNeuemTab   = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
+    onSelectmenuchangeExportLayerSelect = require('./events/forms/olMap/layertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
+    $("#forms")
+        .on('keydown',         '.form',                    onKeydownForm);
+
     $('#olMap')
-        .on('click', '#olMapExportieren', function (event) {
-            exportiereKarte(event);
-        });
+        .on('click',            '#olMapExportieren',       onClickOlMapExportieren);
 
     $('#olMapLayertree')
         .on('click',            '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
@@ -49,14 +51,8 @@ module.exports = function () {
         .on('click',            '.neuesLayer',             onClickNeuesLayer);
 
     $('#gMap')
-        .on('click', '.oeffneBeob', function (event) {
-            event.preventDefault();
-            oeffneBeob($(this).data('beob'));
-        })
-        .on('click', '.oeffneBeobInNeuemTab', function (event) {
-            event.preventDefault();
-            oeffneBeobInNeuemTab($(this).data('beob'));
-        });
+        .on('click',            '.oeffneBeob',             onClickOeffneBeob)
+        .on('click',            '.oeffneBeobInNeuemTab',   onClickOeffneBeobInNeuemTab);
 
     $("#ber").on("change", "#BerURL", function () {
         var $BerURL = $("#BerURL"),
@@ -67,12 +63,6 @@ module.exports = function () {
             $BerURL.val("//www." + url);
         }
         $('#BerURLHref').attr('onClick', "window.open('" + $BerURL.val() + "', target='_blank')");
-    });
-
-    $("#forms").on("keydown", ".form", function (event) {
-        if (event.keyCode === 46) {
-            event.stopPropagation();
-        }
     });
 
     $('.apf-with-tooltip')

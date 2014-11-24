@@ -2,9 +2,9 @@
 'use strict';
 
 var $ = require('jquery'),
-    entferneLayerNachName = require('../../olMap/entferneLayerNachName'),
-    initiiereLayertree    = require('../../olMap/initiiereLayertree'),
-    melde                 = require('../../melde');
+    entferneLayerNachName = require('../../../../olMap/entferneLayerNachName'),
+    initiiereLayertree    = require('../../../../olMap/initiiereLayertree'),
+    melde                 = require('../../../../melde');
 
 module.exports = function () {
     // layer holen
