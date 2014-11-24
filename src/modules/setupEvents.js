@@ -27,7 +27,8 @@ var $                                   = require('jquery'),
     onClickExportKontr                  = require('./events/forms/onClickExportKontr'),
     onClickExportTpop                   = require('./events/forms/onClickExportTpop'),
     onClickExportTpopMassn              = require('./events/forms/onClickExportTpopMassn'),
-    onChangeBerUrl                      = require('./events/forms/ber/onChangeBerUrl'),
+    onChangeBerUrl                      = require('./events/forms/onChangeBerUrl'),
+    onChangeTPopKontrJahr               = require('./events/forms/onChangeTPopKontrJahr'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
     onClickLayertreePopStyle            = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
@@ -90,14 +91,7 @@ module.exports = function () {
         .on('click',            '.oeffneBeob',                 onClickOeffneBeob)
         .on('click',            '.oeffneBeobInNeuemTab',       onClickOeffneBeobInNeuemTab)
         .on('click',            '#gMapDistanzMessen',          onClickGMapDistanzMessen)
-        .on('click',            '#gMapDistanzMessenEntfernen', onClickGMapDistanzMessenEntfernen)
-        .on('change', '.gMapDetailplaeneCheckbox', function () {
-            if (window.apf.googleKarteDetailplaene.getMap() === null) {
-                window.apf.googleKarteDetailplaene.setMap(window.apf.gMap.map);
-            } else {
-                window.apf.googleKarteDetailplaene.setMap(null);
-            }
-        });
+        .on('click',            '#gMapDistanzMessenEntfernen', onClickGMapDistanzMessenEntfernen);
 
     $('#ber')
         .on('change',           '#berUrl',                     onChangeBerUrl);
@@ -111,18 +105,8 @@ module.exports = function () {
         .on('click',            '#undelete',                   onClickUndelete);
 
     // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
-    $('#tpopfeldkontr').on('change', '#TPopKontrJahr', function () {
-        var objekt,
-            $TPopKontrDatum = $('#TPopKontrDatum');
-
-        if ($TPopKontrDatum.val()) {
-            $TPopKontrDatum.val(null);
-            objekt          = {};
-            objekt.name     = 'TPopKontrDatum';
-            objekt.formular = 'tpopfeldkontr';
-            speichern(objekt);
-        }
-    });
+    $('#tpopfeldkontr')
+        .on('change',           '#TPopKontrJahr',              onChangeTPopKontrJahr);
 
     // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
     $('#tpopmassn').on('change', '#TPopMassnJahr', function () {
