@@ -24,6 +24,8 @@ var $                                   = require('jquery'),
     onClickKopiereKoordinatenInPop      = require('./events/forms/onClickKopiereKoordinatenInPop'),
     onClickGuid                         = require('./events/forms/onClickGuid'),
     onKeyupFocusTextarea                = require('./events/forms/onKeyupFocusTextarea'),
+    onClickExportPop                    = require('./events/forms/onClickExportPop'),
+    onClickExportKontr                  = require('./events/forms/onClickExportKontr'),
     onChangeBerUrl                      = require('./events/forms/ber/onChangeBerUrl'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
@@ -55,38 +57,8 @@ module.exports = function () {
     $("#forms")
         .on('keydown',         '.form',                        onKeydownForm)
         .on('click',           '.guid',                        onClickGuid)
-        .on('click', '.exportPop', function () {
-            // wenn pop ausgewählt, diese übergeben
-            var popIdListe = '';
-            if (window.apf.olMap.popSelected) {
-                _.each(window.apf.olMap.popSelected, function (pop, index) {
-                    popIdListe +=  pop.get('myId');
-                    if (index + 1 < window.apf.olMap.popSelected.length) {
-                        popIdListe += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vPop', 'PopId', popIdListe, 'Populationen', 'csv');
-            } else {
-                downloadFileFromView('vPop', 'Populationen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        })
-        .on('click', '.exportKontr', function () {
-            // wenn tpop ausgewählt, diese übergeben
-            var tpopIdListe = '';
-            if (window.apf.olMap.tpopSelected) {
-                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpopIdListe +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpopIdListe += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpopIdListe, 'Kontrollen', 'csv');
-            } else {
-                downloadFileFromView('vKontr', 'Kontrollen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        })
+        .on('click',           '.exportPop',                   onClickExportPop)
+        .on('click',           '.exportKontr',                 onClickExportKontr)
         .on('click', '.exportTpop', function () {
             // wenn tpop ausgewählt, diese übergeben
             var tpopIdListe = '';
