@@ -8,13 +8,13 @@ var $ = require('jquery');
 
 module.exports = function (wasIstPassiert) {
     // Hinweis zum rückgängig machen anzeigen
-    $("#undelete_div").html(wasIstPassiert + " <a href='#' id='undelete'>Rückgängig machen?</a>");
+    $("#undeleteDiv").html(wasIstPassiert + " <a href='#' id='undelete'>Rückgängig machen?</a>");
     $(".undelete").show();
     if ($(window).width() > 1000) {
         $("#forms").css("top", "37px");
     }
     setTimeout(function () {
-        $("#undelete_div").html("");
+        $("#undeleteDiv").html("");
         $(".undelete").hide();
         $("#forms").css("top", "");
     }, 30000);

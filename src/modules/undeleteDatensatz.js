@@ -32,7 +32,7 @@ module.exports = function () {
         return false;
     }
 
-    //Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
+    //Artname wurde für die Anzeige in undeleteDiv gespeichert - entfernen, da kein Feld in Tabelle
     delete window.apf.deleted.Artname;
 
     // tabelle setzen
@@ -44,7 +44,7 @@ module.exports = function () {
     case "ap":
         tabelle = "tblAktionsplan";
         id = window.apf.deleted.ApArtId;
-        //Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
+        //Artname wurde für die Anzeige in undeleteDiv gespeichert - entfernen, da kein Feld in Tabelle
         delete window.apf.deleted.Artname;
         break;
     case "apziel":

@@ -50,7 +50,7 @@ module.exports = function (apId) {
         frageObUndeleteDatensatz("Das Programm der Art '" + window.apf.deleted.Artname + "' wurde gelöscht.");
         //Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
         delete window.apf.deleted.Artname;
-        //forms muss eingeblendet sein, weil undelete_div darin ist
+        //forms muss eingeblendet sein, weil undeleteDiv darin ist
         zeigeFormular("keines");
     }).fail(function () {
         melde("Fehler: Das Programm wurde nicht gelöscht");

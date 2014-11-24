@@ -1,107 +1,94 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                              = require('jquery'),
-    _                              = require('underscore'),
-    removeruler                    = require('removeruler'),
-    downloadFileFromView           = require('./downloadFileFromView'),
-    downloadFileFromViewWehreIdIn  = require('./downloadFileFromViewWehreIdIn'),
-    speichern                      = require('./speichern'),
-    stylePop                       = require('./olMap/stylePop'),
-    styleTPop                      = require('./olMap/styleTPop'),
-    undeleteDatensatz              = require('./undeleteDatensatz'),
-    setzeKartenhoehe               = require('./setzeKartenhoehe'),
-    deaktiviereOlmapAuswahl        = require('./olMap/deaktiviereOlmapAuswahl'),
-    setzeTreehoehe                 = require('./jstree/setzeTreehoehe'),
-    onKeydownSuchen                = require('./events/menu/onKeydownSuchen'),
-    onClickExportieren             = require('./events/menu/onClickExportieren'),
-    onClickProgrammWahl            = require('./events/menu/onClickProgrammWahl'),
-    onClickApLoeschen              = require('./events/menu/onClickApLoeschen'),
-    onChangeApWaehlen              = require('./events/menu/onChangeApWaehlen'),
-    onClickApWaehlenTextLoeschen   = require('./events/menu/onClickApWaehlenTextLoeschen'),
-    onKeydownForm                  = require('./events/forms/onKeydownForm'),
-    onChangeSpeichern              = require('./events/forms/onChangeSpeichern'),
-    onClickKopiereKoordinatenInPop = require('./events/forms/onClickKopiereKoordinatenInPop'),
-    onKeyupFocusTextarea           = require('./events/forms/onKeyupFocusTextarea'),
-    onChangeBerUrl                 = require('./events/forms/ber/onChangeBerUrl'),
-    onClickOlMapExportieren        = require('./events/forms/olMap/onClickOlMapExportieren'),
-    onClickOlmapLayertreeCheckbox  = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
-    onClickLayertreePopStyle       = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
-    onClickLayertreeTpopStyle      = require('./events/forms/olMap/layertree/onClickLayertreeTpopStyle'),
-    onClickModifyLayer             = require('./events/forms/olMap/layertree/onClickModifyLayer'),
-    onClickRenameLayer             = require('./events/forms/olMap/layertree/onClickRenameLayer'),
-    onClickEntferneLayer           = require('./events/forms/olMap/layertree/onClickEntferneLayer'),
-    onClickNeuesLayer              = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
-    onClickOeffneBeob              = require('./events/forms/gMap/onClickOeffneBeob'),
-    onClickOeffneBeobInNeuemTab    = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
-    onClickGMapDistanzMessen       = require('./events/forms/gMap/onClickGMapDistanzMessen'),
-    onChangeBeobNichtBeurteilt     = require('./events/forms/beob/onChangeBeobNichtBeurteilt'),
-    onChangeBeobNichtZuordnen      = require('./events/forms/beob/onChangeBeobNichtZuordnen'),
-    onChangeDistZuTPop             = require('./events/forms/beob/onChangeDistZuTPop'),
+var $                                   = require('jquery'),
+    _                                   = require('underscore'),
+    downloadFileFromView                = require('./downloadFileFromView'),
+    downloadFileFromViewWehreIdIn       = require('./downloadFileFromViewWehreIdIn'),
+    speichern                           = require('./speichern'),
+    stylePop                            = require('./olMap/stylePop'),
+    styleTPop                           = require('./olMap/styleTPop'),
+    setzeKartenhoehe                    = require('./setzeKartenhoehe'),
+    deaktiviereOlmapAuswahl             = require('./olMap/deaktiviereOlmapAuswahl'),
+    setzeTreehoehe                      = require('./jstree/setzeTreehoehe'),
+    onClickUndelete                     = require('./events/onClickUndelete'),
+    onKeydownSuchen                     = require('./events/menu/onKeydownSuchen'),
+    onClickExportieren                  = require('./events/menu/onClickExportieren'),
+    onClickProgrammWahl                 = require('./events/menu/onClickProgrammWahl'),
+    onClickApLoeschen                   = require('./events/menu/onClickApLoeschen'),
+    onChangeApWaehlen                   = require('./events/menu/onChangeApWaehlen'),
+    onClickApWaehlenTextLoeschen        = require('./events/menu/onClickApWaehlenTextLoeschen'),
+    onKeyupClickSuchen                  = require('./events/menu/onKeyupClickSuchen'),
+    onKeydownForm                       = require('./events/forms/onKeydownForm'),
+    onChangeSpeichern                   = require('./events/forms/onChangeSpeichern'),
+    onClickKopiereKoordinatenInPop      = require('./events/forms/onClickKopiereKoordinatenInPop'),
+    onKeyupFocusTextarea                = require('./events/forms/onKeyupFocusTextarea'),
+    onChangeBerUrl                      = require('./events/forms/ber/onChangeBerUrl'),
+    onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
+    onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
+    onClickLayertreePopStyle            = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
+    onClickLayertreeTpopStyle           = require('./events/forms/olMap/layertree/onClickLayertreeTpopStyle'),
+    onClickModifyLayer                  = require('./events/forms/olMap/layertree/onClickModifyLayer'),
+    onClickRenameLayer                  = require('./events/forms/olMap/layertree/onClickRenameLayer'),
+    onClickEntferneLayer                = require('./events/forms/olMap/layertree/onClickEntferneLayer'),
+    onClickNeuesLayer                   = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
+    onClickOeffneBeob                   = require('./events/forms/gMap/onClickOeffneBeob'),
+    onClickOeffneBeobInNeuemTab         = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
+    onClickGMapDistanzMessen            = require('./events/forms/gMap/onClickGMapDistanzMessen'),
+    onClickGMapDistanzMessenEntfernen   = require('./events/forms/gMap/onClickGMapDistanzMessenEntfernen'),
+    onChangeBeobNichtBeurteilt          = require('./events/forms/beob/onChangeBeobNichtBeurteilt'),
+    onChangeBeobNichtZuordnen           = require('./events/forms/beob/onChangeBeobNichtZuordnen'),
+    onChangeDistZuTPop                  = require('./events/forms/beob/onChangeDistZuTPop'),
     onSelectmenuchangeExportLayerSelect = require('./events/forms/olMap/layertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
     $('#menu')
-        .on('keydown',          '#suchen',                 onKeydownSuchen)
-        .on('click',            '.exportieren',            onClickExportieren)
-        .on('click',            '[name=programmWahl]',     onClickProgrammWahl)
-        .on('click',            '#apLoeschen',             onClickApLoeschen)
-        .on('change',           '#apWaehlen',              onChangeApWaehlen)
-        .on('click',            '#apWaehlenTextLoeschen',  onClickApWaehlenTextLoeschen);
+        .on('keydown',          '#suchen',                     onKeydownSuchen)
+        .on('click',            '.exportieren',                onClickExportieren)
+        .on('click',            '[name=programmWahl]',         onClickProgrammWahl)
+        .on('click',            '#apLoeschen',                 onClickApLoeschen)
+        .on('change',           '#apWaehlen',                  onChangeApWaehlen)
+        .on('click',            '#apWaehlenTextLoeschen',      onClickApWaehlenTextLoeschen)
+        .on('keyup click',      '#suchen',                     onKeyupClickSuchen);
 
     $("#forms")
-        .on('keydown',         '.form',                    onKeydownForm);
+        .on('keydown',         '.form',                        onKeydownForm);
 
     // Für jedes Feld bei Änderung speichern
     $('.form')
-        .on('change',          '.speichern',               onChangeSpeichern)
-        .on('click',           '#kopiereKoordinatenInPop', onClickKopiereKoordinatenInPop)
-        .on('keyup focus',     'textarea',                 onKeyupFocusTextarea);
+        .on('change',          '.speichern',                   onChangeSpeichern)
+        .on('click',           '#kopiereKoordinatenInPop',     onClickKopiereKoordinatenInPop)
+        .on('keyup focus',     'textarea',                     onKeyupFocusTextarea);
 
     $('#olMap')
-        .on('click',            '#olMapExportieren',       onClickOlMapExportieren);
+        .on('click',            '#olMapExportieren',           onClickOlMapExportieren);
 
     $('#olMapLayertree')
-        .on('click',            '.olmapLayertreeCheckbox', onClickOlmapLayertreeCheckbox)
-        .on('click',            '.layertreePopStyle',      onClickLayertreePopStyle)
-        .on('click',            '.layertreeTpopStyle',     onClickLayertreeTpopStyle)
-        .on('click',            '.modifyLayer',            onClickModifyLayer)
-        .on('selectmenuchange', '.exportLayerSelect',      onSelectmenuchangeExportLayerSelect)
-        .on('click',            '.renameLayer',            onClickRenameLayer)
-        .on('click',            '.entferneLayer',          onClickEntferneLayer)
-        .on('click',            '.neuesLayer',             onClickNeuesLayer);
+        .on('click',            '.olmapLayertreeCheckbox',     onClickOlmapLayertreeCheckbox)
+        .on('click',            '.layertreePopStyle',          onClickLayertreePopStyle)
+        .on('click',            '.layertreeTpopStyle',         onClickLayertreeTpopStyle)
+        .on('click',            '.modifyLayer',                onClickModifyLayer)
+        .on('selectmenuchange', '.exportLayerSelect',          onSelectmenuchangeExportLayerSelect)
+        .on('click',            '.renameLayer',                onClickRenameLayer)
+        .on('click',            '.entferneLayer',              onClickEntferneLayer)
+        .on('click',            '.neuesLayer',                 onClickNeuesLayer);
 
     $('#gMap')
-        .on('click',            '.oeffneBeob',             onClickOeffneBeob)
-        .on('click',            '.oeffneBeobInNeuemTab',   onClickOeffneBeobInNeuemTab)
-        .on('click',            '#gMapDistanzMessen',      onClickGMapDistanzMessen)
-        .on('click', '#gMapDistanzMessenEntfernen', function (event) {
-            event.preventDefault();
-            removeruler();
-        });
+        .on('click',            '.oeffneBeob',                 onClickOeffneBeob)
+        .on('click',            '.oeffneBeobInNeuemTab',       onClickOeffneBeobInNeuemTab)
+        .on('click',            '#gMapDistanzMessen',          onClickGMapDistanzMessen)
+        .on('click',            '#gMapDistanzMessenEntfernen', onClickGMapDistanzMessenEntfernen);
 
     $('#ber')
-        .on('change',           '#berUrl',                 onChangeBerUrl);
+        .on('change',           '#berUrl',                     onChangeBerUrl);
 
     $('#beob')
-        .on('change',           '#beobNichtBeurteilt',     onChangeBeobNichtBeurteilt)
-        .on('change',           '#beobNichtZuordnen',      onChangeBeobNichtZuordnen)
-        .on('change',           '[name="distZuTPop"]',     onChangeDistZuTPop);
+        .on('change',           '#beobNichtBeurteilt',         onChangeBeobNichtBeurteilt)
+        .on('change',           '#beobNichtZuordnen',          onChangeBeobNichtZuordnen)
+        .on('change',           '[name="distZuTPop"]',         onChangeDistZuTPop);
 
-    $('#undelete_div').on('click', '#undelete', function (event) {
-        event.preventDefault();
-        undeleteDatensatz();
-    });
-
-    //Suche steuern
-    $('body').on('keyup click', '#suchen', function (e) {
-        //if (this.value.length > 2) {
-        if (e.keyCode === 13) {
-            $('#tree').jstree('search', this.value);
-        } else {
-            $('#tree').jstree('clear_search');
-        }
-    });
+    $('#undeleteDiv')
+        .on('click',            '#undelete',                   onClickUndelete);
 
     // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
     $('#tpopfeldkontr').on('change', '#TPopKontrJahr', function () {
