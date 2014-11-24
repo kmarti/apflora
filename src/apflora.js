@@ -10,6 +10,7 @@ var $                         = require('jquery'),
     waehleApliste             = require('./modules/waehleApliste'),
     oeffneUri                 = require('./modules/oeffneUri'),
     setupEvents               = require('./modules/setupEvents'),
+    setupJqueryUi             = require('./modules/setupJqueryUi'),
     pruefeLesevoraussetzungen = require('./modules/pruefeLesevoraussetzungen'),
     preventMousescrollEvent   = require('./lib/preventMousescrollEvent');
 
@@ -56,6 +57,9 @@ window.apf.initiiereApp = function () {
     // damit es garantiert nur ein mal ausgeführt wird
     window.apf.setupEvents = function () {
         setupEvents();
+    };
+    window.apf.setupJqueryUi = function () {
+        setupJqueryUi();
     };
 
     preventMousescrollEvent($);

@@ -55,37 +55,7 @@ module.exports = function () {
         .on('click',            '.oeffneBeob',             onClickOeffneBeob)
         .on('click',            '.oeffneBeobInNeuemTab',   onClickOeffneBeobInNeuemTab);
 
-    $('#ber').on('change', '#berUrl', onChangeBerUrl);
-
-    $('.apf-with-tooltip')
-        .each(function () {
-            $(this).qtip({
-                content: {
-                    text:  $(this).next('.tooltiptext'),
-                    title: 'Legende'
-                },
-                style: {
-                    // Use the jQuery UI widget classes
-                    widget: true,
-                    // Remove the default styling
-                    def: false,
-                    tip: false
-                },
-                position: {
-                    my:       'top right',
-                    at:       'bottom right',
-                    target:   $(this),
-                    viewport: $(window)
-                }
-            });
-        })
-        .qtip({
-            events: {
-                render: function (event, api) {
-                    api.elements.wrapper.addClass('ui-corner-all');
-                }
-            }
-        });
+    $('#ber').on('change',      '#berUrl',                 onChangeBerUrl);
 
     // Für jedes Feld bei Änderung speichern
     $('.form')
