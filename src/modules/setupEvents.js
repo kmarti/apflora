@@ -26,6 +26,7 @@ var $                                   = require('jquery'),
     onChangeTPopKontrJahr               = require('./events/forms/onChangeTPopKontrJahr'),
     onChangeTPopMassnJahr               = require('./events/forms/onChangeTPopMassnJahr'),
     onClickExport                       = require('./events/forms/onClickExport'),
+    onClickExportDatenstrukturGrafisch  = require('./events/forms/onClickExportDatenstrukturGrafisch'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
     onClickLayertreePopStyle            = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
@@ -113,9 +114,7 @@ module.exports = function () {
 
     $('#exporte')
         .on('click',            '.export',                     onClickExport)
-        .on('click', '#exportDatenstrukturGrafisch', function () {
-            window.open('etc/Beziehungen.pdf');
-        });
+        .on('click',            '#exportDatenstrukturGrafisch', onClickExportDatenstrukturGrafisch);
 
     // verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
     $('[type="number"]').mousewheel(function (event) {

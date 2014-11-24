@@ -119,6 +119,25 @@ server.route({
     }
 });
 
+/* Versuch, funktioniert nicht*/
+server.route({
+    method: 'GET',
+    path: '/etc/{param*}',
+    handler: {
+        directory: {
+            path: 'etc'
+        }
+    }
+});
+
+/*server.route({
+    method: 'GET',
+    path: '/etc/Beziehungen.pdf',
+    handler: function (request, reply) {
+        reply.file('etc/Beziehungen.pdf');
+    }
+});*/
+
 server.route({
     method: 'GET',
     path: '/style/{param*}',
