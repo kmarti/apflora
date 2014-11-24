@@ -6,39 +6,39 @@ var $               = require('jquery'),
     erstelleApliste = require('./erstelleApliste');
 
 module.exports = function (programm) {
-    var $ap_waehlen      = $("#ap_waehlen"),
-        $ap_waehlen_text = $("#ap_waehlen_text"),
-        aplisteErstellt  = $.Deferred();
+    var $apWaehlen      = $("#apWaehlen"),
+        $apWaehlenText  = $("#apWaehlenText"),
+        aplisteErstellt = $.Deferred();
 
-    $ap_waehlen_text.attr('placeholder', 'Daten werden aufbereitet...');
-    $ap_waehlen.val('');
-    $ap_waehlen_text.val('');
+    $apWaehlenText.attr('placeholder', 'Daten werden aufbereitet...');
+    $apWaehlen.val('');
+    $apWaehlenText.val('');
     $("#ap").hide();
     $("#forms").hide();
     $('#tree').hide();
     $("#suchen").hide();
-    $("#exportieren_2").hide();
+    $("#exportieren2").hide();
     $("#hilfe").hide();
-    $("#ap_loeschen").hide();
-    $("#exportieren_1").show();
+    $("#apLoeschen").hide();
+    $("#exportieren1").show();
 
     erstelleApliste(programm, function () {
-        var $programm_wahl_checked = $("[name='programmWahl']:checked"),
+        var $programmWahlChecked = $("[name='programmWahl']:checked"),
             hinweisText;
 
-        if ($programm_wahl_checked.attr("id") === "programm_neu") {
+        if ($programmWahlChecked.attr("id") === "programmNeu") {
             hinweisText = 'Art für neues Förderprogramm wählen';
-        } else if ($programm_wahl_checked.attr("id") === "programm_ap") {
+        } else if ($programmWahlChecked.attr("id") === "programmAp") {
             hinweisText = 'Aktionsplan wählen';
         } else {
             hinweisText = 'Artförderprogramm wählen';
         }
 
-        $ap_waehlen_text.attr('placeholder', hinweisText);
+        $apWaehlenText.attr('placeholder', hinweisText);
 
-        //if (!$("#anmelde_dialog").dialog("isOpen")) {
-        if (!$("#anmelde_dialog").is(':visible')) {
-            $ap_waehlen_text.focus();
+        //if (!$("#anmeldeDialog").dialog("isOpen")) {
+        if (!$("#anmeldeDialog").is(':visible')) {
+            $apWaehlenText.focus();
         }
 
         aplisteErstellt.resolve();

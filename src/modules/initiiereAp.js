@@ -27,7 +27,7 @@ module.exports = function (apId) {
     leereFelderVonFormular("ap");
 
     // Wenn ein ap ausgewählt ist: Seine Daten anzeigen
-    if ($("#ap_waehlen").val() && programmWahl !== "programm_neu") {
+    if ($("#apWaehlen").val() && programmWahl !== "programmNeu") {
         // Daten für den ap aus der DB holen
         $.ajax({
             type: 'get',
@@ -57,7 +57,7 @@ module.exports = function (apId) {
         }).fail(function () {
             melde('Fehler: Keine Daten für den Aktionsplan erhalten');
         });
-    } else if ($("#ap_waehlen").val() && programmWahl === "programm_neu") {
+    } else if ($("#apWaehlen").val() && programmWahl === "programmNeu") {
         // Formulare blenden
         zeigeFormular("ap");
     }

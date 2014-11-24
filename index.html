@@ -19,25 +19,25 @@
         <div id="wrapper">
             <fieldset id="menu">
                 <div class='fieldcontain' style="margin-right:5px; margin-bottom:5px; position:relative;">
-                    <input type="text" id="ap_waehlen_text" style="width:100%; font-size:17px; box-sizing:border-box; padding-right:20px;" placeholder="Artförderprogramm wählen">
+                    <input type="text" id="apWaehlenText" style="width:100%; font-size:17px; box-sizing:border-box; padding-right:20px;" placeholder="Artförderprogramm wählen">
                     <div id="ap_waehlen_text_loeschen" class="ui-icon ui-icon-closethick" style="position:absolute;top:5px;right:4px;cursor:pointer;"></div>
-                    <input type="number" id="ap_waehlen" style="display:none">
+                    <input type="number" id="apWaehlen" style="display:none">
                 </div>
                 <div class='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
                     <label for="programmWahl" style="color:#6F6F66; margin-right:5px; overflow:hidden;">Programme:</label>
                     <span id="programmWahl" style="display:none;">
-                        <input type="radio" id="programm_alle" name="programmWahl" checked="checked">
-                        <label for="programm_alle">alle</label>
-                        <input type="radio" id="programm_ap" name="programmWahl">
-                        <label for="programm_ap">Aktionspläne</label>
-                        <input type="radio" id="programm_neu" name="programmWahl">
-                        <label for="programm_neu">neu</label>
+                        <input type="radio" id="programmAlle" name="programmWahl" checked="checked">
+                        <label for="programmAlle">alle</label>
+                        <input type="radio" id="programmAp" name="programmWahl">
+                        <label for="programmAp">Aktionspläne</label>
+                        <input type="radio" id="programmNeu" name="programmWahl">
+                        <label for="programmNeu">neu</label>
                     </span>
-                    <button id="ap_loeschen" style="margin-left:6px; display:none;">löschen</button>
-                    <button id="exportieren_1" class="exportieren" style="margin-left:6px;">exportieren</button>
+                    <button id="apLoeschen" style="margin-left:6px; display:none;">löschen</button>
+                    <button id="exportieren1" class="exportieren" style="margin-left:6px;">exportieren</button>
                 </div>
                 <input type="search" id="suchen" placeholder="suchen">
-                <button id="exportieren_2" class="exportieren" style="margin-left:6px; display:none;">exportieren</button>
+                <button id="exportieren2" class="exportieren" style="margin-left:6px; display:none;">exportieren</button>
                 <div id="tree" style="margin-bottom:5px;"></div>
                 <div id="hilfe" style="font-size:80%; color:#6F6F66; display:none;">Für Menüs: mit rechter Maustaste im Strukturbaum klicken<a href="https://github.com/FNSKtZH/apflora/wiki" class="ui-icon ui-icon-info" style="float:right;" target="_blank" title="Infos über AP Flora Web"></a></div>
             </fieldset>
@@ -45,8 +45,8 @@
             <fieldset id="undelete_div" class="undelete"></fieldset>
 
             <fieldset id="forms" style="display:none;">
-                <div id="forms_titelzeile" class="undelete" style="margin:0 0 0 0; line-height:27px; padding: 0 7px 0 9px; height:auto; display:none;">
-                    <div id="testart_div" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
+                <div id="formsTitelzeile" class="undelete" style="margin:0 0 0 0; line-height:27px; padding: 0 7px 0 9px; height:auto; display:none;">
+                    <div id="testartDiv" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
                 </div>
                 <form id="ap" class="form" action="#" method="get" autocomplete="off">
                     <table>
@@ -2328,12 +2328,12 @@
             </fieldset>
         </div>
 
-        <div id="anmelde_dialog" title="Anmeldung erforderlich">
-            <p id="anmeldung_rueckmeldung" style="margin: 16px 0 16px 0;">Logins werden von Topos vergeben</p>
-            <label for="anmeldung_name" style="display:block;">Name</label>
-            <input type="text" id="anmeldung_name" style="width:270px; margin: 2px 0 2px 0;" autofocus>
-            <label for="anmeldung_passwort" style="display:block;">Passwort</label>
-            <input type="password" id="anmeldung_passwort" style="width:270px; margin: 2px 0 2px 0;">
+        <div id="anmeldeDialog" title="Anmeldung erforderlich">
+            <p id="anmeldungRueckmeldung" style="margin: 16px 0 16px 0;">Logins werden von Topos vergeben</p>
+            <label for="anmeldungName" style="display:block;">Name</label>
+            <input type="text" id="anmeldungName" style="width:270px; margin: 2px 0 2px 0;" autofocus>
+            <label for="anmeldungPasswort" style="display:block;">Passwort</label>
+            <input type="password" id="anmeldungPasswort" style="width:270px; margin: 2px 0 2px 0;">
         </div>
 
         <div id="loeschen_dialog" title="Sind sie sicher?" style="display:none;">

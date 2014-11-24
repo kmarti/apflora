@@ -110,14 +110,14 @@ module.exports = function () {
 
     if (apId) {
         // Dem Feld im Formular den Wert zuweisen
-        $("#ap_waehlen").val(apId);
+        $("#apWaehlen").val(apId);
         // TODO: funktioniert nicht
         // gewählte Art in Auswahlliste anzeigen
-        apWaehlenText = _.find(window.apf.apliste.programm_alle, function (art) {
+        apWaehlenText = _.find(window.apf.apliste.programmAlle, function (art) {
             return art.id === apId;
         });
         if (apWaehlenText) {
-            $("#ap_waehlen_text").val(apWaehlenText.label);
+            $("#apWaehlenText").val(apWaehlenText.label);
         }
         if (tpopId) {
             if (tpopfeldkontrId) {

@@ -77,9 +77,9 @@ module.exports = function () {
         .on('keydown',          '#suchen',                 onKeydownSuchen)
         .on('click',            '.exportieren',            onClickExportieren)
         .on('click',            '[name=programmWahl]',     onClickProgrammWahl)
-        .on('click', '#ap_loeschen', function () {
-            var $ap_waehlen = $('#ap_waehlen');
-            if (!$ap_waehlen.val()) {
+        .on('click', '#apLoeschen', function () {
+            var $apWaehlen = $('#apWaehlen');
+            if (!$apWaehlen.val()) {
                 $('#Meldung')
                     .html('Bitte wählen Sie vor dem Löschen ein Artförderprogramm')
                     .dialog({
@@ -92,7 +92,7 @@ module.exports = function () {
                     });
             } else {
                 $('#Meldung')
-                    .html('Wollen Sie das Artförderprogramm für "' + $('#ap_waehlen_text').val() + '" wirklich löschen?')
+                    .html('Wollen Sie das Artförderprogramm für "' + $('#apWaehlenText').val() + '" wirklich löschen?')
                     .dialog({
                         modal: true,
                         width: 500,
@@ -108,13 +108,13 @@ module.exports = function () {
                     });
             }
         })
-        .on('change', '#ap_waehlen', function () {
+        .on('change', '#apWaehlen', function () {
             var value = this.value || localStorage.apId;
             waehleAp(value);
         })
         .on('click', '#ap_waehlen_text_loeschen', function () {
             waehleAp();
-            $('#ap_waehlen_text').focus();
+            $('#apWaehlenText').focus();
         });
 
     $('#beob')

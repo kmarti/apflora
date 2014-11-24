@@ -130,8 +130,8 @@ module.exports = function () {
         // ap kann nicht via Strukturbaum gewählt werden
         if (typ === "ap") {
             // erzwingen, dass die apliste neu geholt wird
-            delete window.apf.apliste.programm_alle;
-            $.when(waehleApliste('programm_alle')).then(function () {
+            delete window.apf.apliste.programmAlle;
+            $.when(waehleApliste('programmAlle')).then(function () {
                 // pushState funktioniert nicht, unklar wieso
                 history.pushState(null, null, "index.html?ap=" + id);
                 oeffneUri();

@@ -5,13 +5,13 @@ var $ = require('jquery'),
     _ = require('underscore');
 
 module.exports = function (programm) {
-    $("#ap_waehlen_text").autocomplete({
+    $("#apWaehlenText").autocomplete({
         minLength: 0,
         delay: 500,
         source: window.apf.apliste[programm],
         select: function (event, ui) {
             $(this).val(ui.item.label);
-            $("#ap_waehlen")
+            $("#apWaehlen")
                 .val(ui.item.id)
                 .trigger('change');
             return false;
@@ -19,11 +19,11 @@ module.exports = function (programm) {
         change: function (event, ui) {
             // sicherstellen, dass nur Werte aus der Liste gewählt werden können
             var textPasstZuId = true,
-                id = $("#ap_waehlen").val(),
+                id = $("#apWaehlen").val(),
                 text;
 
             if (id) {
-                text = _.find(window.apf.apliste.programm_alle, function (art) {
+                text = _.find(window.apf.apliste.programmAlle, function (art) {
                     return art.id == id;
                 });
                 if (text && text.label) {

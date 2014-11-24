@@ -8,8 +8,8 @@ var $              = require('jquery'),
 module.exports = function (ApArtId) {
     setzeTreehoehe();
     $("#suchen").show();
-    $("#exportieren_2").show();
-    $("#exportieren_1").hide();
+    $("#exportieren2").show();
+    $("#exportieren1").hide();
     $("#hilfe").show();
     if (window.apf.popZeigen) {
         $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
@@ -124,7 +124,7 @@ module.exports = function (ApArtId) {
     if (window.apf.apZeigen) {
         initiiereAp(ApArtId);
         //localStorage.apId = ApArtId;
-        //$('#ap_waehlen').trigger('change');
+        //$('#apWaehlen').trigger('change');
         // diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
         delete window.apf.apZeigen;
     }

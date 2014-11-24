@@ -48,7 +48,7 @@ window.apf.initiiereApp = function () {
     erstelleArtlisten();
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
-    $.when(waehleApliste('programm_alle')).then(function () {
+    $.when(waehleApliste('programmAlle')).then(function () {
         // falls eine Unteradresse angewählt wurde, diese öffnen
         oeffneUri();
     });

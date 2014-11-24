@@ -16,9 +16,9 @@ module.exports = function (Formularname) {
     var formularAngezeigt = $.Deferred(),
         $forms            = $("#forms"),
         $form             = $('form'),
-        $testart_div      = $("#testart_div"),
-        $forms_titelzeile = $("#forms_titelzeile"),
-        $ap_waehlen       = $("#ap_waehlen"),
+        $testartDiv       = $("#testartDiv"),
+        $formsTitelzeile  = $("#formsTitelzeile"),
+        $apWaehlen        = $("#apWaehlen"),
         $Formularname;
 
     // zuerst alle Formulare ausblenden
@@ -35,23 +35,23 @@ module.exports = function (Formularname) {
     window.apf.kartenhoeheManuell = false;
     // höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
     $forms.height('auto');
-    $testart_div.hide();
-    $forms_titelzeile.hide();
+    $testartDiv.hide();
+    $formsTitelzeile.hide();
     // Bei Testarten Hinweis anzeigen
-    if ($ap_waehlen.val()) {
+    if ($apWaehlen.val()) {
         // titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
-        //$("#forms_titelzeile").css("display", "inline");
-        $forms_titelzeile.css("display", "none");
-        if ($ap_waehlen.val() <= 150 && Formularname !== "jberUebersicht" && Formularname !== "exporte" && Formularname !== "olMap") {
+        //$("#formsTitelzeile").css("display", "inline");
+        $formsTitelzeile.css("display", "none");
+        if ($apWaehlen.val() <= 150 && Formularname !== "jberUebersicht" && Formularname !== "exporte" && Formularname !== "olMap") {
             // titelzeile inline-block, sonst werden Tabs nach rechts verschoben
-            $("#forms_titelzeile").css("display", "inline-block");
-            $testart_div
+            $("#formsTitelzeile").css("display", "inline-block");
+            $testartDiv
                 .css("color", "#03970F")
                 .show()
                 .html("Das ist eine Testart - hier kann man alles ausprobieren!");
-        } else if ($("#ap_waehlen").val() <= 150 && Formularname === "jberUebersicht") {
-            $("#forms_titelzeile").css("display", "inline-block");
-            $testart_div
+        } else if ($("#apWaehlen").val() <= 150 && Formularname === "jberUebersicht") {
+            $("#formsTitelzeile").css("display", "inline-block");
+            $testartDiv
                 .css("color", "#DF0303")
                 .show()
                 .html("Vorsicht: Die Übericht ist für alle Arten, daher HIER NICHT TESTEN");
@@ -60,11 +60,11 @@ module.exports = function (Formularname) {
 
     if (Formularname) {
         $forms.show();
-        $("#ap_loeschen").show();
-        $("#exportieren_1").hide();
+        $("#apLoeschen").show();
+        $("#exportieren1").hide();
         if (Formularname === "gMap" || Formularname === "olMap") {
             // Titelzeile entfernen
-            $("#forms_titelzeile").css("display", "none");
+            $("#formsTitelzeile").css("display", "none");
             // höhe einstellen
             $Formularname = $("#" + Formularname);
             $Formularname.css("height", $(window).height() - 17 + "px");

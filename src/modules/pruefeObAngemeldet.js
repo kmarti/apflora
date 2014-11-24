@@ -5,7 +5,7 @@ var $               = require('jquery'),
     pruefeAnmeldung = require('./pruefeAnmeldung');
 
 module.exports = function () {
-    var $Useranmeldung = $("#anmelde_dialog").dialog({
+    var $Useranmeldung = $("#anmeldeDialog").dialog({
         autoOpen:      false,
         height:        320,
         width:         310,
@@ -18,8 +18,8 @@ module.exports = function () {
         },
         open: function (event, ui) {
             $(".ui-dialog-titlebar-close", ui.dialog).hide();
-            //Reaktion auf Enter-Taste in anmelde_dialog
-            $("#anmelde_dialog").on("keydown", function (e) {
+            //Reaktion auf Enter-Taste in anmeldeDialog
+            $("#anmeldeDialog").on("keydown", function (e) {
                 if (e.keyCode == $.ui.keyCode.ENTER) {
                     pruefeAnmeldung();
                 }

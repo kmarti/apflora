@@ -20,29 +20,29 @@ module.exports = function (apId) {
         // einen AP gewählt
         localStorage.apId = apId;
 
-        if (programm === "programm_neu") {
+        if (programm === "programmNeu") {
             // zuerst einen neuen Datensatz anlegen
             $.ajax({
                 type: 'post',
                 url: 'api/v1/apInsert/apId=' + apId + '/user=' + sessionStorage.user
             }).done(function () {
                 // nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
-                $("#programm_neu").attr("checked", false);
-                $("#programm_alle").attr("checked", true);
+                $("#programmNeu").attr("checked", false);
+                $("#programmAlle").attr("checked", true);
                 $("#programmWahl").buttonset();
                 // alle zwischengespeicherten aplisten löschen
                 delete window.apf.apliste;
                 // Auswahlliste für Programme updaten
-                $.when(waehleApliste("programm_alle")).then(function () {
+                $.when(waehleApliste("programmAlle")).then(function () {
                     // Strukturbaum updaten
                     $.when(erstelleTree(apId)).then(function () {
                         // gewählte Art in Auswahlliste anzeigen
-                        apWaehlenText = _.find(window.apf.apliste.programm_alle, function (art) {
+                        apWaehlenText = _.find(window.apf.apliste.programmAlle, function (art) {
                             return art.id == apId;
                         });
                         if (apWaehlenText) {
-                            $('#ap_waehlen').val(apId);
-                            $('#ap_waehlen_text').val(apWaehlenText.label);
+                            $('#apWaehlen').val(apId);
+                            $('#apWaehlenText').val(apWaehlenText.label);
                         }
                         $("#ApArtId").val(apId);
                         // gewählte Art in Formular anzeigen
@@ -59,16 +59,16 @@ module.exports = function (apId) {
         }
     } else {
         // leeren Wert gewählt
-        $('#ap_waehlen_text').val('');
-        if (programm === 'programm_neu') { placeholderText = 'Art für neues Förderprogramm wählen'; }
-        if (programm === 'programm_ap')  { placeholderText = 'Aktionsplan wählen'; }
-        $("#ap_waehlen_text").attr('placeholder', placeholderText);
+        $('#apWaehlenText').val('');
+        if (programm === 'programmNeu') { placeholderText = 'Art für neues Förderprogramm wählen'; }
+        if (programm === 'programmAp')  { placeholderText = 'Aktionsplan wählen'; }
+        $("#apWaehlenText").attr('placeholder', placeholderText);
         $("#tree").hide();
         $("#suchen").hide();
-        $("#exportieren_2").hide();
+        $("#exportieren2").hide();
         $("#hilfe").hide();
-        $("#ap_loeschen").hide();
-        $("#exportieren_1").show();
+        $("#apLoeschen").hide();
+        $("#exportieren1").show();
         $("#ap").hide();
         zeigeFormular();
         history.pushState(null, null, "index.html");

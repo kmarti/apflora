@@ -8,14 +8,14 @@ var $                        = require('jquery'),
     erstelleApliste          = require('./erstelleApliste');
 
 module.exports = function (apId) {
-    var $ap_waehlen_text = $("#ap_waehlen_text"),
-        $exportieren_2   = $("#exportieren_2");
+    var $apWaehlenText = $("#apWaehlenText"),
+        $exportieren2  = $("#exportieren2");
 
     //Variable zum rückgängig machen erstellen
     window.apf.deleted     = window.apf.ap;
     window.apf.deleted.typ = "ap";
     //Artname in Textform merken
-    window.apf.deleted.Artname = $ap_waehlen_text.val();
+    window.apf.deleted.Artname = $apWaehlenText.val();
     $.ajax({
         type: 'delete',
         url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + apId
@@ -25,25 +25,25 @@ module.exports = function (apId) {
         delete localStorage.ap;
         // alle zwischengespeicherten aplisten löschen
         delete window.apf.apliste;
-        $("#programm_neu")
+        $("#programmNeu")
             .attr("checked", false)
             .trigger('change');
-        $("#programm_alle")
+        $("#programmAlle")
             .attr("checked", true)
             .trigger('change');
         $("#programmWahl")
             .buttonset();
         //$("#programmWahl").buttonset('refresh');
-        erstelleApliste("programm_alle");
-        $('#ap_waehlen').val('');
-        $ap_waehlen_text.val('');
-        $ap_waehlen_text.attr('placeholder', 'Artförderprogramm wählen');
+        erstelleApliste("programmAlle");
+        $('#apWaehlen').val('');
+        $apWaehlenText.val('');
+        $apWaehlenText.attr('placeholder', 'Artförderprogramm wählen');
         $("#tree").hide();
         $("#suchen").hide();
-        $exportieren_2.hide();
+        $exportieren2.hide();
         $("#hilfe").hide();
-        $("#ap_loeschen").hide();
-        $exportieren_2.show();
+        $("#apLoeschen").hide();
+        $exportieren2.show();
         $("#ap").hide();
         $("#forms").hide();
         //Hinweis zum rückgängig machen anzeigen

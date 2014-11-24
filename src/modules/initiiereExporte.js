@@ -5,8 +5,8 @@ var $             = require('jquery'),
     zeigeFormular = require('./zeigeFormular');
 
 module.exports = function (anchor) {
-    $("#testart_div").hide();
-    $("#forms_titelzeile").hide();
+    $("#testartDiv").hide();
+    $("#formsTitelzeile").hide();
     zeigeFormular("exporte");
     history.pushState(null, null, "index.html?exporte=true");
     if (anchor) {
