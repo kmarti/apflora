@@ -10,7 +10,6 @@ var $                              = require('jquery'),
     speichern                      = require('./speichern'),
     stylePop                       = require('./olMap/stylePop'),
     styleTPop                      = require('./olMap/styleTPop'),
-    waehleAp                       = require('./waehleAp'),
     undeleteDatensatz              = require('./undeleteDatensatz'),
     setzeKartenhoehe               = require('./setzeKartenhoehe'),
     deaktiviereOlmapAuswahl        = require('./olMap/deaktiviereOlmapAuswahl'),
@@ -20,6 +19,7 @@ var $                              = require('jquery'),
     onClickProgrammWahl            = require('./events/menu/onClickProgrammWahl'),
     onClickApLoeschen              = require('./events/menu/onClickApLoeschen'),
     onChangeApWaehlen              = require('./events/menu/onChangeApWaehlen'),
+    onClickApWaehlenTextLoeschen   = require('./events/menu/onClickApWaehlenTextLoeschen'),
     onKeydownForm                  = require('./events/forms/onKeydownForm'),
     onChangeSpeichern              = require('./events/forms/onChangeSpeichern'),
     onClickKopiereKoordinatenInPop = require('./events/forms/onClickKopiereKoordinatenInPop'),
@@ -35,9 +35,18 @@ var $                              = require('jquery'),
     onClickNeuesLayer              = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
     onClickOeffneBeob              = require('./events/forms/gMap/onClickOeffneBeob'),
     onClickOeffneBeobInNeuemTab    = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
+    onChangeBeobNichtBeurteilt     = require('./events/forms/beob/onChangeBeobNichtBeurteilt'),
     onSelectmenuchangeExportLayerSelect = require('./events/forms/olMap/layertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
+    $('#menu')
+        .on('keydown',          '#suchen',                 onKeydownSuchen)
+        .on('click',            '.exportieren',            onClickExportieren)
+        .on('click',            '[name=programmWahl]',     onClickProgrammWahl)
+        .on('click',            '#apLoeschen',             onClickApLoeschen)
+        .on('change',           '#apWaehlen',              onChangeApWaehlen)
+        .on('click',            '#apWaehlenTextLoeschen',  onClickApWaehlenTextLoeschen);
+
     $("#forms")
         .on('keydown',         '.form',                    onKeydownForm);
 
@@ -67,36 +76,8 @@ module.exports = function () {
     $('#ber')
         .on('change',           '#berUrl',                 onChangeBerUrl);
 
-    // verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
-    $('[type="number"]').mousewheel(function (event) {
-        event.preventDefault();
-    });
-
-    // Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
-    // wird anschliessend im Baum der markierte node entfernt!
-    $('#menu')
-        .on('keydown',          '#suchen',                 onKeydownSuchen)
-        .on('click',            '.exportieren',            onClickExportieren)
-        .on('click',            '[name=programmWahl]',     onClickProgrammWahl)
-        .on('click',            '#apLoeschen',             onClickApLoeschen)
-        .on('change',           '#apWaehlen',              onChangeApWaehlen)
-        .on('click', '#ap_waehlen_text_loeschen', function () {
-            waehleAp();
-            $('#apWaehlenText').focus();
-        });
-
     $('#beob')
-        .on('change', '#BeobNichtBeurteilt', function () {
-            var $BeobNichtBeurteilt = $('#BeobNichtBeurteilt');
-            if ($BeobNichtBeurteilt.prop('checked') === true) {
-                // node verschieben. Den rest macht der callback zu jstree.move_node
-                $('#tree').jstree('move_node', '#beob' + localStorage.beobId, '#apOrdnerBeobNichtBeurteilt' + localStorage.apId, 'first');
-            } else {
-                // es bringt nichts, diesen Haken zu entfernen
-                // stattdessen soll ein anderer Wert gewählt werden
-                $BeobNichtBeurteilt.prop('checked', true);
-            }
-        })
+        .on('change',           '#beobNichtBeurteilt',     onChangeBeobNichtBeurteilt)
         .on('change', '#BeobNichtZuordnen', function () {
             if ($('#BeobNichtZuordnen').prop('checked') === true) {
                 // node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
@@ -377,4 +358,9 @@ module.exports = function () {
         .on('click', '#export_datenstruktur_grafisch', function () {
             window.open('etc/Beziehungen.pdf');
         });
+
+    // verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
+    $('[type="number"]').mousewheel(function (event) {
+        event.preventDefault();
+    });
 };

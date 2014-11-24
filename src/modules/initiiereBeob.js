@@ -131,7 +131,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             if (data && data[0]) {
                                 data = data[0];
                                 // Felder mit Daten beliefern
-                                $("#BeobNichtBeurteilt").prop("checked", false);
+                                $("#beobNichtBeurteilt").prop("checked", false);
                                 if (data.BeobNichtZuordnen === 1) {
                                     $("#BeobNichtZuordnen").prop("checked", true);
                                 } else {
@@ -156,7 +156,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         });
                     } else {
                         // beobStatus ist "nicht beurteilt"
-                        $("#BeobNichtBeurteilt").prop("checked", true);
+                        $("#beobNichtBeurteilt").prop("checked", true);
                         $("#BeobNichtZuordnen").prop("checked", false);
 
                         // allfällige im letzen beob enthaltene Werte entfernen

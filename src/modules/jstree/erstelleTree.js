@@ -498,7 +498,7 @@ module.exports = function (ApArtId) {
                         }
 
                         // Nicht beurteilt: Deaktivieren
-                        $('#BeobNichtBeurteilt').prop('checked', false);
+                        $('#beobNichtBeurteilt').prop('checked', false);
 
                         // selection steuern
                         if (localStorage.karteFokussieren) {
@@ -539,7 +539,7 @@ module.exports = function (ApArtId) {
                         }
 
                         // Nicht beurteilt: Deaktivieren
-                        $('#BeobNichtBeurteilt').prop('checked', false);
+                        $('#beobNichtBeurteilt').prop('checked', false);
 
                         // Variablen aufräumen
                         delete window.apf.beobNodeAusgeschnitten;
