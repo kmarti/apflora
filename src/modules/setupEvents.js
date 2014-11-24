@@ -3,7 +3,6 @@
 
 var $                                   = require('jquery'),
     _                                   = require('underscore'),
-    downloadFileFromView                = require('./downloadFileFromView'),
     downloadFileFromViewWehreIdIn       = require('./downloadFileFromViewWehreIdIn'),
     onWindowResize                      = require('./events/onWindowResize'),
     onClickUndelete                     = require('./events/onClickUndelete'),
@@ -26,6 +25,7 @@ var $                                   = require('jquery'),
     onChangeBerUrl                      = require('./events/forms/onChangeBerUrl'),
     onChangeTPopKontrJahr               = require('./events/forms/onChangeTPopKontrJahr'),
     onChangeTPopMassnJahr               = require('./events/forms/onChangeTPopMassnJahr'),
+    onClickExport                       = require('./events/forms/onClickExport'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
     onClickLayertreePopStyle            = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
@@ -112,10 +112,7 @@ module.exports = function () {
     $(window).resize(onWindowResize);
 
     $('#exporte')
-        .on('click', '.export', function () {
-            downloadFileFromView($(this).attr('view'), $(this).attr('filename'), $(this).attr('format') || null);
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        })
+        .on('click',            '.export',                     onClickExport)
         .on('click', '#exportDatenstrukturGrafisch', function () {
             window.open('etc/Beziehungen.pdf');
         });
