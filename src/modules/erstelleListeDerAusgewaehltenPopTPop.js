@@ -69,8 +69,8 @@ module.exports = function (popSelected, tpopSelected) {
 
     // Listentitel erstellen
     exportieren = "Exportieren: ";
-    exportierenPop = "<a href='#' class='export_pop'>Populationen</a>";
-    exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
+    exportierenPop = "<a href='#' class='exportPop'>Populationen</a>";
+    exportierenTPop = "<a href='#' class='exportTpop'>Teilpopulationen</a>, <a href='#' class='exportKontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
     if (popSelected.length > 0 && tpopSelected.length > 0) {
         listentitel  = "Gewählt wurden " + popSelected.length + " Populationen und " + tpopSelected.length + " Teilpopulationen";
         exportieren += exportierenPop + ", " + exportierenTPop;

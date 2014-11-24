@@ -55,49 +55,49 @@ module.exports = function () {
     $("#forms")
         .on('keydown',         '.form',                        onKeydownForm)
         .on('click',           '.guid',                        onClickGuid)
-        .on('click', '.export_pop', function () {
+        .on('click', '.exportPop', function () {
             // wenn pop ausgewählt, diese übergeben
-            var pop_id_liste = '';
+            var popIdListe = '';
             if (window.apf.olMap.popSelected) {
                 _.each(window.apf.olMap.popSelected, function (pop, index) {
-                    pop_id_liste +=  pop.get('myId');
+                    popIdListe +=  pop.get('myId');
                     if (index + 1 < window.apf.olMap.popSelected.length) {
-                        pop_id_liste += ',';
+                        popIdListe += ',';
                     }
                 });
-                downloadFileFromViewWehreIdIn('vPop', 'PopId', pop_id_liste, 'Populationen', 'csv');
+                downloadFileFromViewWehreIdIn('vPop', 'PopId', popIdListe, 'Populationen', 'csv');
             } else {
                 downloadFileFromView('vPop', 'Populationen', 'csv');
             }
             return false; // this is critical to stop the click event which will trigger a normal file download!
         })
-        .on('click', '.export_kontr', function () {
+        .on('click', '.exportKontr', function () {
             // wenn tpop ausgewählt, diese übergeben
-            var tpop_id_liste = '';
+            var tpopIdListe = '';
             if (window.apf.olMap.tpopSelected) {
                 _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpop_id_liste +=  tpop.get('myId');
+                    tpopIdListe +=  tpop.get('myId');
                     if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpop_id_liste += ',';
+                        tpopIdListe += ',';
                     }
                 });
-                downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpop_id_liste, 'Kontrollen', 'csv');
+                downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpopIdListe, 'Kontrollen', 'csv');
             } else {
                 downloadFileFromView('vKontr', 'Kontrollen', 'csv');
             }
             return false; // this is critical to stop the click event which will trigger a normal file download!
         })
-        .on('click', '.export_tpop', function () {
+        .on('click', '.exportTpop', function () {
             // wenn tpop ausgewählt, diese übergeben
-            var tpop_id_liste = '';
+            var tpopIdListe = '';
             if (window.apf.olMap.tpopSelected) {
                 _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpop_id_liste +=  tpop.get('myId');
+                    tpopIdListe +=  tpop.get('myId');
                     if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpop_id_liste += ',';
+                        tpopIdListe += ',';
                     }
                 });
-                downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpop_id_liste, 'Teilpopulationen', 'csv');
+                downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpopIdListe, 'Teilpopulationen', 'csv');
             } else {
                 downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
             }
@@ -105,15 +105,15 @@ module.exports = function () {
         })
         .on('click', '.export_massn', function () {
             // wenn tpop ausgewählt, diese übergeben
-            var tpop_id_liste = '';
+            var tpopIdListe = '';
             if (window.apf.olMap.tpopSelected) {
                 _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpop_id_liste +=  tpop.get('myId');
+                    tpopIdListe +=  tpop.get('myId');
                     if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpop_id_liste += ',';
+                        tpopIdListe += ',';
                     }
                 });
-                downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpop_id_liste, 'Massnahmen', 'csv');
+                downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpopIdListe, 'Massnahmen', 'csv');
             } else {
                 downloadFileFromView('vMassn', 'Massnahmen', 'csv');
             }
