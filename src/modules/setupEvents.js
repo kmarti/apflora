@@ -19,6 +19,7 @@ var $                              = require('jquery'),
     onClickExportieren             = require('./events/menu/onClickExportieren'),
     onClickProgrammWahl            = require('./events/menu/onClickProgrammWahl'),
     onClickApLoeschen              = require('./events/menu/onClickApLoeschen'),
+    onChangeApWaehlen              = require('./events/menu/onChangeApWaehlen'),
     onKeydownForm                  = require('./events/forms/onKeydownForm'),
     onChangeSpeichern              = require('./events/forms/onChangeSpeichern'),
     onClickKopiereKoordinatenInPop = require('./events/forms/onClickKopiereKoordinatenInPop'),
@@ -78,10 +79,7 @@ module.exports = function () {
         .on('click',            '.exportieren',            onClickExportieren)
         .on('click',            '[name=programmWahl]',     onClickProgrammWahl)
         .on('click',            '#apLoeschen',             onClickApLoeschen)
-        .on('change', '#apWaehlen', function () {
-            var value = this.value || localStorage.apId;
-            waehleAp(value);
-        })
+        .on('change',           '#apWaehlen',              onChangeApWaehlen)
         .on('click', '#ap_waehlen_text_loeschen', function () {
             waehleAp();
             $('#apWaehlenText').focus();
