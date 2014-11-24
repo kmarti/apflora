@@ -5,7 +5,6 @@ var $                                   = require('jquery'),
     _                                   = require('underscore'),
     downloadFileFromView                = require('./downloadFileFromView'),
     downloadFileFromViewWehreIdIn       = require('./downloadFileFromViewWehreIdIn'),
-    speichern                           = require('./speichern'),
     stylePop                            = require('./olMap/stylePop'),
     styleTPop                           = require('./olMap/styleTPop'),
     setzeKartenhoehe                    = require('./setzeKartenhoehe'),
@@ -29,6 +28,7 @@ var $                                   = require('jquery'),
     onClickExportTpopMassn              = require('./events/forms/onClickExportTpopMassn'),
     onChangeBerUrl                      = require('./events/forms/onChangeBerUrl'),
     onChangeTPopKontrJahr               = require('./events/forms/onChangeTPopKontrJahr'),
+    onChangeTPopMassnJahr               = require('./events/forms/onChangeTPopMassnJahr'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
     onClickLayertreePopStyle            = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
@@ -109,18 +109,8 @@ module.exports = function () {
         .on('change',           '#TPopKontrJahr',              onChangeTPopKontrJahr);
 
     // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
-    $('#tpopmassn').on('change', '#TPopMassnJahr', function () {
-        var objekt,
-            $TPopMassnDatum = $('#TPopMassnDatum');
-
-        if ($TPopMassnDatum.val()) {
-            $TPopMassnDatum.val(null);
-            objekt          = {};
-            objekt.name     = 'TPopMassnDatum';
-            objekt.formular = 'tpopmassn';
-            speichern(objekt);
-        }
-    });
+    $('#tpopmassn')
+        .on('change',           '#TPopMassnJahr',              onChangeTPopMassnJahr);
 
     $(window).resize(function () {
         setzeTreehoehe();
