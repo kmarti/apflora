@@ -3,7 +3,6 @@
 
 var $                              = require('jquery'),
     _                              = require('underscore'),
-    addruler                       = require('addruler'),
     removeruler                    = require('removeruler'),
     downloadFileFromView           = require('./downloadFileFromView'),
     downloadFileFromViewWehreIdIn  = require('./downloadFileFromViewWehreIdIn'),
@@ -35,6 +34,7 @@ var $                              = require('jquery'),
     onClickNeuesLayer              = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
     onClickOeffneBeob              = require('./events/forms/gMap/onClickOeffneBeob'),
     onClickOeffneBeobInNeuemTab    = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
+    onClickGMapDistanzMessen       = require('./events/forms/gMap/onClickGMapDistanzMessen'),
     onChangeBeobNichtBeurteilt     = require('./events/forms/beob/onChangeBeobNichtBeurteilt'),
     onChangeBeobNichtZuordnen      = require('./events/forms/beob/onChangeBeobNichtZuordnen'),
     onChangeDistZuTPop             = require('./events/forms/beob/onChangeDistZuTPop'),
@@ -73,7 +73,12 @@ module.exports = function () {
 
     $('#gMap')
         .on('click',            '.oeffneBeob',             onClickOeffneBeob)
-        .on('click',            '.oeffneBeobInNeuemTab',   onClickOeffneBeobInNeuemTab);
+        .on('click',            '.oeffneBeobInNeuemTab',   onClickOeffneBeobInNeuemTab)
+        .on('click',            '#gMapDistanzMessen',      onClickGMapDistanzMessen)
+        .on('click', '#gMapDistanzMessenEntfernen', function (event) {
+            event.preventDefault();
+            removeruler();
+        });
 
     $('#ber')
         .on('change',           '#berUrl',                 onChangeBerUrl);
@@ -82,16 +87,6 @@ module.exports = function () {
         .on('change',           '#beobNichtBeurteilt',     onChangeBeobNichtBeurteilt)
         .on('change',           '#beobNichtZuordnen',      onChangeBeobNichtZuordnen)
         .on('change',           '[name="distZuTPop"]',     onChangeDistZuTPop);
-
-    $('#gMap')
-        .on('click', '#gMapDistanzMessen', function (event) {
-            event.preventDefault();
-            addruler();
-        })
-        .on('click', '#gMapDistanzMessenEntfernen', function (event) {
-            event.preventDefault();
-            removeruler();
-        });
 
     $('#undelete_div').on('click', '#undelete', function (event) {
         event.preventDefault();
