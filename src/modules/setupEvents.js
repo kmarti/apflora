@@ -1,42 +1,51 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                             = require('jquery'),
-    _                             = require('underscore'),
-    addruler                      = require('addruler'),
-    removeruler                   = require('removeruler'),
-    downloadFileFromView          = require('./downloadFileFromView'),
-    downloadFileFromViewWehreIdIn = require('./downloadFileFromViewWehreIdIn'),
-    fitTextareaToContent          = require('./fitTextareaToContent'),
-    speichern                     = require('./speichern'),
-    waehleApListe                 = require('./waehleApListe'),
-    stylePop                      = require('./olMap/stylePop'),
-    styleTPop                     = require('./olMap/styleTPop'),
-    waehleAp                      = require('./waehleAp'),
-    loescheAp                     = require('./loescheAp'),
-    undeleteDatensatz             = require('./undeleteDatensatz'),
-    kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop'),
-    setzeKartenhoehe              = require('./setzeKartenhoehe'),
-    deaktiviereOlmapAuswahl       = require('./olMap/deaktiviereOlmapAuswahl'),
-    initiiereExporte              = require('./initiiereExporte'),
-    setzeTreehoehe                = require('./jstree/setzeTreehoehe'),
-    onKeydownForm                 = require('./events/forms/onKeydownForm'),
-    onChangeBerUrl                = require('./events/forms/ber/onChangeBerUrl'),
-    onClickOlMapExportieren       = require('./events/forms/olMap/onClickOlMapExportieren'),
-    onClickOlmapLayertreeCheckbox = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
-    onClickLayertreePopStyle      = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
-    onClickLayertreeTpopStyle     = require('./events/forms/olMap/layertree/onClickLayertreeTpopStyle'),
-    onClickModifyLayer            = require('./events/forms/olMap/layertree/onClickModifyLayer'),
-    onClickRenameLayer            = require('./events/forms/olMap/layertree/onClickRenameLayer'),
-    onClickEntferneLayer          = require('./events/forms/olMap/layertree/onClickEntferneLayer'),
-    onClickNeuesLayer             = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
-    onClickOeffneBeob             = require('./events/forms/gMap/onClickOeffneBeob'),
-    onClickOeffneBeobInNeuemTab   = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
+var $                              = require('jquery'),
+    _                              = require('underscore'),
+    addruler                       = require('addruler'),
+    removeruler                    = require('removeruler'),
+    downloadFileFromView           = require('./downloadFileFromView'),
+    downloadFileFromViewWehreIdIn  = require('./downloadFileFromViewWehreIdIn'),
+    fitTextareaToContent           = require('./fitTextareaToContent'),
+    speichern                      = require('./speichern'),
+    waehleApListe                  = require('./waehleApListe'),
+    stylePop                       = require('./olMap/stylePop'),
+    styleTPop                      = require('./olMap/styleTPop'),
+    waehleAp                       = require('./waehleAp'),
+    loescheAp                      = require('./loescheAp'),
+    undeleteDatensatz              = require('./undeleteDatensatz'),
+    setzeKartenhoehe               = require('./setzeKartenhoehe'),
+    deaktiviereOlmapAuswahl        = require('./olMap/deaktiviereOlmapAuswahl'),
+    initiiereExporte               = require('./initiiereExporte'),
+    setzeTreehoehe                 = require('./jstree/setzeTreehoehe'),
+    onKeydownForm                  = require('./events/forms/onKeydownForm'),
+    onChangeSpeichern              = require('./events/forms/onChangeSpeichern'),
+    onClickKopiereKoordinatenInPop = require('./events/forms/onClickKopiereKoordinatenInPop'),
+    onChangeBerUrl                 = require('./events/forms/ber/onChangeBerUrl'),
+    onClickOlMapExportieren        = require('./events/forms/olMap/onClickOlMapExportieren'),
+    onClickOlmapLayertreeCheckbox  = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
+    onClickLayertreePopStyle       = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
+    onClickLayertreeTpopStyle      = require('./events/forms/olMap/layertree/onClickLayertreeTpopStyle'),
+    onClickModifyLayer             = require('./events/forms/olMap/layertree/onClickModifyLayer'),
+    onClickRenameLayer             = require('./events/forms/olMap/layertree/onClickRenameLayer'),
+    onClickEntferneLayer           = require('./events/forms/olMap/layertree/onClickEntferneLayer'),
+    onClickNeuesLayer              = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
+    onClickOeffneBeob              = require('./events/forms/gMap/onClickOeffneBeob'),
+    onClickOeffneBeobInNeuemTab    = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
     onSelectmenuchangeExportLayerSelect = require('./events/forms/olMap/layertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
     $("#forms")
         .on('keydown',         '.form',                    onKeydownForm);
+
+    // Für jedes Feld bei Änderung speichern
+    $('.form')
+        .on('change',          '.speichern',               onChangeSpeichern)
+        .on('click',           '#kopiereKoordinatenInPop', onClickKopiereKoordinatenInPop)
+        .on('keyup focus', 'textarea', function () {
+            fitTextareaToContent(this, document.documentElement.clientHeight);
+        });
 
     $('#olMap')
         .on('click',            '#olMapExportieren',       onClickOlMapExportieren);
@@ -55,19 +64,8 @@ module.exports = function () {
         .on('click',            '.oeffneBeob',             onClickOeffneBeob)
         .on('click',            '.oeffneBeobInNeuemTab',   onClickOeffneBeobInNeuemTab);
 
-    $('#ber').on('change',      '#berUrl',                 onChangeBerUrl);
-
-    // Für jedes Feld bei Änderung speichern
-    $('.form')
-        .on('change', '.speichern', function () {
-            speichern(this);
-        })
-        .on('click', '#kopiereKoordinatenInPop', function () {
-            kopiereKoordinatenInPop($('#TPopXKoord').val(), $('#TPopYKoord').val());
-        })
-        .on('keyup focus', 'textarea', function () {
-            fitTextareaToContent(this, document.documentElement.clientHeight);
-        });
+    $('#ber')
+        .on('change',           '#berUrl',                 onChangeBerUrl);
 
     // verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
     $('[type="number"]').mousewheel(function (event) {
