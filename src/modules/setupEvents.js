@@ -22,6 +22,7 @@ var $                                   = require('jquery'),
     onKeydownForm                       = require('./events/forms/onKeydownForm'),
     onChangeSpeichern                   = require('./events/forms/onChangeSpeichern'),
     onClickKopiereKoordinatenInPop      = require('./events/forms/onClickKopiereKoordinatenInPop'),
+    onClickGuid                         = require('./events/forms/onClickGuid'),
     onKeyupFocusTextarea                = require('./events/forms/onKeyupFocusTextarea'),
     onChangeBerUrl                      = require('./events/forms/ber/onChangeBerUrl'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
@@ -52,7 +53,72 @@ module.exports = function () {
         .on('keyup click',      '#suchen',                     onKeyupClickSuchen);
 
     $("#forms")
-        .on('keydown',         '.form',                        onKeydownForm);
+        .on('keydown',         '.form',                        onKeydownForm)
+        .on('click',           '.guid',                        onClickGuid)
+        .on('click', '.export_pop', function () {
+            // wenn pop ausgewählt, diese übergeben
+            var pop_id_liste = '';
+            if (window.apf.olMap.popSelected) {
+                _.each(window.apf.olMap.popSelected, function (pop, index) {
+                    pop_id_liste +=  pop.get('myId');
+                    if (index + 1 < window.apf.olMap.popSelected.length) {
+                        pop_id_liste += ',';
+                    }
+                });
+                downloadFileFromViewWehreIdIn('vPop', 'PopId', pop_id_liste, 'Populationen', 'csv');
+            } else {
+                downloadFileFromView('vPop', 'Populationen', 'csv');
+            }
+            return false; // this is critical to stop the click event which will trigger a normal file download!
+        })
+        .on('click', '.export_kontr', function () {
+            // wenn tpop ausgewählt, diese übergeben
+            var tpop_id_liste = '';
+            if (window.apf.olMap.tpopSelected) {
+                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
+                    tpop_id_liste +=  tpop.get('myId');
+                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
+                        tpop_id_liste += ',';
+                    }
+                });
+                downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpop_id_liste, 'Kontrollen', 'csv');
+            } else {
+                downloadFileFromView('vKontr', 'Kontrollen', 'csv');
+            }
+            return false; // this is critical to stop the click event which will trigger a normal file download!
+        })
+        .on('click', '.export_tpop', function () {
+            // wenn tpop ausgewählt, diese übergeben
+            var tpop_id_liste = '';
+            if (window.apf.olMap.tpopSelected) {
+                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
+                    tpop_id_liste +=  tpop.get('myId');
+                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
+                        tpop_id_liste += ',';
+                    }
+                });
+                downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpop_id_liste, 'Teilpopulationen', 'csv');
+            } else {
+                downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
+            }
+            return false; // this is critical to stop the click event which will trigger a normal file download!
+        })
+        .on('click', '.export_massn', function () {
+            // wenn tpop ausgewählt, diese übergeben
+            var tpop_id_liste = '';
+            if (window.apf.olMap.tpopSelected) {
+                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
+                    tpop_id_liste +=  tpop.get('myId');
+                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
+                        tpop_id_liste += ',';
+                    }
+                });
+                downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpop_id_liste, 'Massnahmen', 'csv');
+            } else {
+                downloadFileFromView('vMassn', 'Massnahmen', 'csv');
+            }
+            return false; // this is critical to stop the click event which will trigger a normal file download!
+        });
 
     // Für jedes Feld bei Änderung speichern
     $('.form')
@@ -132,76 +198,6 @@ module.exports = function () {
         // da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
         setzeKartenhoehe();
     });
-
-    $('#forms')
-        .on('click', '.guid', function () {
-            // die GUIDS sollen einfach kopiert werden können
-            $(this).select();
-        })
-        .on('click', '.export_pop', function () {
-            // wenn pop ausgewählt, diese übergeben
-            var pop_id_liste = '';
-            if (window.apf.olMap.popSelected) {
-                _.each(window.apf.olMap.popSelected, function (pop, index) {
-                    pop_id_liste +=  pop.get('myId');
-                    if (index + 1 < window.apf.olMap.popSelected.length) {
-                        pop_id_liste += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vPop', 'PopId', pop_id_liste, 'Populationen', 'csv');
-            } else {
-                downloadFileFromView('vPop', 'Populationen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        })
-        .on('click', '.export_kontr', function () {
-            // wenn tpop ausgewählt, diese übergeben
-            var tpop_id_liste = '';
-            if (window.apf.olMap.tpopSelected) {
-                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpop_id_liste +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpop_id_liste += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpop_id_liste, 'Kontrollen', 'csv');
-            } else {
-                downloadFileFromView('vKontr', 'Kontrollen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        })
-        .on('click', '.export_tpop', function () {
-            // wenn tpop ausgewählt, diese übergeben
-            var tpop_id_liste = '';
-            if (window.apf.olMap.tpopSelected) {
-                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpop_id_liste +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpop_id_liste += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpop_id_liste, 'Teilpopulationen', 'csv');
-            } else {
-                downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        })
-        .on('click', '.export_massn', function () {
-            // wenn tpop ausgewählt, diese übergeben
-            var tpop_id_liste = '';
-            if (window.apf.olMap.tpopSelected) {
-                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpop_id_liste +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpop_id_liste += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpop_id_liste, 'Massnahmen', 'csv');
-            } else {
-                downloadFileFromView('vMassn', 'Massnahmen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        });
 
     $('#olMapErgebnisAuswahlHeader').on('click', '.ui-icon.ui-icon-closethick', function () {
         deaktiviereOlmapAuswahl();
