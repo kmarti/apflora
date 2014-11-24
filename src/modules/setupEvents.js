@@ -139,11 +139,22 @@ module.exports = function () {
         .on('click',            '.entferneLayer',              onClickEntferneLayer)
         .on('click',            '.neuesLayer',                 onClickNeuesLayer);
 
+    $('#olMapErgebnisAuswahlHeader').on('click', '.ui-icon.ui-icon-closethick', function () {
+        deaktiviereOlmapAuswahl();
+    });
+
     $('#gMap')
         .on('click',            '.oeffneBeob',                 onClickOeffneBeob)
         .on('click',            '.oeffneBeobInNeuemTab',       onClickOeffneBeobInNeuemTab)
         .on('click',            '#gMapDistanzMessen',          onClickGMapDistanzMessen)
-        .on('click',            '#gMapDistanzMessenEntfernen', onClickGMapDistanzMessenEntfernen);
+        .on('click',            '#gMapDistanzMessenEntfernen', onClickGMapDistanzMessenEntfernen)
+        .on('change', '.gMapDetailplaeneCheckbox', function () {
+            if (window.apf.googleKarteDetailplaene.getMap() === null) {
+                window.apf.googleKarteDetailplaene.setMap(window.apf.gMap.map);
+            } else {
+                window.apf.googleKarteDetailplaene.setMap(null);
+            }
+        });
 
     $('#ber')
         .on('change',           '#berUrl',                     onChangeBerUrl);
@@ -184,23 +195,11 @@ module.exports = function () {
         }
     });
 
-    $('.karte').on('change', '.gMapDetailplaeneCheckbox', function () {
-        if (window.apf.googleKarteDetailplaene.getMap() === null) {
-            window.apf.googleKarteDetailplaene.setMap(window.apf.gMap.map);
-        } else {
-            window.apf.googleKarteDetailplaene.setMap(null);
-        }
-    });
-
     $(window).resize(function () {
         setzeTreehoehe();
         // Karten sollen ca. Bildschirmhöhe haben
         // da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
         setzeKartenhoehe();
-    });
-
-    $('#olMapErgebnisAuswahlHeader').on('click', '.ui-icon.ui-icon-closethick', function () {
-        deaktiviereOlmapAuswahl();
     });
 
     $('#exporte')
