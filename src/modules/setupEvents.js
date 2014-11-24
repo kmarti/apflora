@@ -9,7 +9,6 @@ var $                                   = require('jquery'),
     stylePop                            = require('./olMap/stylePop'),
     styleTPop                           = require('./olMap/styleTPop'),
     setzeKartenhoehe                    = require('./setzeKartenhoehe'),
-    deaktiviereOlmapAuswahl             = require('./olMap/deaktiviereOlmapAuswahl'),
     setzeTreehoehe                      = require('./jstree/setzeTreehoehe'),
     onClickUndelete                     = require('./events/onClickUndelete'),
     onKeydownSuchen                     = require('./events/menu/onKeydownSuchen'),
@@ -26,6 +25,8 @@ var $                                   = require('jquery'),
     onKeyupFocusTextarea                = require('./events/forms/onKeyupFocusTextarea'),
     onClickExportPop                    = require('./events/forms/onClickExportPop'),
     onClickExportKontr                  = require('./events/forms/onClickExportKontr'),
+    onClickExportTpop                   = require('./events/forms/onClickExportTpop'),
+    onClickExportTpopMassn              = require('./events/forms/onClickExportTpopMassn'),
     onChangeBerUrl                      = require('./events/forms/ber/onChangeBerUrl'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
@@ -35,6 +36,7 @@ var $                                   = require('jquery'),
     onClickRenameLayer                  = require('./events/forms/olMap/layertree/onClickRenameLayer'),
     onClickEntferneLayer                = require('./events/forms/olMap/layertree/onClickEntferneLayer'),
     onClickNeuesLayer                   = require('./events/forms/olMap/layertree/onClickNeuesLayer'),
+    onClickErgebnisAuswahlClose         = require('./events/forms/olMap/onClickErgebnisAuswahlClose'),
     onClickOeffneBeob                   = require('./events/forms/gMap/onClickOeffneBeob'),
     onClickOeffneBeobInNeuemTab         = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
     onClickGMapDistanzMessen            = require('./events/forms/gMap/onClickGMapDistanzMessen'),
@@ -59,38 +61,8 @@ module.exports = function () {
         .on('click',           '.guid',                        onClickGuid)
         .on('click',           '.exportPop',                   onClickExportPop)
         .on('click',           '.exportKontr',                 onClickExportKontr)
-        .on('click', '.exportTpop', function () {
-            // wenn tpop ausgewählt, diese übergeben
-            var tpopIdListe = '';
-            if (window.apf.olMap.tpopSelected) {
-                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpopIdListe +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpopIdListe += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpopIdListe, 'Teilpopulationen', 'csv');
-            } else {
-                downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        })
-        .on('click', '.export_massn', function () {
-            // wenn tpop ausgewählt, diese übergeben
-            var tpopIdListe = '';
-            if (window.apf.olMap.tpopSelected) {
-                _.each(window.apf.olMap.tpopSelected, function (tpop, index) {
-                    tpopIdListe +=  tpop.get('myId');
-                    if (index + 1 < window.apf.olMap.tpopSelected.length) {
-                        tpopIdListe += ',';
-                    }
-                });
-                downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpopIdListe, 'Massnahmen', 'csv');
-            } else {
-                downloadFileFromView('vMassn', 'Massnahmen', 'csv');
-            }
-            return false; // this is critical to stop the click event which will trigger a normal file download!
-        });
+        .on('click',           '.exportTpop',                  onClickExportTpop)
+        .on('click',           '.exportMassn',                 onClickExportTpopMassn);
 
     // Für jedes Feld bei Änderung speichern
     $('.form')
@@ -111,9 +83,8 @@ module.exports = function () {
         .on('click',            '.entferneLayer',              onClickEntferneLayer)
         .on('click',            '.neuesLayer',                 onClickNeuesLayer);
 
-    $('#olMapErgebnisAuswahlHeader').on('click', '.ui-icon.ui-icon-closethick', function () {
-        deaktiviereOlmapAuswahl();
-    });
+    $('#olMapErgebnisAuswahlHeader')
+        .on('click',            '.ui-icon.ui-icon-closethick', onClickErgebnisAuswahlClose);
 
     $('#gMap')
         .on('click',            '.oeffneBeob',                 onClickOeffneBeob)
