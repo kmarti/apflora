@@ -908,7 +908,7 @@ option {
     border-bottom: 1px solid #FFE;
 }
 
-.border_top {
+.borderTop {
     border-top: 1px solid #999;
     padding-top:  10px;
     margin-right: 10px;
@@ -1537,7 +1537,7 @@ p.ergebnisAuswahlListeTitelTPop {
     padding: 10px 0 10px 10px;
 }
 
-.export_abschnitt_exporte {
+.exportAbschnittExporte {
        -moz-column-width: 300px;
     -webkit-column-width: 300px;
             column-width: 300px;

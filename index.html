@@ -2198,7 +2198,7 @@
                     </ul>
 
                     <a name="Anleitung"></a>
-                    <h2 class="border_top">So geht's</h2>
+                    <h2 class="borderTop">So geht's</h2>
                     <p>Hier sind alle Auswertungen (bzw. Abfragen, Kontrollen, Listen).</p>
                     <p>Die Daten werden direkt als mit Strichpunkten (=Semikolon) getrennte .csv-Datei heruntergeladen.</p>
                     <p>Diese Datei kann nach dem Download auf zwei Arten geöffnet werden:</p>
@@ -2226,101 +2226,101 @@
 
                     <br><a href="#top">&uArr;&nbsp;top</a>
 
-                    <div class="export_abschnitt">
+                    <div class="exportAbschnitt">
                         <a name="ProgrammArt"></a>
-                        <h2 class="border_top">Programm / Art</h2>
-                        <div class="export_abschnitt_exporte">
-                            <button id="export_ap">Programme</button><br>
-                            <button id="export_ap_ohne_pop">Programme ohne Populationen</button><br><br>
+                        <h2 class="borderTop">Programm / Art</h2>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportAp" class="export" view="vProgramme" filename="Programme">Programme</button><br>
+                            <button id="exportApOhnePop" class="export" view="vApOhnePop" filename="ProgrammeOhnePopulationen">Programme ohne Populationen</button><br><br>
 
-                            <button id="export_ap_anz_massn">Anzahl Massnahmen pro Programm</button><br>
-                            <button id="export_ap_anz_kontr">Anzahl Kontrollen pro Programm</button><br><br>
+                            <button id="exportApAnzMassn" class="export" view="vApAnzMassn" filename="ProgrammeAnzahlMassnahmen">Anzahl Massnahmen pro Programm</button><br>
+                            <button id="exportApAnzKontr" class="export" view="vApAnzKontr" filename="ProgrammeAnzahlKontrollen">Anzahl Kontrollen pro Programm</button><br><br>
 
-                            <button id="export_jber">AP-Berichte (Jahresberichte)</button><br>
-                            <button id="export_jber_massn">AP-Berichte und Massnahmen</button><br><br>
+                            <button id="exportJber" class="export" view="vApJahresberichte" filename="Jahresberichte">AP-Berichte (Jahresberichte)</button><br>
+                            <button id="exportJberMassn" class="export" view="vApJahresberichteUndMassnahmen" filename="ApJahresberichteUndMassnahmen">AP-Berichte und Massnahmen</button><br><br>
 
-                            <button id="export_apziel">Ziele</button><br><br>
+                            <button id="exportApziel" class="export" view="vApZiele" filename="ApZiele">Ziele</button><br><br>
 
-                            <button id="export_zielber">Ziel-Berichte</button><br><br>
+                            <button id="exportZielber" class="export" view="vZielBer" filename="Zielberichte">Ziel-Berichte</button><br><br>
 
-                            <button id="export_ber">Berichte</button><br><br>
+                            <button id="exportBer" class="export" view="vBer" filename="Berichte">Berichte</button><br><br>
 
-                            <button id="export_erfkrit">Erfolgskriterien</button><br><br>
+                            <button id="exportErfkrit" class="export" view="vErfKrit" filename="Erfolgskriterien">Erfolgskriterien</button><br><br>
 
-                            <button id="export_idealbiotop">Idealbiotope</button><br><br>
+                            <button id="exportIdealbiotop" class="export" view="vIdealbiotop" filename="Idealbiotope">Idealbiotope</button><br><br>
 
-                            <button id="export_assoz_arten">Assoziierte Arten</button><br>
+                            <button id="exportAssozArten" class="export" view="vAssozArten" filename="AssoziierteArten">Assoziierte Arten</button><br>
                         </div>
                         <br><br><a href="#top">&uArr;&nbsp;top</a>
                     </div>
-                    <div class="export_abschnitt">
+                    <div class="exportAbschnitt">
                         <a name="Populationen"></a>
-                        <h2 class="border_top">Populationen</h2>
-                        <div class="export_abschnitt_exporte">
-                            <button id="exportPop" class="exportPop">Populationen</button><br>
-                            <button id="export_pop_fuer_kml" class="GoogleEarthButton">Populationen für Google Earth<br>(beschriftet mit PopNr)</button><br>
-                            <button id="export_pop_fuer_kml_namen" class="GoogleEarthButton">Populationen für Google Earth<br>(beschriftet mit Artname, PopNr)</button><br>
-                            <button id="export_pop_ohne_tpop">Populationen ohne Teilpopulationen</button><br>
-                            <button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br>
-                            <button id="export_pop_ohne_koord">Populationen ohne Koordinaten</button><br><br>
+                        <h2 class="borderTop">Populationen</h2>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportPop" class="exportPop export" view="vPop" filename="Populationen">Populationen</button><br>
+                            <button id="exportPopFuerKml" class="GoogleEarthButton export" view="vPopFuerKml" filename="ApFloraPopulationen" format="kml">Populationen für Google Earth<br>(beschriftet mit PopNr)</button><br>
+                            <button id="exportPopFuerKmlNamen" class="GoogleEarthButton export" view="vPopFuerKmlNamen" filename="PopulationenNachNamen" format="kml">Populationen für Google Earth<br>(beschriftet mit Artname, PopNr)</button><br>
+                            <button id="exportPopOhneTpop" class="export" view="vPopOhneTPop" filename="PopulationenOhneTeilpopulationen">Populationen ohne Teilpopulationen</button><br>
+                            <button id="exportPopVonApOhneStatus" class="export" view="vPopVonApOhneStatus" filename="PopulationenVonApArtenOhneStatus">Populationen von AP-Arten ohne "Status"</button><br>
+                            <button id="exportPopOhneKoord" class="export" view="vPopOhneKoord" filename="PopulationenOhneKoordinaten">Populationen ohne Koordinaten</button><br><br>
 
-                            <button id="export_pop_mit_massnber_anz_massn">Populationen mit Massnahmen-Berichten:<br>Anzahl Massnahmen im Berichtsjahr</button><br>
-                            <button id="export_pop_anz_massn">Anzahl Massnahmen pro Population</button><br>
-                            <button id="export_pop_anz_kontr">Anzahl Kontrollen pro Population</button><br><br>
+                            <button id="exportPopMitMassnberAnzMassn" class="export" view="vPopMassnberAnzMassn" filename="PopulationenAnzMassnProMassnber">Populationen mit Massnahmen-Berichten:<br>Anzahl Massnahmen im Berichtsjahr</button><br>
+                            <button id="exportPopAnzMassn" class="export" view="vPopAnzMassn" filename="PopulationenAnzahlMassnahmen">Anzahl Massnahmen pro Population</button><br>
+                            <button id="exportPopAnzKontr" class="export" view="vPopAnzKontr" filename="PopulationenAnzahlKontrollen">Anzahl Kontrollen pro Population</button><br><br>
 
-                            <button id="export_popber_massnber">Populationen inkl. Populations- und Massnahmen-Berichte</button><br>
+                            <button id="exportPopberMassnber" class="export" view="vPop_BerUndMassnBer" filename="PopulationenPopUndMassnBerichte">Populationen inkl. Populations- und Massnahmen-Berichte</button><br>
                         </div>
                         <br><a href="#top">&uArr;&nbsp;top</a>
                     </div>
-                    <div class="export_abschnitt">
+                    <div class="exportAbschnitt">
                         <a name="Teilpopulationen"></a>
-                        <h2 class="border_top">Teilpopulationen</h2>
-                        <div class="export_abschnitt_exporte">
-                            <button id="exportTpop" class="exportTpop">Teilpopulationen</button><br>
-                            <button id="export_tpop_fuer_kml">Teilpopulationen für Google Earth<br>(beschriftet mit PopNr/TPopNr)</button><br>
-                            <button id="export_tpop_fuer_kml_namen">Teilpopulationen für Google Earth<br>(beschriftet mit Artname, PopNr/TPopNr)</button><br>
-                            <button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br><br>
+                        <h2 class="borderTop">Teilpopulationen</h2>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportTpop" class="exportTpop export" view="vTPop" filename="Teilpopulationen">Teilpopulationen</button><br>
+                            <button id="exportTpopFuerKml" class="export" view="vTPopFuerKml" filename="Teilpopulationen" format="kml">Teilpopulationen für Google Earth<br>(beschriftet mit PopNr/TPopNr)</button><br>
+                            <button id="exportTpopFuerKmlNamen" class="export" view="vTPopFuerKmlNamen" filename="TeilpopulationenNachNamen" format="kml">Teilpopulationen für Google Earth<br>(beschriftet mit Artname, PopNr/TPopNr)</button><br>
+                            <button id="exportTpopOhneBekanntSeit" class="export" view="vTPopOhneBekanntSeit" filename="TeilpopulationenVonApArtenOhneBekanntSeit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br><br>
 
-                            <button id="export_tpop_anz_massn">Anzahl Massnahmen pro Teilpopulation</button><br>
-                            <button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation<br>inklusive der letzten Kontrolle</button><br><br>
+                            <button id="exportTpopAnzMassn" class="export" view="vTPopAnzMassn" filename="TeilpopulationenAnzahlMassnahmen">Anzahl Massnahmen pro Teilpopulation</button><br>
+                            <button id="exportTpopAnzKontrInklLetzte" class="export" view="vTPopAnzKontrInklLetzteKontr" filename="TeilpopulationenAnzahlKontrollenInklusiveLetzteKontrolle">Anzahl Kontrollen pro Teilpopulation<br>inklusive der letzten Kontrolle</button><br><br>
 
-                            <button id="export_tpopber_massnber">Teilpopulationen inklusive Teilpopulations- und Massnahmen-Berichten</button><br>
+                            <button id="exportTpopberMassnber" class="export" view="vTPop_BerUndMassnBer" filename="TeilpopulationenTPopUndMassnBerichte">Teilpopulationen inklusive Teilpopulations- und Massnahmen-Berichten</button><br>
                         </div>
                         <br><a href="#top">&uArr;&nbsp;top</a>
                     </div>
-                    <div class="export_abschnitt">
+                    <div class="exportAbschnitt">
                         <a name="Kontrollen"></a>
-                        <h2 class="border_top">Kontrollen</h2>
-                        <div class="export_abschnitt_exporte">
-                            <button id="exportKontr" class="exportKontr">Kontrollen</button><br>
-                            <button id="export_kontr_anz_pro_zaehleinheit" title="Die Abfrage fasst pro Kontrolle die Informationen über Zähleinheiten zusammen.<br><br>Was in 1 bis drei Trippel-Spalten (Zähleinheiten) erfasst war, wird in nur noch einer Trippel-Spalte in 1 bis 3 Zeilen dargestellt.<br><br>Das Praktische ist: Einheit, Methode und Anzahl sind nun immer in derselben Spalte.<br><br>So lassen sich diese drei Informationen einfach auswerten (z.B. Summen pro Zähleinheit ermitteln)">Kontrollen: Anzahl pro Zähleinheit</button><br>
+                        <h2 class="borderTop">Kontrollen</h2>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportKontr" class="exportKontr export" view="vKontr" filename="Kontrollen">Kontrollen</button><br>
+                            <button id="exportKontrAnzProZaehleinheit" class="export" title="Die Abfrage fasst pro Kontrolle die Informationen über Zähleinheiten zusammen.<br><br>Was in 1 bis drei Trippel-Spalten (Zähleinheiten) erfasst war, wird in nur noch einer Trippel-Spalte in 1 bis 3 Zeilen dargestellt.<br><br>Das Praktische ist: Einheit, Methode und Anzahl sind nun immer in derselben Spalte.<br><br>So lassen sich diese drei Informationen einfach auswerten (z.B. Summen pro Zähleinheit ermitteln)" view="vKontrAnzProZaehleinheit" filename="KontrollenAnzahlProZaehleinheit">Kontrollen: Anzahl pro Zähleinheit</button><br>
                         </div>
                         <br><a href="#top">&uArr;&nbsp;top</a>
                     </div>
-                    <div class="export_abschnitt">
+                    <div class="exportAbschnitt">
                         <a name="Massnahmen"></a>
-                        <h2 class="border_top">Massnahmen</h2>
-                        <div class="export_abschnitt_exporte">
-                            <button id="exportMassn" class="exportMassn">Massnahmen</button><br>
+                        <h2 class="borderTop">Massnahmen</h2>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportMassn" class="exportMassn export" view="vMassn" filename="Massnahmen">Massnahmen</button><br>
                         </div>
                         <br><a href="#top">&uArr;&nbsp;top</a>
                     </div>
-                    <div class="export_abschnitt">
+                    <div class="exportAbschnitt">
                         <a name="Beobachtungen"></a>
-                        <h2 class="border_top">Beobachtungen</h2>
-                        <div class="export_abschnitt_exporte">
-                            <button id="export_beob">zugeordnete und nicht zuzuordnende Beobachtungen</button><br>
+                        <h2 class="borderTop">Beobachtungen</h2>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportBeob" class="export" view="vBeob" filename="Beobachtungen">zugeordnete und nicht zuzuordnende Beobachtungen</button><br>
                         </div>
                         <br><a href="#top">&uArr;&nbsp;top</a>
                     </div>
-                    <div class="export_abschnitt">
+                    <div class="exportAbschnitt">
                         <a name="Anwendung"></a>
-                        <h2 class="border_top">Anwendung</h2>
-                        <div class="export_abschnitt_exporte">
-                            <button id="export_datenstruktur">Tabellen und Felder</button><br>
+                        <h2 class="borderTop">Anwendung</h2>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportDatenstruktur" class="export" view="vDatenstruktur" filename="Datenstruktur">Tabellen und Felder</button><br>
                         </div>
-                        <div class="export_abschnitt_exporte">
-                            <button id="export_datenstruktur_grafisch">Datenstruktur grafisch dargestellt</button><br>
+                        <div class="exportAbschnittExporte">
+                            <button id="exportDatenstrukturGrafisch" class="export">Datenstruktur grafisch dargestellt</button><br>
                         </div>
                         <br><a href="#top">&uArr;&nbsp;top</a>
                     </div>

@@ -136,14 +136,14 @@ FROM ((((((alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tb
 WHERE alexande_apflora.tblTeilpopulation.TPopYKoord > 0 AND alexande_apflora.tblTeilpopulation.TPopXKoord > 0
 ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname, alexande_apflora.tblPopulation.PopNr, alexande_apflora.tblTeilpopulation.TPopNr;
 
-#im Gebrauch durch export_pop_von_ap_ohne_status.php:
+#im Gebrauch durch exportPopVonApOhneStatus.php:
 CREATE OR REPLACE VIEW vPopVonApOhneStatus AS 
 SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS Art, alexande_apflora.tblAktionsplan.ApStatus AS "Bearbeitungsstand AP", alexande_apflora.tblPopulation.PopNr, alexande_apflora.tblPopulation.PopName, alexande_apflora.tblPopulation.PopHerkunft AS Status
 FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN (alexande_apflora.tblAktionsplan INNER JOIN alexande_apflora.tblPopulation ON alexande_apflora.tblAktionsplan.ApArtId = alexande_apflora.tblPopulation.ApArtId) ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId = alexande_apflora.tblAktionsplan.ApArtId
 WHERE ((alexande_apflora.tblAktionsplan.ApStatus=3) AND (alexande_apflora.tblPopulation.PopHerkunft Is Null))
 ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname, alexande_apflora.tblPopulation.PopNr;
 
-#im Gebrauch durch export_pop_mit_massnber_anz_massn.php:
+#im Gebrauch durch exportPopMitMassnberAnzMassn.php:
 CREATE OR REPLACE VIEW vPopMassnberAnzMassn0 AS
 SELECT alexande_apflora.tblPopMassnBericht.PopId, alexande_apflora.tblPopMassnBericht.PopMassnBerJahr, Count(alexande_apflora.tblTeilPopMassnahme.TPopMassnId) AS AnzahlvonTPopMassnId
 FROM alexande_apflora.tblPopMassnBericht INNER JOIN (alexande_apflora.tblTeilpopulation LEFT JOIN alexande_apflora.tblTeilPopMassnahme ON alexande_apflora.tblTeilpopulation.TPopId = alexande_apflora.tblTeilPopMassnahme.TPopId) ON alexande_apflora.tblPopMassnBericht.PopId = alexande_apflora.tblTeilpopulation.PopId
@@ -151,7 +151,7 @@ WHERE alexande_apflora.tblTeilPopMassnahme.TPopMassnJahr=alexande_apflora.tblPop
 GROUP BY alexande_apflora.tblPopMassnBericht.PopId, alexande_apflora.tblPopMassnBericht.PopMassnBerJahr
 ORDER BY alexande_apflora.tblPopMassnBericht.PopId, alexande_apflora.tblPopMassnBericht.PopMassnBerJahr;
 
-#im Gebrauch durch export_pop_mit_massnber_anz_massn.php:
+#im Gebrauch durch exportPopMitMassnberAnzMassn.php:
 CREATE OR REPLACE VIEW vPopMassnberAnzMassn AS
 SELECT alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS ApArtId, alexande_beob.ArtenDb_Arteigenschaften.Artname AS "AP Art", alexande_apflora.DomainApBearbeitungsstand.DomainTxt AS "AP Status", alexande_apflora.tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", alexande_apflora.tblPopulation.PopGuid AS "Pop Guid", alexande_apflora.tblPopulation.PopNr AS "Pop Nr", alexande_apflora.tblPopulation.PopName AS "Pop Name", DomainPopHerkunft.HerkunftTxt AS "Pop Status", alexande_apflora.tblPopulation.PopBekanntSeit AS "Pop bekannt seit", alexande_apflora.tblPopulation.PopHerkunftUnklar AS "Pop Status unklar", alexande_apflora.tblPopulation.PopHerkunftUnklarBegruendung AS "Pop Begründung für unklaren Status", alexande_apflora_views.vPopMassnberAnzMassn0.PopMassnBerJahr AS "MassnBer Jahr", alexande_apflora_views.vPopMassnberAnzMassn0.AnzahlvonTPopMassnId AS "Anz Massnahmen in diesem Jahr"
 FROM (((((alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId = alexande_apflora.tblAktionsplan.ApArtId) INNER JOIN alexande_apflora.tblPopulation ON alexande_apflora.tblAktionsplan.ApArtId = alexande_apflora.tblPopulation.ApArtId) LEFT JOIN alexande_apflora.DomainApBearbeitungsstand ON alexande_apflora.tblAktionsplan.ApStatus = alexande_apflora.DomainApBearbeitungsstand.DomainCode) LEFT JOIN alexande_apflora.DomainApUmsetzung ON alexande_apflora.tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN alexande_apflora.DomainPopHerkunft ON alexande_apflora.tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN alexande_apflora_views.vPopMassnberAnzMassn0 ON alexande_apflora.tblPopulation.PopId = alexande_apflora_views.vPopMassnberAnzMassn0.PopId

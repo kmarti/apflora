@@ -5,10 +5,7 @@ var $                                   = require('jquery'),
     _                                   = require('underscore'),
     downloadFileFromView                = require('./downloadFileFromView'),
     downloadFileFromViewWehreIdIn       = require('./downloadFileFromViewWehreIdIn'),
-    stylePop                            = require('./olMap/stylePop'),
-    styleTPop                           = require('./olMap/styleTPop'),
-    setzeKartenhoehe                    = require('./setzeKartenhoehe'),
-    setzeTreehoehe                      = require('./jstree/setzeTreehoehe'),
+    onWindowResize                      = require('./events/onWindowResize'),
     onClickUndelete                     = require('./events/onClickUndelete'),
     onKeydownSuchen                     = require('./events/menu/onKeydownSuchen'),
     onClickExportieren                  = require('./events/menu/onClickExportieren'),
@@ -112,135 +109,14 @@ module.exports = function () {
     $('#tpopmassn')
         .on('change',           '#TPopMassnJahr',              onChangeTPopMassnJahr);
 
-    $(window).resize(function () {
-        setzeTreehoehe();
-        // Karten sollen ca. Bildschirmhöhe haben
-        // da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
-        setzeKartenhoehe();
-    });
+    $(window).resize(onWindowResize);
 
     $('#exporte')
-        .on('click', '#export_ap', function () {
-            downloadFileFromView('vProgramme', 'Programme', 'csv');
+        .on('click', '.export', function () {
+            downloadFileFromView($(this).attr('view'), $(this).attr('filename'), $(this).attr('format') || null);
             return false; // this is critical to stop the click event which will trigger a normal file download!
         })
-        .on('click', '#export_ap_ohne_pop', function () {
-            downloadFileFromView('vApOhnePop', 'ProgrammeOhnePopulationen', 'csv');
-            return false;
-        })
-        .on('click', '#export_ap_anz_massn', function () {
-            downloadFileFromView('vApAnzMassn', 'ProgrammeAnzahlMassnahmen', 'csv');
-            return false;
-        })
-        .on('click', '#export_ap_anz_kontr', function () {
-            downloadFileFromView('vApAnzKontr', 'ProgrammeAnzahlKontrollen', 'csv');
-            return false;
-        })
-        .on('click', '#export_jber', function () {
-            downloadFileFromView('vApJahresberichte', 'Jahresberichte', 'csv');
-            return false;
-        })
-        .on('click', '#export_jber_massn', function () {
-            downloadFileFromView('vApJahresberichteUndMassnahmen', 'ApJahresberichteUndMassnahmen', 'csv');
-            return false;
-        })
-        .on('click', '#export_apziel', function () {
-            downloadFileFromView('vApZiele', 'ApZiele', 'csv');
-            return false;
-        })
-        .on('click', '#export_zielber', function () {
-            downloadFileFromView('vZielBer', 'Zielberichte', 'csv');
-            return false;
-        })
-        .on('click', '#export_ber', function () {
-            downloadFileFromView('vBer', 'Berichte', 'csv');
-            return false;
-        })
-        .on('click', '#export_erfkrit', function () {
-            downloadFileFromView('vErfKrit', 'Erfolgskriterien', 'csv');
-            return false;
-        })
-        .on('click', '#export_idealbiotop', function () {
-            downloadFileFromView('vIdealbiotop', 'Idealbiotope', 'csv');
-            return false;
-        })
-        .on('click', '#export_assoz_arten', function () {
-            downloadFileFromView('vAssozArten', 'AssoziierteArten', 'csv');
-            return false;
-        })
-        .on('click', '#export_pop_fuer_kml', function () {
-            downloadFileFromView('vPopFuerKml', 'ApFloraPopulationen', 'kml');
-            return false;
-        })
-        .on('click', '#export_pop_fuer_kml_namen', function () {
-            downloadFileFromView('vPopFuerKmlNamen', 'PopulationenNachNamen', 'kml');
-            return false;
-        })
-        .on('click', '#export_pop_ohne_tpop', function () {
-            downloadFileFromView('vPopOhneTPop', 'PopulationenOhneTeilpopulationen', 'csv');
-            return false;
-        })
-        .on('click', '#export_pop_von_ap_ohne_status', function () {
-            downloadFileFromView('vPopVonApOhneStatus', 'PopulationenVonApArtenOhneStatus', 'csv');
-            return false;
-        })
-        .on('click', '#export_pop_ohne_koord', function () {
-            downloadFileFromView('vPopOhneKoord', 'PopulationenOhneKoordinaten', 'csv');
-            return false;
-        })
-        .on('click', '#export_pop_mit_massnber_anz_massn', function () {
-            downloadFileFromView('vPopMassnberAnzMassn', 'PopulationenAnzMassnProMassnber', 'csv');
-            return false;
-        })
-        .on('click', '#export_pop_anz_massn', function () {
-            downloadFileFromView('vPopAnzMassn', 'PopulationenAnzahlMassnahmen', 'csv');
-            return false;
-        })
-        .on('click', '#export_pop_anz_kontr', function () {
-            downloadFileFromView('vPopAnzKontr', 'PopulationenAnzahlKontrollen', 'csv');
-            return false;
-        })
-        .on('click', '#export_popber_massnber', function () {
-            downloadFileFromView('vPop_BerUndMassnBer', 'PopulationenPopUndMassnBerichte', 'csv');
-            return false;
-        })
-        .on('click', '#export_tpop_fuer_kml', function () {
-            downloadFileFromView('vTPopFuerKml', 'Teilpopulationen', 'kml');
-            return false;
-        })
-        .on('click', '#export_tpop_fuer_kml_namen', function () {
-            downloadFileFromView('vTPopFuerKmlNamen', 'TeilpopulationenNachNamen', 'kml');
-            return false;
-        })
-        .on('click', '#export_tpop_ohne_bekannt_seit', function () {
-            downloadFileFromView('vTPopOhneBekanntSeit', 'TeilpopulationenVonApArtenOhneBekanntSeit', 'csv');
-            return false;
-        })
-        .on('click', '#export_tpop_anz_massn', function () {
-            downloadFileFromView('vTPopAnzMassn', 'TeilpopulationenAnzahlMassnahmen', 'csv');
-            return false;
-        })
-        .on('click', '#export_tpop_anz_kontr_inkl_letzte', function () {
-            downloadFileFromView('vTPopAnzKontrInklLetzteKontr', 'TeilpopulationenAnzahlKontrollenInklusiveLetzteKontrolle', 'csv');
-            return false;
-        })
-        .on('click', '#export_tpopber_massnber', function () {
-            downloadFileFromView('vTPop_BerUndMassnBer', 'TeilpopulationenTPopUndMassnBerichte', 'csv');
-            return false;
-        })
-        .on('click', '#export_kontr_anz_pro_zaehleinheit', function () {
-            downloadFileFromView('vKontrAnzProZaehleinheit', 'KontrollenAnzahlProZaehleinheit', 'csv');
-            return false;
-        })
-        .on('click', '#export_beob', function () {
-            downloadFileFromView('vBeob', 'Beobachtungen', 'csv');
-            return false;
-        })
-        .on('click', '#export_datenstruktur', function () {
-            downloadFileFromView('vDatenstruktur', 'Datenstruktur', 'csv');
-            return false;
-        })
-        .on('click', '#export_datenstruktur_grafisch', function () {
+        .on('click', '#exportDatenstrukturGrafisch', function () {
             window.open('etc/Beziehungen.pdf');
         });
 

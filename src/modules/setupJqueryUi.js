@@ -29,7 +29,7 @@ module.exports = function () {
         }
     });
 
-    $(".export_abschnitt").tooltip({
+    $(".exportAbschnitt").tooltip({
         tooltipClass: "export_abschnitt_tooltip_class",
         content: function () {
             return $(this).attr('title');
