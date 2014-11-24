@@ -10,10 +10,10 @@ var $ = require('jquery');
 module.exports = function () {
     // jQuery ui widgets initiieren
     // aus unerfindlichem Grund muss das in index.html passieren. Schade
-    $("#programm_wahl").buttonset({
+    $("#programmWahl").buttonset({
         create: function () {
             // erst jetzt einblenden, weil sonst die normalen checkboxen aufblitzen
-            $("#programm_wahl").show();
+            $("#programmWahl").show();
         }
     });
     $("#olMapMessen").buttonset();

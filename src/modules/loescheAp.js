@@ -31,9 +31,9 @@ module.exports = function (apId) {
         $("#programm_alle")
             .attr("checked", true)
             .trigger('change');
-        $("#programm_wahl")
+        $("#programmWahl")
             .buttonset();
-        //$("#programm_wahl").buttonset('refresh');
+        //$("#programmWahl").buttonset('refresh');
         erstelleApliste("programm_alle");
         $('#ap_waehlen').val('');
         $ap_waehlen_text.val('');

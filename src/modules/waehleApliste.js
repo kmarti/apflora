@@ -23,7 +23,7 @@ module.exports = function (programm) {
     $("#exportieren_1").show();
 
     erstelleApliste(programm, function () {
-        var $programm_wahl_checked = $("[name='programm_wahl']:checked"),
+        var $programm_wahl_checked = $("[name='programmWahl']:checked"),
             hinweisText;
 
         if ($programm_wahl_checked.attr("id") === "programm_neu") {

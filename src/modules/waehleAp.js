@@ -12,7 +12,7 @@ var $             = require('jquery'),
     erstelleTree  = require('./jstree/erstelleTree');
 
 module.exports = function (apId) {
-    var programm = $("[name='programm_wahl']:checked").attr("id"),
+    var programm = $("[name='programmWahl']:checked").attr("id"),
         apWaehlenText,
         placeholderText = 'Artförderprogramm wählen';
 
@@ -29,7 +29,7 @@ module.exports = function (apId) {
                 // nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
                 $("#programm_neu").attr("checked", false);
                 $("#programm_alle").attr("checked", true);
-                $("#programm_wahl").buttonset();
+                $("#programmWahl").buttonset();
                 // alle zwischengespeicherten aplisten löschen
                 delete window.apf.apliste;
                 // Auswahlliste für Programme updaten

@@ -21,13 +21,13 @@ module.exports = function (apId) {
     apId              = apId || localStorage.apId;
 
     // Programm-Wahl konfigurieren
-    var programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+    var programmWahl = $("[name='programmWahl']:checked").attr("id");
 
     // Felder zurücksetzen
     leereFelderVonFormular("ap");
 
     // Wenn ein ap ausgewählt ist: Seine Daten anzeigen
-    if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
+    if ($("#ap_waehlen").val() && programmWahl !== "programm_neu") {
         // Daten für den ap aus der DB holen
         $.ajax({
             type: 'get',
@@ -57,7 +57,7 @@ module.exports = function (apId) {
         }).fail(function () {
             melde('Fehler: Keine Daten für den Aktionsplan erhalten');
         });
-    } else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
+    } else if ($("#ap_waehlen").val() && programmWahl === "programm_neu") {
         // Formulare blenden
         zeigeFormular("ap");
     }

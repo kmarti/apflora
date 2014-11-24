@@ -8,7 +8,6 @@ var $                              = require('jquery'),
     downloadFileFromView           = require('./downloadFileFromView'),
     downloadFileFromViewWehreIdIn  = require('./downloadFileFromViewWehreIdIn'),
     speichern                      = require('./speichern'),
-    waehleApListe                  = require('./waehleApListe'),
     stylePop                       = require('./olMap/stylePop'),
     styleTPop                      = require('./olMap/styleTPop'),
     waehleAp                       = require('./waehleAp'),
@@ -16,8 +15,10 @@ var $                              = require('jquery'),
     undeleteDatensatz              = require('./undeleteDatensatz'),
     setzeKartenhoehe               = require('./setzeKartenhoehe'),
     deaktiviereOlmapAuswahl        = require('./olMap/deaktiviereOlmapAuswahl'),
-    initiiereExporte               = require('./initiiereExporte'),
     setzeTreehoehe                 = require('./jstree/setzeTreehoehe'),
+    onKeydownSuchen                = require('./events/menu/onKeydownSuchen'),
+    onClickExportieren             = require('./events/menu/onClickExportieren'),
+    onClickProgrammWahl            = require('./events/menu/onClickProgrammWahl'),
     onKeydownForm                  = require('./events/forms/onKeydownForm'),
     onChangeSpeichern              = require('./events/forms/onChangeSpeichern'),
     onClickKopiereKoordinatenInPop = require('./events/forms/onClickKopiereKoordinatenInPop'),
@@ -73,17 +74,9 @@ module.exports = function () {
     // Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
     // wird anschliessend im Baum der markierte node entfernt!
     $('#menu')
-        .on('keydown', '#suchen', function (event) {
-            if (event.keyCode === 46) {
-                event.stopPropagation();
-            }
-        })
-        .on('click', '.exportieren', function () {
-            initiiereExporte();
-        })
-        .on('click', '[name=programm_wahl]', function () {
-            waehleApListe($(this).attr('id'));
-        })
+        .on('keydown',          '#suchen',                 onKeydownSuchen)
+        .on('click',            '.exportieren',            onClickExportieren)
+        .on('click',            '[name=programmWahl]',     onClickProgrammWahl)
         .on('click', '#ap_loeschen', function () {
             var $ap_waehlen = $('#ap_waehlen');
             if (!$ap_waehlen.val()) {
