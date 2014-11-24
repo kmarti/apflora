@@ -34,7 +34,7 @@ module.exports = function (apId, berId) {
     var $BerAutor = $("#BerAutor"),
         $BerJahr  = $("#BerJahr"),
         $BerTitel = $("#BerTitel"),
-        $BerURL   = $("#BerURL");
+        $berUrl   = $("#berUrl");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -59,7 +59,7 @@ module.exports = function (apId, berId) {
             $BerTitel
                 .val(data.BerTitel)
                 .limiter(255, $("#BerTitel_limit"));
-            $BerURL
+            $berUrl
                 .val(data.BerURL)
                 .limiter(255, $("#BerURL_limit"));
 
@@ -77,8 +77,8 @@ module.exports = function (apId, berId) {
                 $BerJahr.focus();
             } else if (!$BerTitel.val()) {
                 $BerTitel.focus();
-            } else if (!$BerURL.val()) {
-                $BerURL.focus();
+            } else if (!$berUrl.val()) {
+                $berUrl.focus();
             }
         }
     }).fail(function () {

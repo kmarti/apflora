@@ -113,7 +113,7 @@ var speichern = function (that) {
     }
     $.ajax({
         type: 'post',
-        url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.user
+        url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=' + feldname + '/wert=' + encodeURIComponent(feldwert) + '/user=' + sessionStorage.user
     }).done(function () {
         // Variable für Objekt nachführen
         // jberUebersicht speichert kein window.formular, daher testen, ob es existiert

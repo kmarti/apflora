@@ -1655,12 +1655,12 @@
                                 <div id="BerTitel_limit" class="limiter"></div>
                             </td>
                         </tr>
-                        <tr class='fieldcontain BerURL'>
+                        <tr class='fieldcontain berUrl'>
                             <td class="label">
-                                <label id="BerURL_label" for='BerURL'>URL:</label>
+                                <label id="BerURL_label" for='berUrl'>URL:</label>
                             </td>
                             <td class="Datenfelder">
-                                <textarea type="url" name="BerURL" id="BerURL" class="speichern" formular="ber" maxlength="255"></textarea>
+                                <textarea type="url" name="berUrl" id="berUrl" class="speichern" formular="ber" maxlength="255"></textarea>
                                 <div id="BerURL_limit" class="limiter"></div>
                                 <label for='BerURLHref' style="display:none;">URL öffnen</label>
                                 <input type="button" id="BerURLHref" onclick="" value="URL öffnen">
@@ -2364,6 +2364,7 @@
                 });
                 $("#olMapMessen").buttonset();
                 $("button").button();
+                $("input[type='button']").button();
                 $("#tpopfeldkontr_tabs").tabs();
 
                 // tooltip: Klasse zuweisen, damit gestylt werden kann
