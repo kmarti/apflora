@@ -11,7 +11,6 @@ var $                              = require('jquery'),
     stylePop                       = require('./olMap/stylePop'),
     styleTPop                      = require('./olMap/styleTPop'),
     waehleAp                       = require('./waehleAp'),
-    loescheAp                      = require('./loescheAp'),
     undeleteDatensatz              = require('./undeleteDatensatz'),
     setzeKartenhoehe               = require('./setzeKartenhoehe'),
     deaktiviereOlmapAuswahl        = require('./olMap/deaktiviereOlmapAuswahl'),
@@ -19,6 +18,7 @@ var $                              = require('jquery'),
     onKeydownSuchen                = require('./events/menu/onKeydownSuchen'),
     onClickExportieren             = require('./events/menu/onClickExportieren'),
     onClickProgrammWahl            = require('./events/menu/onClickProgrammWahl'),
+    onClickApLoeschen              = require('./events/menu/onClickApLoeschen'),
     onKeydownForm                  = require('./events/forms/onKeydownForm'),
     onChangeSpeichern              = require('./events/forms/onChangeSpeichern'),
     onClickKopiereKoordinatenInPop = require('./events/forms/onClickKopiereKoordinatenInPop'),
@@ -77,37 +77,7 @@ module.exports = function () {
         .on('keydown',          '#suchen',                 onKeydownSuchen)
         .on('click',            '.exportieren',            onClickExportieren)
         .on('click',            '[name=programmWahl]',     onClickProgrammWahl)
-        .on('click', '#apLoeschen', function () {
-            var $apWaehlen = $('#apWaehlen');
-            if (!$apWaehlen.val()) {
-                $('#Meldung')
-                    .html('Bitte wählen Sie vor dem Löschen ein Artförderprogramm')
-                    .dialog({
-                        modal: true,
-                        buttons: {
-                            Ok: function () {
-                                $(this).dialog('close');
-                            }
-                        }
-                    });
-            } else {
-                $('#Meldung')
-                    .html('Wollen Sie das Artförderprogramm für "' + $('#apWaehlenText').val() + '" wirklich löschen?')
-                    .dialog({
-                        modal: true,
-                        width: 500,
-                        buttons: {
-                            ja: function () {
-                                loescheAp(localStorage.apId);
-                                $(this).dialog('close');
-                            },
-                            nein: function () {
-                                $(this).dialog('close');
-                            }
-                        }
-                    });
-            }
-        })
+        .on('click',            '#apLoeschen',             onClickApLoeschen)
         .on('change', '#apWaehlen', function () {
             var value = this.value || localStorage.apId;
             waehleAp(value);
