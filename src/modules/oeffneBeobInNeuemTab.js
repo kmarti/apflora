@@ -2,6 +2,6 @@
 'use strict';
 
 module.exports = function (beob) {
-    var beobStatus = (beob.BeobNichtZuordnen ? 'beobNichtZuzuordnen' : 'beobNichtBeurteilt');
+    var beobStatus = (beob.beobNichtZuordnen ? 'beobNichtZuzuordnen' : 'beobNichtBeurteilt');
     window.open("index.html?ap=" + localStorage.apId + "&" + beobStatus + "=" + beob.NO_NOTE, "_blank");
 };

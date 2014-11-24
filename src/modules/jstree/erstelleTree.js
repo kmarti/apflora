@@ -380,7 +380,7 @@ module.exports = function (ApArtId) {
                     url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId
                 }).done(function () {
                     // Zuordnung entfernen
-                    $('[name="DistZuTPop"]').each(function () {
+                    $('[name="distZuTPop"]').each(function () {
                         if ($(this).prop('checked') === true) $(this).prop('checked', false);
                     });
 
@@ -435,7 +435,7 @@ module.exports = function (ApArtId) {
                 // zugeordnet > nicht zuzuordnen
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.user
+                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=beobNichtZuordnen/wert=1/user=' + sessionStorage.user
                 }).done(function () {
                     // TPopId null setzen
                     $.ajax({
@@ -443,7 +443,7 @@ module.exports = function (ApArtId) {
                         url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=TPopId/wert=/user=' + sessionStorage.user
                     }).done(function () {
                         // Zuordnung entfernen
-                        $('[name="DistZuTPop"]').each(function () {
+                        $('[name="distZuTPop"]').each(function () {
                             if ($(this).prop('checked') === true) $(this).prop('checked', false);
                         });
 
@@ -524,7 +524,7 @@ module.exports = function (ApArtId) {
                     // jetzt aktualisieren
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.user
+                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=beobNichtZuordnen/wert=1/user=' + sessionStorage.user
                     }).done(function () {
                         // typ des nodes anpassen
                         $(herkunftNode).attr("typ", "beobNichtZuzuordnen");
@@ -573,7 +573,7 @@ module.exports = function (ApArtId) {
                     }
 
                     // nicht zuzuordnen deaktivieren
-                    $('#BeobNichtZuordnen').prop('checked', false);
+                    $('#beobNichtZuordnen').prop('checked', false);
 
                     // Variablen aufräumen
                     delete window.apf.beobNodeAusgeschnitten;
@@ -587,7 +587,7 @@ module.exports = function (ApArtId) {
                 neueTpopId = (zielNodeTyp === "tpopOrdnerBeobZugeordnet" ? zielNodeId : zielParentNodeId);
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=BeobNichtZuordnen/wert=/user=' + sessionStorage.user
+                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=beobNichtZuordnen/wert=/user=' + sessionStorage.user
                 }).done(function () {
                     $.ajax({
                         type: 'post',
@@ -606,7 +606,7 @@ module.exports = function (ApArtId) {
                         }
 
                         // nicht zuzuordnen deaktivieren
-                        $('#BeobNichtZuordnen').prop('checked', false);
+                        $('#beobNichtZuordnen').prop('checked', false);
 
                         // Variablen aufräumen
                         delete window.apf.beobNodeAusgeschnitten;

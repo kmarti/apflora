@@ -76,17 +76,17 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                 url: urlDistzutpop
             }).done(function (data) {
                 // Tabellenzeile beginnen
-                htmlDistzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
+                htmlDistzutpop = '<tr class="fieldcontain distZuTPop"><td class="label"><label id="DistZuTPop_label" for="distZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
                 if (data) {
                     _.each(data, function (beob, index) {
                         if (index > 0) {
                             htmlDistzutpop += "<br>";
                         }
-                        htmlDistzutpop += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
+                        htmlDistzutpop += '<input type="radio" name="distZuTPop" id="distZuTPop';
                         htmlDistzutpop += beob.TPopId;
-                        htmlDistzutpop += '" class="DistZuTPop" formular="beob" value="';
+                        htmlDistzutpop += '" class="distZuTPop" formular="beob" value="';
                         htmlDistzutpop += beob.TPopId;
-                        htmlDistzutpop += '" DistZuTPop="';
+                        htmlDistzutpop += '" distZuTPop="';
                         htmlDistzutpop += beob.DistZuTPop;
                         htmlDistzutpop += '"';
                         // jetzt ermitteln, ob das die angezeigte Beob ist
@@ -96,7 +96,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         }
                         htmlDistzutpop += '>';
                         // Label beginnen
-                        htmlDistzutpop += '<label for="DistZuTPop';
+                        htmlDistzutpop += '<label for="distZuTPop';
                         htmlDistzutpop += beob.TPopId;
                         htmlDistzutpop += '">';
                         // Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
@@ -133,11 +133,11 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                                 // Felder mit Daten beliefern
                                 $("#beobNichtBeurteilt").prop("checked", false);
                                 if (data.BeobNichtZuordnen === 1) {
-                                    $("#BeobNichtZuordnen").prop("checked", true);
+                                    $("#beobNichtZuordnen").prop("checked", true);
                                 } else {
-                                    $("#BeobNichtZuordnen").prop("checked", false);
+                                    $("#beobNichtZuordnen").prop("checked", false);
                                 }
-                                $("#DistZuTPop" + data.TPopId).prop("checked", true);
+                                $("#distZuTPop" + data.TPopId).prop("checked", true);
                                 $("#BeobBemerkungen").val(data.BeobBemerkungen);
                                 $("#BeobMutWann").val(data.BeobMutWann);
                                 $("#BeobMutWer").val(data.BeobMutWer);
@@ -157,7 +157,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                     } else {
                         // beobStatus ist "nicht beurteilt"
                         $("#beobNichtBeurteilt").prop("checked", true);
-                        $("#BeobNichtZuordnen").prop("checked", false);
+                        $("#beobNichtZuordnen").prop("checked", false);
 
                         // allfällige im letzen beob enthaltene Werte entfernen
                         $BeobBemerkungen

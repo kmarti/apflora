@@ -36,6 +36,8 @@ var $                              = require('jquery'),
     onClickOeffneBeob              = require('./events/forms/gMap/onClickOeffneBeob'),
     onClickOeffneBeobInNeuemTab    = require('./events/forms/gMap/onClickOeffneBeobInNeuemTab'),
     onChangeBeobNichtBeurteilt     = require('./events/forms/beob/onChangeBeobNichtBeurteilt'),
+    onChangeBeobNichtZuordnen      = require('./events/forms/beob/onChangeBeobNichtZuordnen'),
+    onChangeDistZuTPop             = require('./events/forms/beob/onChangeDistZuTPop'),
     onSelectmenuchangeExportLayerSelect = require('./events/forms/olMap/layertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
@@ -78,19 +80,8 @@ module.exports = function () {
 
     $('#beob')
         .on('change',           '#beobNichtBeurteilt',     onChangeBeobNichtBeurteilt)
-        .on('change', '#BeobNichtZuordnen', function () {
-            if ($('#BeobNichtZuordnen').prop('checked') === true) {
-                // node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
-                $('#tree').jstree('move_node', '#beob' + localStorage.beobId, '#apOrdnerBeobNichtZuzuordnen' + localStorage.apId, 'first');
-            } else {
-                // node verschieben. Den Rest macht der callback zu jstree.move_node
-                $('#tree').jstree('move_node', '#beob' + localStorage.beobId, '#apOrdnerBeobNichtBeurteilt' + localStorage.apId, 'first');
-            }
-        })
-        .on('change', '[name="DistZuTPop"]', function () {
-            var tpopId = $(this).val();
-            $('#tree').jstree('move_node', '#beob' + localStorage.beobId, '#tpopOrdnerBeobZugeordnet' + tpopId, 'first');
-        });
+        .on('change',           '#beobNichtZuordnen',      onChangeBeobNichtZuordnen)
+        .on('change',           '[name="distZuTPop"]',     onChangeDistZuTPop);
 
     $('#gMap')
         .on('click', '#gMapDistanzMessen', function (event) {
