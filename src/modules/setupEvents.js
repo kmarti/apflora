@@ -7,7 +7,6 @@ var $                              = require('jquery'),
     removeruler                    = require('removeruler'),
     downloadFileFromView           = require('./downloadFileFromView'),
     downloadFileFromViewWehreIdIn  = require('./downloadFileFromViewWehreIdIn'),
-    fitTextareaToContent           = require('./fitTextareaToContent'),
     speichern                      = require('./speichern'),
     waehleApListe                  = require('./waehleApListe'),
     stylePop                       = require('./olMap/stylePop'),
@@ -22,6 +21,7 @@ var $                              = require('jquery'),
     onKeydownForm                  = require('./events/forms/onKeydownForm'),
     onChangeSpeichern              = require('./events/forms/onChangeSpeichern'),
     onClickKopiereKoordinatenInPop = require('./events/forms/onClickKopiereKoordinatenInPop'),
+    onKeyupFocusTextarea           = require('./events/forms/onKeyupFocusTextarea'),
     onChangeBerUrl                 = require('./events/forms/ber/onChangeBerUrl'),
     onClickOlMapExportieren        = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox  = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
@@ -43,9 +43,7 @@ module.exports = function () {
     $('.form')
         .on('change',          '.speichern',               onChangeSpeichern)
         .on('click',           '#kopiereKoordinatenInPop', onClickKopiereKoordinatenInPop)
-        .on('keyup focus', 'textarea', function () {
-            fitTextareaToContent(this, document.documentElement.clientHeight);
-        });
+        .on('keyup focus',     'textarea',                 onKeyupFocusTextarea);
 
     $('#olMap')
         .on('click',            '#olMapExportieren',       onClickOlMapExportieren);
