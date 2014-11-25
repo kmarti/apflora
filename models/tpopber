@@ -1,0 +1,16 @@
+/*jslint node: true, browser: true, nomen: true, todo: true */
+'use strict';
+
+var AmpersandModel = require('ampersand-model');
+
+module.exports = AmpersandModel.extend({
+    props: {
+        TPopBerId:          'any',
+        TPopId:             ['number', false, ''],
+        TPopBerJahr:        ['number', false, ''],
+        TPopBerEntwicklung: ['number', false, ''],
+        TPopBerTxt:         ['string', false, ''],
+        MutWann:            ['string', false, ''],
+        MutWer:             ['string', false, '']
+    }
+});

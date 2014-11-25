@@ -1,0 +1,71 @@
+<table>
+    <tr class='fieldcontain TPopBerJahr'>
+        <td class="label">
+            <label id="TPopBerJahr_label" for='TPopBerJahr'>Jahr:</label>
+        </td>
+        <td class="Datenfelder">
+            <input id="TPopBerJahr" name="TPopBerJahr" class="speichern" formular="tpopber" type="number" value="{{TPopBerJahr}}">
+        </td>
+    </tr>
+    <tr class='fieldcontain TPopBerEntwicklung'>
+        <td class="label">
+            <label id="TPopBerEntwicklung_label" for='TPopBerEntwicklung' class='apf-with-tooltip erforderlich'>
+                <span>Entwicklung:</span>
+            </label>
+            <div class="tooltiptext">
+                <p>Dieses Feld möglichst immer ausfüllen.</p>
+                <p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK.</p>
+                <table>
+                    <tr class='apf-tr-with-border-bottom'>
+                        <td>zunehmend:</td>
+                        <td>> 10% Zunahme</td>
+                    </tr>
+                    <tr class='apf-tr-with-border-bottom'>
+                        <td>stabil:</td>
+                        <td>± 10%</td>
+                    </tr>
+                    <tr class='apf-tr-with-border-bottom'>
+                        <td>abnehmend:</td>
+                        <td>> 10% Abnahme</td>
+                    </tr>
+                    <tr class='apf-tr-with-border-bottom'>
+                        <td>erloschen / nicht etabliert:</td>
+                        <td>nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</td>
+                    </tr>
+                    <tr class='apf-tr-with-border-bottom'>
+                        <td>unsicher:</td>
+                        <td>keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</td>
+                    </tr>
+                    <tr>
+                        <td>neu entdeckt (unsicher):</td>
+                        <td>neu autochthone Fundorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td class="Datenfelder">
+            <input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung3" class="speichern" formular="tpopber" value="3">
+            <label for="TPopBerEntwicklung3">zunehmend</label><br>
+            <input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung2" class="speichern" formular="tpopber" value="2">
+            <label for="TPopBerEntwicklung2">stabil</label><br>
+            <input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung1" class="speichern" formular="tpopber" value="1">
+            <label for="TPopBerEntwicklung1">abnehmend</label><br>
+            <input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung8" class="speichern" formular="tpopber" value="8">
+            <label for="TPopBerEntwicklung8">erloschen / nicht etabliert</label><br>
+            <input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung4" class="speichern" formular="tpopber" value="4">
+            <label for="TPopBerEntwicklung4">unsicher</label><br>
+            <input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung9" class="speichern" formular="tpopber" value="9">
+            <label for="TPopBerEntwicklung9">neu entdeckt (unsicher)</label><br>
+            <input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung99" class="speichern" formular="tpopber" value="99">
+            <label for="TPopBerEntwicklung99">andere Einstufung</label>
+        </td>
+    </tr>
+    <tr class='fieldcontain TPopBerTxt'>
+        <td class="label">
+            <label id="TPopBerTxt_label" for='TPopBerTxt'>Bemerkungen:</label>
+        </td>
+        <td class="Datenfelder">
+            <textarea name="TPopBerTxt" id="TPopBerTxt" class="speichern" formular="tpopber">{{TPopBerTxt}}</textarea>
+        </td>
+    </tr>
+</table>

@@ -14,6 +14,12 @@
 			"path": "kml"
 		},
 		{
+			"path": "models"
+		},
+		{
+			"path": "pages"
+		},
+		{
 			"path": "queries"
 		},
 		{
@@ -54,6 +60,9 @@
 				"jquery.qtip.css",
 				"jquery-ui.css"
 			]
+		},
+		{
+			"path": "templates"
 		}
 	]
 }
