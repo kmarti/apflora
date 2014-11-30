@@ -5,7 +5,8 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $         = require('jquery'),
+    speichern = require('./speichern');
 
 module.exports = function () {
     // jQuery ui widgets initiieren
