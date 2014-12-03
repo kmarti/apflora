@@ -32,7 +32,7 @@ var returnFunction = function (request, callback) {
         function (callback) {
             // Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
             connection.query(
-                'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilpopulation WHERE TPopId = ' + tpopId,
+                'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTPop WHERE TPopId = ' + tpopId,
                 function (err) {
                     // nur allfällige Fehler weiterleiten
                     callback(err, null);
@@ -51,7 +51,7 @@ var returnFunction = function (request, callback) {
         },
         function (callback) {
             connection.query(
-                'INSERT INTO tblTeilpopulation SELECT * FROM tmp',
+                'INSERT INTO tblTPop SELECT * FROM tmp',
                 function (err, data) {
                     callback(err, data.insertId);
                 }

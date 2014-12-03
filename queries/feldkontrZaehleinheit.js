@@ -13,7 +13,7 @@ var mysql      = require('mysql'),
 
 var returnFunction = function (request, callback) {
     connection.query(
-        'SELECT ZaehleinheitCode, ZaehleinheitTxt FROM DomainTPopKontrZaehleinheit ORDER BY ZaehleinheitOrd',
+        'SELECT ZaehleinheitCode, ZaehleinheitTxt FROM domTPopKontrZaehleinheit ORDER BY ZaehleinheitOrd',
         function (err, data) {
             if (err) throw err;
             callback(data);

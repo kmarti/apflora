@@ -10,7 +10,7 @@ var $                                         = require('jquery'),
 module.exports = function (aktiverNode, parentNode, nodePopId) {
     $.ajax({
         type: 'post',
-        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId(nodePopId) + '/user=' + sessionStorage.user
+        url: 'api/v1/insert/apflora/tabelle=tblTPop/feld=PopId/wert=' + erstelleIdAusDomAttributId(nodePopId) + '/user=' + sessionStorage.user
     }).done(function (id) {
         var strukturtyp = "tpop",
             beschriftung = "neue Teilpopulation";

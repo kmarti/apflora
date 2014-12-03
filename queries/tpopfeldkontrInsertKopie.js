@@ -32,7 +32,7 @@ var returnFunction = function (request, callback) {
         function (callback) {
             // Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
             connection.query(
-                'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopFeldkontrolle WHERE TPopKontrId = ' + tpopKontrId,
+                'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTPopKontr WHERE TPopKontrId = ' + tpopKontrId,
                 function (err) {
                     // nur allfällige Fehler weiterleiten
                     callback(err, null);
@@ -51,7 +51,7 @@ var returnFunction = function (request, callback) {
         },
         function (callback) {
             connection.query(
-                'INSERT INTO tblTeilPopFeldkontrolle SELECT * FROM tmp',
+                'INSERT INTO tblTPopKontr SELECT * FROM tmp',
                 function (err, data) {
                     callback(err, data.insertId);
                 }

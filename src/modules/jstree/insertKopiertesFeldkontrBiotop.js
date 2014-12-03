@@ -22,7 +22,7 @@ module.exports = function (nodeFeldkontrId) {
     // jetzt alles speichern
     $.ajax({
         type: 'post',
-        url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilPopFeldkontrolle/felder=' + JSON.stringify(data)
+        url: 'api/v1/updateMultiple/apflora/tabelle=tblTPopKontr/felder=' + JSON.stringify(data)
     }).fail(function () {
         melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
     });

@@ -42,7 +42,7 @@ module.exports = function () {
 
     switch (typ) {
     case "ap":
-        tabelle = "tblAktionsplan";
+        tabelle = "tblAp";
         id = window.apf.deleted.ApArtId;
         //Artname wurde für die Anzeige in undeleteDiv gespeichert - entfernen, da kein Feld in Tabelle
         delete window.apf.deleted.Artname;
@@ -52,7 +52,7 @@ module.exports = function () {
         id = window.apf.deleted.ZielId;
         break;
     case "zielber":
-        tabelle = "tblZielBericht";
+        tabelle = "tblZielBer";
         id = window.apf.deleted.ZielBerId;
         break;
     case "erfkrit":
@@ -60,36 +60,36 @@ module.exports = function () {
         id = window.apf.deleted.ErfkritId;
         break;
     case "pop":
-        tabelle = "tblPopulation";
+        tabelle = "tblPop";
         id = window.apf.deleted.PopId;
         break;
     case "popber":
-        tabelle = "tblPopBericht";
+        tabelle = "tblPopBer";
         id = window.apf.deleted.PopBerId;
         break;
     case "popmassnber":
-        tabelle = "tblPopMassnBericht";
+        tabelle = "tblPopMassnBer";
         id = window.apf.deleted.PopMassnBerId;
         break;
     case "tpop":
-        tabelle = "tblTeilpopulation";
+        tabelle = "tblTPop";
         id = window.apf.deleted.TPopId;
         break;
     case "tpopmassn":
-        tabelle = "tblTeilPopMassnahme";
+        tabelle = "tblTPopMassn";
         id = window.apf.deleted.TPopMassnId;
         break;
     case "tpopmassnber":
-        tabelle = "tblTeilPopMassnBericht";
+        tabelle = "tblTPopMassnBer";
         id = window.apf.deleted.TPopMassnBerId;
         break;
     case "tpopber":
-        tabelle = "tblTeilPopBericht";
+        tabelle = "tblTPopBer";
         id = window.apf.deleted.TPopBerId;
         break;
     case "tpopfeldkontr":
     case "tpopfreiwkontr":
-        tabelle = "tblTeilPopFeldkontrolle";
+        tabelle = "tblTPopKontr";
         id = window.apf.deleted.TPopKontrId;
         break;
     case "jber":

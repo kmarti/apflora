@@ -34,7 +34,7 @@ module.exports = function (request, reply) {
             // Liste aller ZielId erstellen
             zielIds = _.pluck(apzielListe, 'ZielId');
             connection.query(
-                'SELECT ZielBerId, ZielId, ZielBerJahr, ZielBerErreichung FROM tblZielBericht where ZielId in (' + zielIds.join() + ') ORDER BY ZielBerJahr, ZielBerErreichung',
+                'SELECT ZielBerId, ZielId, ZielBerJahr, ZielBerErreichung FROM tblZielBer where ZielId in (' + zielIds.join() + ') ORDER BY ZielBerJahr, ZielBerErreichung',
                 function (err, zielberListe) {
                     if (err) { callback(err); }
                     // das Ergebnis der vorigen Abfrage anfügen

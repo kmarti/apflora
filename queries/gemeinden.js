@@ -13,7 +13,7 @@ var mysql = require('mysql'),
 
 var gemeinden = function (request, callback) {
     connection.query(
-        'SELECT GmdName FROM DomainGemeinden ORDER BY GmdName',
+        'SELECT GmdName FROM domGemeinden ORDER BY GmdName',
         function (err, data) {
             callback(err, data);
         }

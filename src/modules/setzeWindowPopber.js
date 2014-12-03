@@ -10,7 +10,7 @@ module.exports = function (id) {
     localStorage.popberId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + id
+        url: 'api/v1/apflora/tabelle=tblPopBer/feld=PopBerId/wertNumber=' + id
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {

@@ -10,7 +10,7 @@ var $                                         = require('jquery'),
 module.exports = function (aktiverNode, parentNode, nodePopId) {
     $.ajax({
         type: 'post',
-        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
+        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBer/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
     }).done(function (id) {
         var strukturtyp  = "popmassnber",
             beschriftung = "neuer Massnahmen-Bericht";

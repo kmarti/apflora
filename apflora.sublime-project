@@ -1,27 +1,37 @@
 {
-	"folders": [
+	"folders":
+	[
 		{
-            "path": "/",
-            "folder_exclude_patterns": ["*"]
-        },
-        {
-			"path": "geojson"
+			"folder_exclude_patterns":
+			[
+				"*"
+			],
+			"follow_symlinks": true,
+			"path": ""
 		},
 		{
+			"follow_symlinks": true,
 			"path": "gulp-tasks"
 		},
 		{
+			"follow_symlinks": true,
+			"path": "geojson"
+		},
+		{
+			"follow_symlinks": true,
 			"path": "kml"
 		},
 		{
+			"follow_symlinks": true,
 			"path": "queries"
 		},
 		{
+			"follow_symlinks": true,
 			"path": "sql"
 		},
 		{
-			"path": "src",
-			"file_exclude_patterns": [
+			"file_exclude_patterns":
+			[
 				"apflora_browserified.js",
 				"apflora_built.js",
 				"apflora_built.js.map",
@@ -42,18 +52,22 @@
 				"proj4.js",
 				"ruler.js",
 				"underscore.js"
-			]
+			],
+			"follow_symlinks": true,
+			"path": "src"
 		},
 		{
-			"path": "style",
-			"file_exclude_patterns": [
+			"file_exclude_patterns":
+			[
 				"apflora_built.css",
 				"apflora_built.css.map",
 				"main_built.css",
 				"main_built.css.map",
 				"jquery.qtip.css",
 				"jquery-ui.css"
-			]
+			],
+			"follow_symlinks": true,
+			"path": "style"
 		}
 	]
 }

@@ -15,7 +15,7 @@ module.exports = function (aktiverNode) {
     // Daten des Objekts holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id"))
+        url: 'api/v1/apflora/tabelle=tblTPopKontr/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id"))
     }).done(function (data) {
         window.apf.tpopfeldkontrObjektKopiert = data[0];
     }).fail(function () {

@@ -36,7 +36,7 @@ module.exports = function (aktiverNode, parentNode) {
                 window.apf.deleted.typ = "zielber";
                 $.ajax({
                     type: 'delete',
-                    url: 'api/v1/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
+                    url: 'api/v1/apflora/tabelle=tblZielBer/tabelleIdFeld=ZielBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                 }).done(function () {
                     delete localStorage.zielberId;
                     delete window.apf.zielber;

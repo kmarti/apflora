@@ -9,7 +9,7 @@ var $                          = require('jquery'),
 module.exports = function (nodeTpopId) {
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId(nodeTpopId)
+        url: 'api/v1/apflora/tabelle=tblTPop/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId(nodeTpopId)
     }).done(function (data) {
         verorteTPop(data[0]);
     }).fail(function () {

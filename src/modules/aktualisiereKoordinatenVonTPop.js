@@ -18,7 +18,7 @@ module.exports = function (tpop) {
     // /api/v1/updateMultiple/apflora/tabelle={tabelle}/felder={felder}
     $.ajax({
         type: 'post',
-        url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilpopulation/felder=' + JSON.stringify(felder)
+        url: 'api/v1/updateMultiple/apflora/tabelle=tblTPop/felder=' + JSON.stringify(felder)
     }).done(function () {
         koordAktualisiert.resolve();
     }).fail(function () {

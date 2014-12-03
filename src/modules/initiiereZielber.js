@@ -46,7 +46,7 @@ module.exports = function (apId, apZielId, zielberId) {
     // Daten für die zielber aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + zielberId
+        url: 'api/v1/apflora/tabelle=tblZielBer/feld=ZielBerId/wertString=' + zielberId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {

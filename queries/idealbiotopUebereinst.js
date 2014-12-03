@@ -13,7 +13,7 @@ var mysql      = require('mysql'),
 
 var returnFunction = function (request, callback) {
     connection.query(
-        'SELECT DomainCode, DomainTxt FROM DomainTPopKontrIdBiotUebereinst ORDER BY DomainOrd',
+        'SELECT DomainCode, DomainTxt FROM domTPopKontrIdBiotUebereinst ORDER BY DomainOrd',
         function (err, data) {
             if (err) throw err;
             callback(data);

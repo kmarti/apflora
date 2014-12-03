@@ -37,7 +37,7 @@ module.exports = function (aktiverNode, parentNode) {
                 // löschen
                 $.ajax({
                     type: 'delete',
-                    url: 'api/v1/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
+                    url: 'api/v1/apflora/tabelle=tblTPop/tabelleIdFeld=TPopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                 }).done(function () {
                     delete localStorage.tpopId;
                     delete window.apf.tpop;

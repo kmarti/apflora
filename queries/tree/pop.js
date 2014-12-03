@@ -46,7 +46,7 @@ module.exports = function (request, reply) {
     async.waterfall([
         function (callback) {
             connection.query(
-                'SELECT PopNr, PopName, PopId, ApArtId FROM tblPopulation where ApArtId = ' + apId + ' ORDER BY PopNr, PopName',
+                'SELECT PopNr, PopName, PopId, ApArtId FROM tblPop where ApArtId = ' + apId + ' ORDER BY PopNr, PopName',
                 function (err, result) {
                     var popListe = result,
                         popIds   = _.pluck(popListe, 'PopId');
@@ -57,7 +57,7 @@ module.exports = function (request, reply) {
         function (popIds, popListe, callback) {
             if (popIds.length > 0) {
                 connection.query(
-                    'SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId in (' + popIds.join() + ') ORDER BY TPopNr, TPopFlurname',
+                    'SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTPop where PopId in (' + popIds.join() + ') ORDER BY TPopNr, TPopFlurname',
                     function (err, result) {
                         var tpopListe = result,
                             tpopIds   = _.pluck(tpopListe, 'TPopId');
@@ -78,7 +78,7 @@ module.exports = function (request, reply) {
         async.parallel({
             tpopMassnListe: function (callback) {
                 connection.query(
-                    'SELECT TPopMassnId, TPopId, TPopMassnJahr, TPopMassnDatum, MassnTypTxt FROM tblTeilPopMassnahme LEFT JOIN DomainTPopMassnTyp ON TPopMassnTyp = MassnTypCode where TPopId in (' + tpopIds.join() + ') ORDER BY TPopMassnJahr, TPopMassnDatum, MassnTypTxt',
+                    'SELECT TPopMassnId, TPopId, TPopMassnJahr, TPopMassnDatum, MassnTypTxt FROM tblTPopMassn LEFT JOIN domTPopMassnTyp ON TPopMassnTyp = MassnTypCode where TPopId in (' + tpopIds.join() + ') ORDER BY TPopMassnJahr, TPopMassnDatum, MassnTypTxt',
                     function (err, data) {
                         callback(err, data);
                     }
@@ -86,7 +86,7 @@ module.exports = function (request, reply) {
             },
             tpopMassnBerListe: function (callback) {
                 connection.query(
-                    'SELECT TPopMassnBerId, TPopId, TPopMassnBerJahr, BeurteilTxt FROM tblTeilPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON TPopMassnBerErfolgsbeurteilung = BeurteilId where TPopId in (' + tpopIds.join() + ') ORDER BY TPopMassnBerJahr, BeurteilTxt',
+                    'SELECT TPopMassnBerId, TPopId, TPopMassnBerJahr, BeurteilTxt FROM tblTPopMassnBer LEFT JOIN domTPopMassnErfolgsbeurteilung ON TPopMassnBerErfolgsbeurteilung = BeurteilId where TPopId in (' + tpopIds.join() + ') ORDER BY TPopMassnBerJahr, BeurteilTxt',
                     function (err, data) {
                         callback(err, data);
                     }
@@ -94,7 +94,7 @@ module.exports = function (request, reply) {
             },
             tpopFeldkontrListe: function (callback) {
                 connection.query(
-                    'SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId in (' + tpopIds.join() + ')) AND (TPopKontrTyp<>"Freiwilligen-Erfolgskontrolle" OR TPopKontrTyp IS NULL) ORDER BY TPopKontrJahr, TPopKontrTyp',
+                    'SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTPopKontr where (TPopId in (' + tpopIds.join() + ')) AND (TPopKontrTyp<>"Freiwilligen-Erfolgskontrolle" OR TPopKontrTyp IS NULL) ORDER BY TPopKontrJahr, TPopKontrTyp',
                     function (err, data) {
                         callback(err, data);
                     }
@@ -102,7 +102,7 @@ module.exports = function (request, reply) {
             },
             tpopFreiwkontrListe : function (callback) {
                 connection.query(
-                    'SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId in (' + tpopIds.join() + ')) AND (TPopKontrTyp="Freiwilligen-Erfolgskontrolle") ORDER BY TPopKontrJahr, TPopKontrTyp',
+                    'SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTPopKontr where (TPopId in (' + tpopIds.join() + ')) AND (TPopKontrTyp="Freiwilligen-Erfolgskontrolle") ORDER BY TPopKontrJahr, TPopKontrTyp',
                     function (err, data) {
                         callback(err, data);
                     }
@@ -110,7 +110,7 @@ module.exports = function (request, reply) {
             },
             tpopBerListe: function (callback) {
                 connection.query(
-                    'SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht LEFT JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId in (' + tpopIds.join() + ') ORDER BY TPopBerJahr, EntwicklungOrd',
+                    'SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTPopBer LEFT JOIN domTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId in (' + tpopIds.join() + ') ORDER BY TPopBerJahr, EntwicklungOrd',
                     function (err, data) {
                         callback(err, data);
                     }
@@ -126,7 +126,7 @@ module.exports = function (request, reply) {
             },
             popBerListe: function (callback) {
                 connection.query(
-                    'SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht LEFT JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId in (' + popIds.join() + ') ORDER BY PopBerJahr, EntwicklungOrd',
+                    'SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBer LEFT JOIN domPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId in (' + popIds.join() + ') ORDER BY PopBerJahr, EntwicklungOrd',
                     function (err, data) {
                         callback(err, data);
                     }
@@ -134,7 +134,7 @@ module.exports = function (request, reply) {
             },
             popMassnBerListe: function (callback) {
                 connection.query(
-                    'SELECT PopMassnBerId, PopId, PopMassnBerJahr, BeurteilTxt, BeurteilOrd FROM tblPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON PopMassnBerErfolgsbeurteilung = BeurteilId where PopId in (' + popIds.join() + ') ORDER BY PopMassnBerJahr, BeurteilOrd',
+                    'SELECT PopMassnBerId, PopId, PopMassnBerJahr, BeurteilTxt, BeurteilOrd FROM tblPopMassnBer LEFT JOIN domTPopMassnErfolgsbeurteilung ON PopMassnBerErfolgsbeurteilung = BeurteilId where PopId in (' + popIds.join() + ') ORDER BY PopMassnBerJahr, BeurteilOrd',
                     function (err, data) {
                         callback(err, data);
                     }

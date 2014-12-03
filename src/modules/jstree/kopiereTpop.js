@@ -15,7 +15,7 @@ module.exports = function (aktiverNode) {
     // Daten des Objekts holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
+        url: 'api/v1/apflora/tabelle=tblTPop/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
     }).done(function (data) {
         window.apf.tpopObjektKopiert = data[0];
     }).fail(function () {

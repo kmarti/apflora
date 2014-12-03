@@ -103,7 +103,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     // Daten für die tpopfeldkontr aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + feldKontrId
+        url: 'api/v1/apflora/tabelle=tblTPopKontr/feld=TPopKontrId/wertNumber=' + feldKontrId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {

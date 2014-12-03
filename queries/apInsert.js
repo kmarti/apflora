@@ -25,7 +25,7 @@ var returnFunction = function (request, callback) {
 
     // neuen AP einfügen
     connection.query(
-        'INSERT INTO alexande_apflora.tblAktionsplan (ApArtId, MutWann, MutWer) VALUES (' + apId + ', "' + date + '", "' + user + '")',
+        'INSERT INTO alexande_apflora.tblAp (ApArtId, MutWann, MutWer) VALUES (' + apId + ', "' + date + '", "' + user + '")',
         function (err, data) {
             if (err) { callback(err, null); }
             // Artwert holen
@@ -37,7 +37,7 @@ var returnFunction = function (request, callback) {
                         var artwert = data[0];
                         if (artwert) {
                             connection.query(
-                                'UPDATE alexande_apflora.tblAktionsplan SET ApArtwert="' + artwert + '" WHERE ApArtId = ' + apId,
+                                'UPDATE alexande_apflora.tblAp SET ApArtwert="' + artwert + '" WHERE ApArtId = ' + apId,
                                 function (err, data) {
                                     callback(err, apId);
                                 }
