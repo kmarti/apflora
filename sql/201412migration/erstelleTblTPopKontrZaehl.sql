@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS tblTPopKontrZaehl (
-id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+TPopKontrZaehlId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 TPopKontrId INT(10),
 Anzahl INT(10) default NULL COMMENT "Anzahl Zaehleinheiten",
 Zaehleinheit INT(10) default NULL COMMENT "Verwendete Zaehleinheit. Auswahl aus Tabelle domTPopKontrZaehleinheit",
