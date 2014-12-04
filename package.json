@@ -22,7 +22,8 @@
     "MarkerWithLabel": "global:MarkerWithLabel",
     "addruler": "global:addruler",
     "removeruler": "global:removeruler",
-    "canvas": "global:canvas"
+    "canvas": "global:canvas",
+    "React": "global:React"
   },
   "dependencies": {
     "async": "^0.9.0",

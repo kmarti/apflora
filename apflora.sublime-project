@@ -7,7 +7,7 @@
 				"*"
 			],
 			"follow_symlinks": true,
-			"path": ""
+			"path": "/"
 		},
 		{
 			"follow_symlinks": true,
@@ -51,7 +51,8 @@
 				"markerwithlabel.js",
 				"proj4.js",
 				"ruler.js",
-				"underscore.js"
+				"underscore.js",
+				"react.js"
 			],
 			"follow_symlinks": true,
 			"path": "src"

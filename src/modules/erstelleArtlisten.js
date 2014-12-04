@@ -3,7 +3,6 @@
 
 var $ = require('jquery');
 
-// übernimmt $ wegen jquery ui
 module.exports = function () {
     var $AaSisfNr = $('#AaSisfNr');
 

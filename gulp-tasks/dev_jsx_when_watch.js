@@ -14,6 +14,7 @@ var requireDir = require('require-dir');
 
 requireDir('../gulp-tasks', {recurse: true});
 
-return gulp.task('dev_when_watch', ['browserify'], function () {
-    gulp.start('dev_when_watch_2');
+return gulp.task('dev_jsx_when_watch', ['browserify'], function () {
+    //gulp.start('dev_when_watch_2');
+    gulp.start('dev_jsx');
 });

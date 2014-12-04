@@ -18,8 +18,8 @@ return gulp.task('watch', function () {
             'index.html',
             'server.js'
         ],
-        ['dev_when_watch']
+        ['dev_src_when_watch']
     );
     gulp.watch(['style/apflora.css'], ['dev_style']);
-    gulp.watch(['jsx//**/*'], ['dev_jsx']);
+    gulp.watch(['src/jsx//**/*'], ['dev_jsx_when_watch']);
 });

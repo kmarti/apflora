@@ -25,7 +25,8 @@ gulp.task('dev_src', function () {
         'src/canvas-toBlob.js',
         'src/apflora_browserified.js',
         'src/jquery.file.download.js',
-        'src/underscore.js'
+        'src/underscore.js',
+        'src/react.js'
     ])
         .pipe(concat('apflora_built.js'))
         .pipe(gulp.dest('./src'))

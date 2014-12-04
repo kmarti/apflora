@@ -652,6 +652,8 @@
                                     </td>
                                 </tr>
                             </table>
+                            <div id='tPopKontrZaehlungen'></div>
+                            <div id='hello'></div>
                             <fieldset style="background:none;">
                                 <legend>1. Zähleinheit</legend>
                                 <table>
@@ -702,114 +704,6 @@
                                         </td>
                                         <td class="Datenfelder">
                                             <input id="TPopKontrAnz1" name="TPopKontrAnz1" class="speichern" formular="tpopfeldkontr" type="number">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </fieldset>
-                            <fieldset style="background:none;">
-                                <legend>2. Zähleinheit</legend>
-                                <table>
-                                    <tr id='fieldcontain_TPopKontrZaehleinheit2' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit2'>
-                                        <td class="label_fieldset">
-                                            <label for='TPopKontrZaehleinheit2' style="width:115px" class='apf-with-tooltip'>
-                                                <span>Einheit:</span>
-                                            </label>
-                                            <div class="tooltiptext">
-                                                <p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-                                                <ul>
-                                                    <li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-                                                    <li>Anzahl: 1</li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td class="Datenfelder">
-                                            <select id="TPopKontrZaehleinheit2" name="TPopKontrZaehleinheit2" class="speichern" formular="tpopfeldkontr">
-                                                <option></option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr id='fieldcontain_TPopKontrMethode2' class='fieldcontain feld_tpopfeldkontr TPopKontrMethode2'>
-                                        <td class="label_fieldset">
-                                            <label for='TPopKontrMethode2' style="width:115px">Methode:</label>
-                                        </td>
-                                        <td class="Datenfelder">
-                                            <input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode21" class="speichern" formular="tpopfeldkontr" value="1">
-                                            <label for="TPopKontrMethode21">geschätzt</label><br>
-                                            <input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode22" class="speichern" formular="tpopfeldkontr" value="2">
-                                            <label for="TPopKontrMethode22">gezählt</label><br>
-                                            <input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode23" class="speichern" formular="tpopfeldkontr" value="3">
-                                            <label for="TPopKontrMethode23">geschätzt/gezählt</label>
-                                        </td>
-                                    </tr>
-                                    <tr id='fieldcontain_TPopKontrAnz2' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz2'>
-                                        <td class="label_fieldset">
-                                            <label for='TPopKontrAnz2' style="width:115px" class='apf-with-tooltip'>
-                                                <span>Anzahl:</span>
-                                            </label>
-                                            <div class="tooltiptext">
-                                                <p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-                                                <ul>
-                                                    <li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-                                                    <li>Anzahl: 1</li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td class="Datenfelder">
-                                            <input id="TPopKontrAnz2" name="TPopKontrAnz2" class="speichern" formular="tpopfeldkontr" type="number">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </fieldset>
-                            <fieldset style="background:none;">
-                                <legend>3. Zähleinheit</legend>
-                                <table>
-                                    <tr id='fieldcontain_TPopKontrZaehleinheit3' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit3'>
-                                        <td class="label_fieldset">
-                                            <label for='TPopKontrZaehleinheit3' style="width:115px" class='apf-with-tooltip'>
-                                                <span>Einheit:</span>
-                                            </label>
-                                            <div class="tooltiptext">
-                                                <p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-                                                <ul>
-                                                    <li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-                                                    <li>Anzahl: 1</li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td class="Datenfelder">
-                                            <select id="TPopKontrZaehleinheit3" name="TPopKontrZaehleinheit3" class="speichern" formular="tpopfeldkontr">
-                                                <option></option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr id='fieldcontain_TPopKontrMethode3' class='fieldcontain feld_tpopfeldkontr TPopKontrMethode3'>
-                                        <td class="label_fieldset">
-                                            <label for='TPopKontrMethode3' style="width:115px">Methode:</label>
-                                        </td>
-                                        <td class="Datenfelder">
-                                            <input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode31" class="speichern" formular="tpopfeldkontr" value="1">
-                                            <label for="TPopKontrMethode31">geschätzt</label><br>
-                                            <input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode32" class="speichern" formular="tpopfeldkontr" value="2">
-                                            <label for="TPopKontrMethode32">gezählt</label><br>
-                                            <input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode33" class="speichern" formular="tpopfeldkontr" value="3">
-                                            <label for="TPopKontrMethode33">geschätzt/gezählt</label>
-                                        </td>
-                                    </tr>
-                                    <tr id='fieldcontain_TPopKontrAnz3' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz3'>
-                                        <td class="label_fieldset">
-                                            <label for='TPopKontrAnz3' style="width:115px" class='apf-with-tooltip'>
-                                                <span>Anzahl:</span>
-                                            </label>
-                                            <div class="tooltiptext">
-                                                <p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-                                                <ul>
-                                                    <li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-                                                    <li>Anzahl: 1</li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td class="Datenfelder">
-                                            <input id="TPopKontrAnz3" name="TPopKontrAnz3" class="speichern" formular="tpopfeldkontr" type="number">
                                         </td>
                                     </tr>
                                 </table>
@@ -2357,5 +2251,6 @@
                 window.apf.setupJqueryUi();
             });
         </script>
+        <!--script src="src/react.js"></script-->
     </body>
 </html>

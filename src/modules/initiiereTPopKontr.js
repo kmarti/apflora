@@ -8,6 +8,7 @@
 var $                            = require('jquery'),
     dateFormat                   = require('dateformat'),
     _                            = require('underscore'),
+    React                        = require('react'),
     limiter                      = require('../lib/limiter'),
     initiiereAp                  = require('./initiiereAp'),
     initiierePop                 = require('./initiierePop'),
@@ -18,7 +19,9 @@ var $                            = require('jquery'),
     getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml'),
     zeigeFormular                = require('./zeigeFormular'),
     melde                        = require('./melde'),
-    leereFelderVonFormular       = require('./leereFelderVonFormular');
+    leereFelderVonFormular       = require('./leereFelderVonFormular'),
+    hello                        = require('../template/hello'),
+    tPopKontrZaehl               = require('../template/tPopKontrZaehl');
 
 module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -124,12 +127,12 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                     $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'dd.mm.yyyy'));
                 }
             }
-            $("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
+            /*$("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
             $("#TPopKontrAnz1").val(data.TPopKontrAnz1);
             $("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
             $("#TPopKontrAnz2").val(data.TPopKontrAnz2);
             $("#TPopKontrMethode3" + data.TPopKontrMethode3).prop("checked", true);
-            $("#TPopKontrAnz3").val(data.TPopKontrAnz3);
+            $("#TPopKontrAnz3").val(data.TPopKontrAnz3);*/
             $("#TPopKontrTxt").val(data.TPopKontrTxt);
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
 
@@ -141,7 +144,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             });
 
             // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
-            getZaehleinheitenHtml(function (html) {
+            /*getZaehleinheitenHtml(function (html) {
                 // alle 3 Felder setzen
                 $("#TPopKontrZaehleinheit1")
                     .html(html)
@@ -152,7 +155,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 $("#TPopKontrZaehleinheit3")
                     .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit3);
-            });
+            });*/
 
             // Felder, die nur in der Feldkontrolle vorkommen
             if (kontrTyp === 'feldKontr') {
@@ -296,6 +299,12 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 // ausblenden!
                 $("#tpopfeldkontr_tabs_biotop").hide();
             }
+
+            //hello();
+            //tPopKontrZaehl();
+
+            React.render(hello(), document.getElementById('hello'));
+            React.render(tPopKontrZaehl(), document.getElementById('tPopKontrZaehlungen'));
 
             // Fokus steuern
             $TPopKontrJahr.focus();
