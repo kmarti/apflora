@@ -12,7 +12,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     var tpopId      = decodeURIComponent(request.params.tpopId),
         tpopKontrId = decodeURIComponent(request.params.tpopKontrId),
         user        = decodeURIComponent(request.params.user),          // der Benutzername
@@ -62,5 +62,3 @@ var returnFunction = function (request, callback) {
         callback(err, results[3]);
     });
 };
-
-module.exports = returnFunction;

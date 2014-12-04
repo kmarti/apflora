@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var apliste = function (request, callback) {
+module.exports = function (request, callback) {
     // Artname muss 'label' heissen, sonst funktioniert jquery ui autocomplete nicht
     var sql;
     // url setzen
@@ -36,5 +36,3 @@ var apliste = function (request, callback) {
         }
     );
 };
-
-module.exports = apliste;

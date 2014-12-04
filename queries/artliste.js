@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_beob'
     });
 
-var artliste = function (request, callback) {
+module.exports = function (request, callback) {
     // Artname muss 'label' heissen, sonst funktioniert jquery ui autocomplete nicht
     connection.query(
         "SELECT TaxonomieId AS id, IF(Status NOT LIKE 'akzeptierter Name', CONCAT(Artname, ' (', Status, ')'), Artname) AS label FROM alexande_beob.ArtenDb_Arteigenschaften ORDER BY Artname",
@@ -20,5 +20,3 @@ var artliste = function (request, callback) {
         }
     );
 };
-
-module.exports = artliste;

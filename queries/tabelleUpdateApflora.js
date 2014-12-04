@@ -17,7 +17,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var tabelleUpdate = function (request, callback) {
+module.exports = function (request, callback) {
     var tabelle       = decodeURIComponent(request.params.tabelle),         // der Name der Tabelle, in der die Daten gespeichert werden sollen
         tabelleIdFeld = decodeURIComponent(request.params.tabelleIdFeld),   // das ist der Name der ID der Tabelle
         tabelleId     = decodeURIComponent(request.params.tabelleId),       // der Wert der ID
@@ -45,5 +45,3 @@ var tabelleUpdate = function (request, callback) {
         }
     );
 };
-
-module.exports = tabelleUpdate;

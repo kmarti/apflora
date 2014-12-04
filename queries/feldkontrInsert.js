@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     var tpopId       = decodeURIComponent(request.params.tpopId),        // die id
         tpopKontrtyp = decodeURIComponent(request.params.tpopKontrtyp),  // feldkontr oder freiwkontr
         user         = decodeURIComponent(request.params.user),          // der Benutzername
@@ -35,5 +35,3 @@ var returnFunction = function (request, callback) {
         }
     );
 };
-
-module.exports = returnFunction;

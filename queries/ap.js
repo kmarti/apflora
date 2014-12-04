@@ -11,7 +11,7 @@ var mysql = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var ap = function (request, callback) {
+module.exports = function (request, callback) {
     var apId = decodeURIComponent(request.params.apId);
     connection.query(
         'SELECT alexande_apflora.tblAp.ApArtId, alexande_beob.ArtenDb_Arteigenschaften.Artname, alexande_apflora.tblAp.ApStatus, alexande_apflora.tblAp.ApJahr, alexande_apflora.tblAp.ApUmsetzung, alexande_apflora.tblAp.ApBearb, alexande_apflora.tblAp.ApArtwert, alexande_apflora.tblAp.MutWann, alexande_apflora.tblAp.MutWer FROM alexande_apflora.tblAp INNER JOIN alexande_beob.ArtenDb_Arteigenschaften ON alexande_apflora.tblAp.ApArtId = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId WHERE ApArtId = ' + apId,
@@ -21,5 +21,3 @@ var ap = function (request, callback) {
         }
     );
 };
-
-module.exports = ap;

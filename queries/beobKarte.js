@@ -11,7 +11,7 @@ var mysql     = require('mysql'),
         database: 'alexande_beob'
     });
 
-var beobKarte = function (request, callback) {
+module.exports = function (request, callback) {
     var apId            = decodeURIComponent(request.params.apId),
         tpopId          = decodeURIComponent(request.params.tpopId),
         beobId          = decodeURIComponent(request.params.beobId),
@@ -43,5 +43,3 @@ var beobKarte = function (request, callback) {
         }
     );
 };
-
-module.exports = beobKarte;

@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var tabelle = function (request, callback) {
+module.exports = function (request, callback) {
     var tabelle = decodeURIComponent(request.params.tabelle),  // der Name der Tabelle, aus der die Daten geholt werden sollen
         feld    = decodeURIComponent(request.params.feld),     // das ist der Name des Feldes, das verglichen wird
         wert    = decodeURIComponent(request.params.wert);     // der Wert im Feld, das verglichen wird
@@ -24,5 +24,3 @@ var tabelle = function (request, callback) {
         }
     );
 };
-
-module.exports = tabelle;

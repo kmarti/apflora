@@ -18,7 +18,7 @@ var mysql      = require('mysql'),
         database: 'alexande_beob'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     var apId = decodeURIComponent(request.params.apId), // ApArtId
         user = decodeURIComponent(request.params.user), // der Benutzername
         date = new Date().toISOString();                // wann gespeichert wird
@@ -65,5 +65,3 @@ var returnFunction = function (request, callback) {
         }
     });
 };
-
-module.exports = returnFunction;

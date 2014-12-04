@@ -12,7 +12,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora_views'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     var view = decodeURIComponent(request.params.view), // Name des Views, aus dem die Daten geholt werden sollen
         idName = decodeURIComponent(request.params.idName), // name des Felds, für den ID's übergeben werden
         idListe = decodeURIComponent(request.params.idListe), // liste der ID's
@@ -35,5 +35,3 @@ var returnFunction = function (request, callback) {
         }
     );
 };
-
-module.exports = returnFunction;

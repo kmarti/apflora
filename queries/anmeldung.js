@@ -11,7 +11,7 @@ var mysql = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var ap = function (request, callback) {
+module.exports = function (request, callback) {
     var userName = decodeURIComponent(request.params.name),
         password = decodeURIComponent(request.params.pwd);
     connection.query(
@@ -22,5 +22,3 @@ var ap = function (request, callback) {
         }
     );
 };
-
-module.exports = ap;

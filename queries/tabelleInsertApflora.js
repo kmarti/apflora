@@ -12,7 +12,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var assozartInsert = function (request, callback) {
+module.exports = function (request, callback) {
     var tabelle = decodeURIComponent(request.params.tabelle),             // der Name der Tabelle, in der die Daten gespeichert werden sollen
         feld    = decodeURIComponent(request.params.feld),                // der Name des Felds, dessen Daten gespeichert werden sollen
         wert    = decodeURIComponent(request.params.wert),                // der Wert, der gespeichert werden soll
@@ -30,5 +30,3 @@ var assozartInsert = function (request, callback) {
         }
     );
 };
-
-module.exports = assozartInsert;

@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var adressen = function (request, callback) {
+module.exports = function (request, callback) {
     connection.query(
         'SELECT AdrId AS id, AdrName FROM tblAdresse ORDER BY AdrName',
         function (err, data) {
@@ -19,5 +19,3 @@ var adressen = function (request, callback) {
         }
     );
 };
-
-module.exports = adressen;

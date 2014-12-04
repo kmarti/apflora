@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_beob'
     });
 
-var tabelle = function (request, callback) {
+module.exports = function (request, callback) {
     var tabelle = decodeURIComponent(request.params.tabelle), // Name der Tabelle, aus der die Daten geholt werden sollen
         feld    = decodeURIComponent(request.params.feld),    // Name der ID der Tabelle
         wert    = decodeURIComponent(request.params.wert);    // Wert der ID
@@ -24,5 +24,3 @@ var tabelle = function (request, callback) {
         }
     );
 };
-
-module.exports = tabelle;

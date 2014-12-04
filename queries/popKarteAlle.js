@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     var apId = decodeURIComponent(request.params.apId);
     // Daten abfragen
     connection.query(
@@ -22,5 +22,3 @@ var returnFunction = function (request, callback) {
         }
     );
 };
-
-module.exports = returnFunction;

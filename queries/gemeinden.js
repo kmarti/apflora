@@ -11,7 +11,7 @@ var mysql = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var gemeinden = function (request, callback) {
+module.exports = function (request, callback) {
     connection.query(
         'SELECT GmdName FROM domGemeinden ORDER BY GmdName',
         function (err, data) {
@@ -19,5 +19,3 @@ var gemeinden = function (request, callback) {
         }
     );
 };
-
-module.exports = gemeinden;

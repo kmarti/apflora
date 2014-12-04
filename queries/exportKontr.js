@@ -12,7 +12,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora_views'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     var view = decodeURIComponent(request.params.view); // Name des Views, aus dem die Daten geholt werden sollen
     connection.query(
         'SELECT * FROM ' + view,
@@ -31,5 +31,3 @@ var returnFunction = function (request, callback) {
         }
     );
 };
-
-module.exports = returnFunction;

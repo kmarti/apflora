@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_beob'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     connection.query(
         'SELECT Label AS id, CONCAT(Label, ": ", REPEAT(" ",(7-LENGTH(Label))), Einheit) AS Einheit FROM ArtenDb_LR WHERE LrMethodId = 1 ORDER BY Label',
         function (err, data) {
@@ -20,5 +20,3 @@ var returnFunction = function (request, callback) {
         }
     );
 };
-
-module.exports = returnFunction;

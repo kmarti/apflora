@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var tabelle = function (request, callback) {
+module.exports = function (request, callback) {
     var apId = decodeURIComponent(request.params.apId),
         X    = decodeURIComponent(request.params.X),
         Y    = decodeURIComponent(request.params.Y);
@@ -23,5 +23,3 @@ var tabelle = function (request, callback) {
         }
     );
 };
-
-module.exports = tabelle;

@@ -11,7 +11,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function (request, callback) {
+module.exports = function (request, callback) {
     connection.query(
         'SELECT ZaehleinheitCode, ZaehleinheitTxt FROM domTPopKontrZaehleinheit ORDER BY ZaehleinheitOrd',
         function (err, data) {
@@ -20,5 +20,3 @@ var returnFunction = function (request, callback) {
         }
     );
 };
-
-module.exports = returnFunction;
