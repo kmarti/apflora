@@ -2,13 +2,19 @@
 
 var React = require('react');
 
-module.exports = React.createClass({
+module.exports = function () {
+    return (
+        <h1>Hello, world!</h1>
+    );
+};
+
+/*module.exports = React.createClass({
     render: function () {
         return (
             <h1>Hello, world!</h1>
         );
     }
-});
+});*/
 
 /*module.exports = React.render(
   <h1>Hello, world!</h1>,
