@@ -24,7 +24,7 @@ module.exports = function (inputDiv) {
         })
         .button('refresh');
     // tooltip zurücksetzen
-    $('.modify_layer_label')
+    $('.modifyLayerLabel')
         .attr('title', 'Ebene bearbeiten')
         .tooltip({
             tooltipClass: "tooltip-styling-hinterlegt",

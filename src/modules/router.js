@@ -16,7 +16,7 @@ var Backbone                = require('backbone'),
     initiierePopBer         = require('./initiierePopBer'),
     initiiereTPop           = require('./initiiereTPop'),
     initiiereTPopBer        = require('./initiiereTPopBer'),
-    initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
+    initiiereTPopKontr      = require('./initiiereTPopKontr'),
     initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
     initiiereTPopMassn      = require('./initiiereTPopMassn'),
     initiiereExporte        = require('./initiiereExporte');
@@ -119,11 +119,11 @@ module.exports = Backbone.Router.extend({
     },
     freiwKontr: function (apId, popId, tpopId, feldKontrId) {
         console.log('route zu TPopFeldkontr');
-        initiiereTPopFeldkontr(apId, popId, tpopId, 'freiwKontr');
+        initiiereTPopKontr(apId, popId, tpopId, 'freiwKontr');
     },
     feldKontr: function (apId, popId, tpopId, feldKontrId) {
         console.log('route zu TPopFeldkontr');
-        initiiereTPopFeldkontr(apId, popId, tpopId, 'feldKontr');
+        initiiereTPopKontr(apId, popId, tpopId, 'feldKontr');
     },
     massnBer: function (apId, popId, tpopId, massnBerId) {
         console.log('route zu TPopMassnBer');

@@ -16,7 +16,7 @@ var $                         = require('jquery'),
     initiierePopMassnBer      = require('./initiierePopMassnBer'),
     initiiereTPop             = require('./initiiereTPop'),
     initiierePopBer           = require('./initiierePopBer'),
-    initiiereTPopFeldkontr    = require('./initiiereTPopFeldkontr'),
+    initiiereTPopKontr        = require('./initiiereTPopKontr'),
     initiiereTPopMassn        = require('./initiiereTPopMassn'),
     initiiereTPopMassnBer     = require('./initiiereTPopMassnBer'),
     initiiereTPopBer          = require('./initiiereTPopBer'),
@@ -125,13 +125,13 @@ module.exports = function () {
                 // Die Markierung wird im load-Event wieder entfernt
                 window.apf.tpopfeldkontrZeigen = true;
                 // direkt initiieren, bevor der baum fertig aufgebaut ist
-                initiiereTPopFeldkontr(apId, popId, tpopId, tpopfeldkontrId, 'feldKontr');
+                initiiereTPopKontr(apId, popId, tpopId, tpopfeldkontrId, 'feldKontr');
             } else if (tpopfreiwkontrId) {
                 // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll
                 window.apf.tpopfreiwkontrZeigen = true;
                 // direkt initiieren, bevor der baum fertig aufgebaut ist
                 localStorage.tpopfreiwkontr = true;
-                initiiereTPopFeldkontr(apId, popId, tpopId, tpopfeldkontrId, 'freiwKontr');
+                initiiereTPopKontr(apId, popId, tpopId, tpopfeldkontrId, 'freiwKontr');
             } else if (tpopmassnId) {
                 // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll
                 window.apf.tpopmassnZeigen = true;

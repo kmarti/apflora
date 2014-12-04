@@ -7,7 +7,7 @@ var $                            = require('jquery'),
     melde                        = require('../melde'),
     initiierePop                 = require('../initiierePop'),
     initiiereTPop                = require('../initiiereTPop'),
-    initiiereTPopFeldkontr       = require('../initiiereTPopFeldkontr'),
+    initiiereTPopKontr           = require('../initiiereTPopKontr'),
     initiiereTPopMassn           = require('../initiiereTPopMassn'),
     erstelleIdAusDomAttributId   = require('../erstelleIdAusDomAttributId'),
     crrmCheckMove                = require('./crrmCheckMove'),
@@ -298,7 +298,7 @@ module.exports = function (ApArtId) {
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfeldkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
-                    initiiereTPopFeldkontr();
+                    initiiereTPopKontr();
                 }).fail(function () {
                     melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
@@ -319,7 +319,7 @@ module.exports = function (ApArtId) {
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfeldkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
-                    initiiereTPopFeldkontr();
+                    initiiereTPopKontr();
                 }).fail(function () {
                     melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
@@ -343,7 +343,7 @@ module.exports = function (ApArtId) {
                     delete window.apf.tpopfreiwkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     localStorage.tpopfreiwkontr = true;
-                    initiiereTPopFeldkontr();
+                    initiiereTPopKontr();
                 }).fail(function () {
                     melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
@@ -365,7 +365,7 @@ module.exports = function (ApArtId) {
                     delete window.apf.tpopfreiwkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     localStorage.tpopfreiwkontr = true;
-                    initiiereTPopFeldkontr();
+                    initiiereTPopKontr();
                 }).fail(function () {
                     melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });

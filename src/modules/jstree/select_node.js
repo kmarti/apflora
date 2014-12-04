@@ -16,7 +16,7 @@ var $                          = require('jquery'),
     initiierePopMassnBer       = require('../initiierePopMassnBer'),
     initiiereTPop              = require('../initiiereTPop'),
     initiierePopBer            = require('../initiierePopBer'),
-    initiiereTPopFeldkontr     = require('../initiiereTPopFeldkontr'),
+    initiiereTPopKontr         = require('../initiiereTPopKontr'),
     initiiereTPopMassn         = require('../initiiereTPopMassn'),
     initiiereTPopMassnBer      = require('../initiiereTPopMassnBer'),
     initiiereTPopBer           = require('../initiiereTPopBer'),
@@ -125,14 +125,14 @@ module.exports = function (event, data, ApArtId) {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== nodeId) {
             localStorage.tpopfeldkontrId = nodeId;
-            initiiereTPopFeldkontr();
+            initiiereTPopKontr();
         }
     } else if (nodeTyp === "tpopfreiwkontr") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== nodeId) {
             localStorage.tpopfeldkontrId = nodeId;
             localStorage.tpopfreiwkontr = true;
-            initiiereTPopFeldkontr();
+            initiiereTPopKontr();
         }
     } else if (nodeTyp === "tpopmassn") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden

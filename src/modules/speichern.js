@@ -31,7 +31,7 @@ var speichern = function (that) {
         tpopbeschriftung,
         tpopkontrjahr,
         $TPopKontrJahr,
-        tpopfeldkontr_label,
+        tpopfeldkontrLabel,
         tpopberjahr,
         tpopberentwicklung,
         tpopberentwicklungLabel,
@@ -271,11 +271,11 @@ var speichern = function (that) {
         // wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
         $TPopKontrJahr      = $("#TPopKontrJahr").val();
         tpopkontrjahr       = $TPopKontrJahr || "(kein Jahr)";
-        tpopfeldkontr_label = tpopkontrjahr + ': ' +  $("label[for='" + $('input[name="TPopKontrTyp"]:checked').attr('id') + "']").text();
+        tpopfeldkontrLabel = tpopkontrjahr + ': ' +  $("label[for='" + $('input[name="TPopKontrTyp"]:checked').attr('id') + "']").text();
         // Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
         // Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
         $tree.jstree("rename_node", "[typ='tpopOrdnerFreiwkontr'] #" + localStorage.tpopfeldkontrId, tpopkontrjahr);
-        $tree.jstree("rename_node", "[typ='tpopOrdnerFeldkontr'] #" + localStorage.tpopfeldkontrId, tpopfeldkontr_label);
+        $tree.jstree("rename_node", "[typ='tpopOrdnerFeldkontr'] #" + localStorage.tpopfeldkontrId, tpopfeldkontrLabel);
         break;
     case "TPopBerJahr":
     case "TPopBerEntwicklung":

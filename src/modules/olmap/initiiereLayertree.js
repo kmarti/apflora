@@ -45,12 +45,12 @@ module.exports = function (activeKategorie) {
     htmlEigeneLayerText += '<li>KML</li>';
     htmlEigeneLayerText += '<li>TopoJSON</li>';
     htmlEigeneLayerText += '</ul>';
-    htmlEigeneLayerText += '<div id="olmap_eigene_ebenen_beta_container">';
+    htmlEigeneLayerText += '<div id="olmapEigeneEbenenBetaContainer">';
     htmlEigeneLayerText += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase.<br>Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
     htmlEigeneLayerText += '</div>';
     htmlEigeneLayerText += '<div id="olmap_neues_layer_container">';
-    htmlEigeneLayerText += '<input type="checkbox" class="neuesLayer" id="olmap_neues_layer">';
-    htmlEigeneLayerText += '<label for="olmap_neues_layer" class="neues_layer_label">neue Ebene erstellen</label>';
+    htmlEigeneLayerText += '<input type="checkbox" class="neuesLayer" id="modifyLayerLabel">';
+    htmlEigeneLayerText += '<label for="modifyLayerLabel" class="neuesLayerLabel">neue Ebene erstellen</label>';
     htmlEigeneLayerText += '</div>';
 
     // accordion zerstören, damit es neu aufgebaut werden kann
@@ -94,14 +94,14 @@ module.exports = function (activeKategorie) {
             if (kategorie === 'Eigene Ebenen') {
                 htmlProv += '<div class="layeroptionen">';
                 htmlProv += '<input type="checkbox" class="modifyLayer" id="modifyLayer' + layertitel.replace(" ", "_") + '">';
-                htmlProv += '<label for="modifyLayer' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
-                htmlProv += '<select id="modifyLayerGeomType' + layertitel.replace(" ", "_") + '" class="modifyLayerGeomType apf_tooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
+                htmlProv += '<label for="modifyLayer' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modifyLayerLabel"></label>';
+                htmlProv += '<select id="modifyLayerGeomType' + layertitel.replace(" ", "_") + '" class="modifyLayerGeomType apfTooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
                 htmlProv += '<div class="nonModifyOptions">';
-                htmlProv += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="exportLayerSelect apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
+                htmlProv += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="exportLayerSelect apfTooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
                 htmlProv += '<input type="checkbox" class="renameLayer" id="renameLayer' + layertitel.replace(" ", "_") + '">';
-                htmlProv += '<label for="renameLayer' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
+                htmlProv += '<label for="renameLayer' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="renameLayerLabel"></label>';
                 htmlProv += '<input type="checkbox" class="entferneLayer" id="entferneLayer' + layertitel.replace(" ", "_") + '">';
-                htmlProv += '<label for="entferneLayer' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
+                htmlProv += '<label for="entferneLayer' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferneLayerLabel"></label>';
                 htmlProv += '</div>';
                 htmlProv += '<div id="eigene_layer_meldung_' + layertitel.replace(" ", "_") + '" class="eigene_layer_meldung"></div>';
                 htmlProv += '</div>';
@@ -237,7 +237,7 @@ module.exports = function (activeKategorie) {
                 text: false
             })
             .button('refresh');
-        $('.modify_layer_label, .export_layer_select_label, .rename_layer_label, .entferne_layer_label, .apf_tooltip')
+        $('.modifyLayerLabel, .exportLayerSelectLabel, .renameLayerLabel, .entferneLayerLabel, .apfTooltip')
             .tooltip({
                 tooltipClass: "tooltip-styling-hinterlegt",
                 content: function () {

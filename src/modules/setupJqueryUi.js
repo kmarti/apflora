@@ -23,7 +23,7 @@ module.exports = function () {
     $("#tpopfeldkontr_tabs").tabs();
 
     // tooltip: Klasse zuweisen, damit gestylt werden kann
-    $("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olMapExportierenDiv, .apf_tooltip").tooltip({
+    $("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olMapExportierenDiv, .apfTooltip").tooltip({
         tooltipClass: "tooltip-styling-hinterlegt",
         content: function () {
             return $(this).attr('title');

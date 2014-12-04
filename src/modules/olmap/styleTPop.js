@@ -39,7 +39,7 @@ module.exports = function (feature, resolution, selected, verorten) {
 
     // text bestimmen, abhängig von der Einstellung im Layertree
     if ($layertreeTpopNr.is(':checked')) {
-        textInhalt = feature.get('tpop_nr_label');
+        textInhalt = feature.get('tpopNrLabel');
     } else if ($('#layertreeTpopName').is(':checked')) {
         textInhalt = feature.get('tpopName');
     }

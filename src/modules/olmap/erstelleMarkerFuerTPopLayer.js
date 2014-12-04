@@ -10,7 +10,7 @@ module.exports = function (tpop) {
         geometry:      new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
         tpopNr:        tpop.TPopNr,
         popNr:         tpop.PopNr,
-        tpop_nr_label: erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
+        tpopNrLabel: erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
         tpopName:     tpop.TPopFlurname || '(kein Name)',
         name:          erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
         popupContent:  erstelleContentFuerTPop(tpop),

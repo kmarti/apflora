@@ -76,7 +76,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                 url: urlDistzutpop
             }).done(function (data) {
                 // Tabellenzeile beginnen
-                htmlDistzutpop = '<tr class="fieldcontain distZuTPop"><td class="label"><label id="DistZuTPop_label" for="distZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
+                htmlDistzutpop = '<tr class="fieldcontain distZuTPop"><td class="label"><label for="distZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
                 if (data) {
                     _.each(data, function (beob, index) {
                         if (index > 0) {

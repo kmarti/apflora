@@ -54,7 +54,7 @@ config.tables = [
         mutWannFeld:       'MutWann',
         mutWerFeld:        'MutWer',
         form:              'tpopfeldkontr',
-        initiiereFunktion: 'initiiereTPopFeldkontr',
+        initiiereFunktion: 'initiiereTPopKontr',
         treeTyp:           'tpopfeldkontr'
     },
     {

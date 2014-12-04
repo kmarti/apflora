@@ -1160,7 +1160,7 @@ label.erforderlich span {
     margin-bottom: 0;
 }
 
-#olmap_eigene_ebenen_beta_container {
+#olmapEigeneEbenenBetaContainer {
     position: absolute;
     top:   40px;
     left: 140px;
@@ -1240,7 +1240,7 @@ label.erforderlich span {
     margin-left: 5px;
 }
 
-#olMapLayertree li .ui-button.entferne_layer_label {
+#olMapLayertree li .ui-button.entferneLayerLabel {
     position: absolute;
     right: 7px;
 }
