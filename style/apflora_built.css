@@ -691,9 +691,10 @@ form table .label {
  * Bei Feldern, die eingerahmt sind (Fieldset)
  * muss das Label schmaler sein, damit alle Felder ausgerichtet sind
  */
-.label_fieldset {
-    width:   129px;
-    display: block;
+.labelFieldset {
+    width:      129px;
+    display:    block;
+    text-align: right;
 }
 
 form table td {

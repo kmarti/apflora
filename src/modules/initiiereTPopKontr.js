@@ -20,7 +20,6 @@ var $                            = require('jquery'),
     zeigeFormular                = require('./zeigeFormular'),
     melde                        = require('./melde'),
     leereFelderVonFormular       = require('./leereFelderVonFormular'),
-    hello                        = require('../template/hello'),
     tPopKontrZaehl               = require('../template/tPopKontrZaehl');
 
 module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {

@@ -7,8 +7,7 @@ var gulp   = require('gulp'),
 
 gulp.task('dev_jsx', function () {
     return gulp.src([
-        'src/jsx/tPopKontrZaehl.js',
-        'src/jsx/hello.js'
+        'src/jsx/tPopKontrZaehl.js'
     ])
         .pipe(react())
         .pipe(gulp.dest('./src/template'))

@@ -201,8 +201,9 @@ form table .label {
  * muss das Label schmaler sein, damit alle Felder ausgerichtet sind
  */
 .labelFieldset {
-    width:   129px;
-    display: block;
+    width:      129px;
+    display:    block;
+    text-align: right;
 }
 
 form table td {
