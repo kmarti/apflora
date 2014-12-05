@@ -2,8 +2,7 @@
 	"folders":
 	[
 		{
-			"folder_exclude_patterns":
-			[
+			"folder_exclude_patterns": [
 				"*"
 			],
 			"follow_symlinks": true,
@@ -53,6 +52,9 @@
 				"ruler.js",
 				"underscore.js",
 				"react.js"
+			],
+			"folder_exclude_patterns": [
+				"template"
 			],
 			"follow_symlinks": true,
 			"path": "src"

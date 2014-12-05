@@ -9,8 +9,9 @@ var React = require('react'),
         width: 115
     };
 
-module.exports = React.createClass({
-    render: function () {
+module.exports = function (data) {
+    data = data || {};
+    return (
         <fieldset style={fieldsetStyle}>
             <legend>Test. Zähleinheit</legend>
             <table>
@@ -60,10 +61,10 @@ module.exports = React.createClass({
                         </div>
                     </td>
                     <td className="Datenfelder">
-                        <input id="TPopKontrAnz" name="TPopKontrAnz" className="speichern" formular="tpopfeldkontr" type="number" value={this.props.Anzahl}/>
+                        <input id="TPopKontrAnz" name="TPopKontrAnz" className="speichern" formular="tpopfeldkontr" type="number" value={data.Anzahl}/>
                     </td>
                 </tr>
             </table>
         </fieldset>
-    }
-});
+    );
+};

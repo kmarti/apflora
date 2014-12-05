@@ -99,7 +99,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     leereFelderVonFormular("tpopfeldkontr");
 
     // alle Felder ausblenden. Später werden die benötigten eingeblendet
-    $('.feld_tpopfeldkontr').each(function () {
+    $('.feldTpopkontr').each(function () {
         $(this).hide();
     });
 

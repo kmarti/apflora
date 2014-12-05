@@ -200,7 +200,7 @@ form table .label {
  * Bei Feldern, die eingerahmt sind (Fieldset)
  * muss das Label schmaler sein, damit alle Felder ausgerichtet sind
  */
-.label_fieldset {
+.labelFieldset {
     width:   129px;
     display: block;
 }
