@@ -9,7 +9,8 @@ var React = require('react'),
         width: 115
     };
 
-module.exports = function () {
+module.exports = function (data) {
+    data = data || {};
     return (
         React.createElement("fieldset", {style: fieldsetStyle}, 
             React.createElement("legend", null, "Test. Zähleinheit"), 
@@ -33,22 +34,22 @@ module.exports = function () {
                         )
                     )
                 ), 
-                React.createElement("tr", {id: "fieldcontain_TPopKontrMethode1", className: "fieldcontain feld_tpopfeldkontr TPopKontrMethode1"}, 
+                React.createElement("tr", {id: "fieldcontain_TPopKontrMethode", className: "fieldcontain feld_tpopfeldkontr TPopKontrMethode"}, 
                     React.createElement("td", {className: "label_fieldset"}, 
-                        React.createElement("label", {htmlFor: "TPopKontrMethode1", style: labelStyle}, "Methode:")
+                        React.createElement("label", {htmlFor: "TPopKontrMethode", style: labelStyle}, "Methode:")
                     ), 
                     React.createElement("td", {className: "Datenfelder"}, 
-                        React.createElement("input", {type: "radio", name: "TPopKontrMethode1", id: "TPopKontrMethode11", className: "speichern", formular: "tpopfeldkontr", value: "1"}), 
-                        React.createElement("label", {htmlFor: "TPopKontrMethode11"}, "geschätzt"), React.createElement("br", null), 
-                        React.createElement("input", {type: "radio", name: "TPopKontrMethode1", id: "TPopKontrMethode12", className: "speichern", formular: "tpopfeldkontr", value: "2"}), 
-                        React.createElement("label", {htmlFor: "TPopKontrMethode12"}, "gezählt"), React.createElement("br", null), 
-                        React.createElement("input", {type: "radio", name: "TPopKontrMethode1", id: "TPopKontrMethode13", className: "speichern", formular: "tpopfeldkontr", value: "3"}), 
-                        React.createElement("label", {htmlFor: "TPopKontrMethode13"}, "geschätzt/gezählt")
+                        React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode1", className: "speichern", formular: "tpopfeldkontr", value: "1"}), 
+                        React.createElement("label", {htmlFor: "TPopKontrMethode1"}, "geschätzt"), React.createElement("br", null), 
+                        React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode2", className: "speichern", formular: "tpopfeldkontr", value: "2"}), 
+                        React.createElement("label", {htmlFor: "TPopKontrMethode2"}, "gezählt"), React.createElement("br", null), 
+                        React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode3", className: "speichern", formular: "tpopfeldkontr", value: "3"}), 
+                        React.createElement("label", {htmlFor: "TPopKontrMethode3"}, "geschätzt/gezählt")
                     )
                 ), 
-                React.createElement("tr", {id: "fieldcontain_TPopKontrAnz1", className: "fieldcontain feld_tpopfeldkontr TPopKontrAnz1"}, 
+                React.createElement("tr", {id: "fieldcontain_TPopKontrAnz", className: "fieldcontain feld_tpopfeldkontr TPopKontrAnz"}, 
                     React.createElement("td", {className: "label_fieldset"}, 
-                        React.createElement("label", {htmlFor: "TPopKontrAnz1", style: labelStyle, className: "apf-with-tooltip"}, 
+                        React.createElement("label", {htmlFor: "TPopKontrAnz", style: labelStyle, className: "apf-with-tooltip"}, 
                             React.createElement("span", null, "Anzahl:")
                         ), 
                         React.createElement("div", {className: "tooltiptext"}, 
@@ -60,7 +61,7 @@ module.exports = function () {
                         )
                     ), 
                     React.createElement("td", {className: "Datenfelder"}, 
-                        React.createElement("input", {id: "TPopKontrAnz1", name: "TPopKontrAnz1", className: "speichern", formular: "tpopfeldkontr", type: "number"})
+                        React.createElement("input", {id: "TPopKontrAnz", name: "TPopKontrAnz", className: "speichern", formular: "tpopfeldkontr", type: "number", value: data.Anzahl})
                     )
                 )
             )

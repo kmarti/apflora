@@ -300,11 +300,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 $("#tpopfeldkontr_tabs_biotop").hide();
             }
 
-            //hello();
-            //tPopKontrZaehl();
-
-            React.render(hello(), document.getElementById('hello'));
-            React.render(tPopKontrZaehl(), document.getElementById('tPopKontrZaehlungen'));
+            React.render(tPopKontrZaehl({Anzahl: 2}), document.getElementById('tPopKontrZaehlungen'));
 
             // Fokus steuern
             $TPopKontrJahr.focus();
