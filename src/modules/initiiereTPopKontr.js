@@ -300,11 +300,21 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 $("#tpopfeldkontr_tabs_biotop").hide();
             }
 
-            React.render(tPopKontrZaehl({Anzahl: 2}), document.getElementById('tPopKontrZaehlungen'));
-
             // Fokus steuern
             $TPopKontrJahr.focus();
             $(window).scrollTop(0);
+
+            // Daten für Zählungen holen
+            $.ajax({
+                type: 'get',
+                url: 'api/v1/apflora/tabelle=tblTPopKontrZaehl/feld=TPopKontrId/wertNumber=' + feldKontrId
+            }).done(function (data) {
+                /*_.each(data, function (tPopKontrZaehl) {
+                    console.log('tPopKontrZaehl: ', tPopKontrZaehl);
+                    React.render(tPopKontrZaehl(tPopKontrZaehl), document.getElementById('tPopKontrZaehlungen'));
+                });*/
+                React.render(tPopKontrZaehl(data[0]), document.getElementById('tPopKontrZaehlungen'));
+            });
         }
     }).fail(function () {
         melde('Fehler: keine Daten für die Kontrolle erhalten');

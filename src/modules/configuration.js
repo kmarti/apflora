@@ -59,6 +59,16 @@ config.tables = [
     },
     {
         database:          'apflora',
+        tabelleInDb:       'tblTPopKontrZaehl',
+        tabelleIdFeld:     'TPopKontrZaehlId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'tpopfeldkontr',
+        initiiereFunktion: 'initiiereTPopKontr',
+        treeTyp:           'tpopfeldkontr'
+    },
+    {
+        database:          'apflora',
         tabelleInDb:       'tblTPopMassn',
         tabelleIdFeld:     'TPopMassnId',
         mutWannFeld:       'MutWann',
