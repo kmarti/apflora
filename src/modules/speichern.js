@@ -66,7 +66,10 @@ var speichern = function (that) {
         return;
     }
 
-    formular = that.formular || $(that).attr("formular");
+    formular = that.formular || $(that).attr("formular") || $(that).data('formular');
+
+    console.log('formular: ', formular);
+
     // infos über die betroffene Tabelle holen
     table = _.findWhere(configuration.tables, {form: formular});
     // die zu aktualisierende Tabelle in der DB

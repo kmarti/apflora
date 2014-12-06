@@ -63,7 +63,7 @@ config.tables = [
         tabelleIdFeld:     'TPopKontrZaehlId',
         mutWannFeld:       'MutWann',
         mutWerFeld:        'MutWer',
-        form:              'tpopfeldkontr',
+        form:              'tpopkontrzaehl',
         initiiereFunktion: 'initiiereTPopKontr',
         treeTyp:           'tpopfeldkontr'
     },

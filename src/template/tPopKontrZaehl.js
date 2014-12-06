@@ -10,6 +10,12 @@ var React = require('react'),
     };
 
 var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
+    getInitialState: function () {
+        return this.props;
+    },
+    handleChange: function (event) {
+        this.setState({value: event.target.value});
+    },
     render: function () {
         return (
             React.createElement("fieldset", {style: fieldsetStyle}, 
@@ -29,7 +35,7 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             )
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
-                            React.createElement("select", {id: "TPopKontrZaehleinheit1", name: "TPopKontrZaehleinheit1", className: "speichern", formular: "tpopfeldkontr"}, 
+                            React.createElement("select", {id: "TPopKontrZaehleinheit1", name: "TPopKontrZaehleinheit1", className: "speichern", 'data-formular': "tpopkontrzaehl"}, 
                                 React.createElement("option", null)
                             )
                         )
@@ -39,11 +45,11 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             React.createElement("label", {htmlFor: "TPopKontrMethode", style: labelStyle}, "Methode:")
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
-                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode1", className: "speichern", formular: "tpopfeldkontr", value: "1"}), 
+                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode1", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "1"}), 
                             React.createElement("label", {htmlFor: "TPopKontrMethode1"}, "geschätzt"), React.createElement("br", null), 
-                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode2", className: "speichern", formular: "tpopfeldkontr", value: "2"}), 
+                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode2", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "2"}), 
                             React.createElement("label", {htmlFor: "TPopKontrMethode2"}, "gezählt"), React.createElement("br", null), 
-                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode3", className: "speichern", formular: "tpopfeldkontr", value: "3"}), 
+                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode3", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "3"}), 
                             React.createElement("label", {htmlFor: "TPopKontrMethode3"}, "geschätzt/gezählt")
                         )
                     ), 
@@ -61,7 +67,7 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             )
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
-                            React.createElement("input", {id: "TPopKontrAnz", name: "TPopKontrAnz", className: "speichern", formular: "tpopfeldkontr", type: "number", value: this.props.Anzahl})
+                            React.createElement("input", {id: "TPopKontrAnz", name: "TPopKontrAnz", className: "speichern", 'data-formular': "tpopkontrzaehl", type: "number", value: this.props.Anzahl, onChange: this.handleChange})
                         )
                     )
                 )
