@@ -7,9 +7,9 @@ var gulp   = require('gulp'),
 
 gulp.task('dev_jsx', function () {
     return gulp.src([
-        'src/jsx/tPopKontrZaehl.js'
+        'src/jsx/tPopKontrZaehl/tPopKontrZaehl.js'
     ])
         .pipe(react())
-        .pipe(gulp.dest('./src/template'))
+        .pipe(gulp.dest('./src/template/tPopKontrZaehl'))
         .pipe(notify({ message: 'task dev_jsx beendet' }));
 });

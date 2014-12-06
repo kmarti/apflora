@@ -24,7 +24,7 @@ module.exports = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (uebereinst) {
-                    html += '<option value="' + uebereinst.id + '">' + uebereinst.DomainTxt + '</option>';
+                    html += '<option value="' + uebereinst.DomainCode + '">' + uebereinst.DomainTxt + '</option>';
                 });
                 window.apf.IdealBiotopUebereinstHtml = html;
             }

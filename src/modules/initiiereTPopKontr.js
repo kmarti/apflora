@@ -20,7 +20,7 @@ var $                            = require('jquery'),
     zeigeFormular                = require('./zeigeFormular'),
     melde                        = require('./melde'),
     leereFelderVonFormular       = require('./leereFelderVonFormular'),
-    tPopKontrZaehl               = require('../template/tPopKontrZaehl');
+    tPopKontrZaehl               = require('../template/tPopKontrZaehl/tPopKontrZaehl');
 
 module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     // prüfen, ob voraussetzungen gegeben sind
