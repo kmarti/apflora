@@ -36,7 +36,6 @@ module.exports = function (programm) {
 
         $apWaehlenText.attr('placeholder', hinweisText);
 
-        //if (!$("#anmeldeDialog").dialog("isOpen")) {
         if (!$("#anmeldeDialog").is(':visible')) {
             $apWaehlenText.focus();
         }

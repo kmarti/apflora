@@ -69,7 +69,9 @@ var speichern = function (that) {
     formular = that.formular || $(that).attr("formular") || $(that).data('formular');
 
     console.log('formular: ', formular);
+    console.log('feldname: ', that.name);
     console.log('$(that).val(): ', $(that).val());
+    console.log('$(that).is(:checked): ', $(that).is(':checked'));
 
     // infos über die betroffene Tabelle holen
     table = _.findWhere(configuration.tables, {form: formular});
@@ -81,7 +83,8 @@ var speichern = function (that) {
     feldtyp = $(that).attr("type") || null;
     // Feldwert ermitteln
     if (feldtyp && feldtyp === "checkbox") {
-        feldwert = $('input:checkbox[name=' + feldname + ']:checked').val();
+        // wenn keine Checkbox gewählt ist, ist Wert = ''
+        feldwert = $('input:checkbox[name=' + feldname + ']:checked').val() || '';
     } else if (feldtyp && feldtyp === "radio") {
         feldwert = $('input:radio[name=' + feldname + ']:checked').val();
     } else if (feldtyp && feldtyp === "date") {
