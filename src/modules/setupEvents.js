@@ -27,7 +27,6 @@ var $                                   = require('jquery'),
     onChangeTPopMassnJahr               = require('./events/forms/onChangeTPopMassnJahr'),
     onClickExport                       = require('./events/forms/onClickExport'),
     onClickExportDatenstrukturGrafisch  = require('./events/forms/onClickExportDatenstrukturGrafisch'),
-    onChangeAaSisfNrText                = require('./events/forms/onChangeAaSisfNrText'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
     onClickOlmapLayertreeCheckbox       = require('./events/forms/olMap/layertree/onClickOlmapLayertreeCheckbox'),
     onClickLayertreePopStyle            = require('./events/forms/olMap/layertree/onClickLayertreePopStyle'),
@@ -69,7 +68,6 @@ module.exports = function () {
         .on('change',          '.speichern',                   onChangeSpeichern)
         .on('click',           '#kopiereKoordinatenInPop',     onClickKopiereKoordinatenInPop)
         .on('keyup focus',     'textarea',                     onKeyupFocusTextarea);
-    $('#AaSisfNrText').on('change',                            onChangeAaSisfNrText);
 
     $('#olMap')
         .on('click',            '#olMapExportieren',           onClickOlMapExportieren);
