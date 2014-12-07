@@ -3,7 +3,7 @@
 
 var addruler = require('addruler');
 
-module.exports = function () {
+module.exports = function (event) {
     event.preventDefault();
     addruler();
 };

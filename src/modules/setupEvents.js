@@ -45,13 +45,14 @@ var $                                   = require('jquery'),
 
 module.exports = function () {
     $('#menu')
-        .on('keydown',          '#suchen',                     onKeydownSuchen)
         .on('click',            '.exportieren',                onClickExportieren)
         .on('click',            '[name=programmWahl]',         onClickProgrammWahl)
         .on('click',            '#apLoeschen',                 onClickApLoeschen)
         .on('change',           '#apWaehlen',                  onChangeApWaehlen)
-        .on('click',            '#apWaehlenTextLoeschen',      onClickApWaehlenTextLoeschen)
-        .on('keyup click',      '#suchen',                     onKeyupClickSuchen);
+        .on('click',            '#apWaehlenTextLoeschen',      onClickApWaehlenTextLoeschen);
+    $('#suchen')
+        .on('keydown',                                         onKeydownSuchen)
+        .on('keyup click',                                     onKeyupClickSuchen);
 
     $("#forms")
         .on('keydown',         '.form',                        onKeydownForm)

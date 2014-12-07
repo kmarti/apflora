@@ -3,16 +3,18 @@
 /*jslint node: true, browser: true, nomen: true, todo: true, white: true */
 'use strict';
 
-var $             = require('jquery'),
-    _             = require('underscore'),
-    zeigeFormular = require('./zeigeFormular'),
-    initiiereAp   = require('./initiiereAp'),
-    waehleApliste = require('./waehleApliste'),
-    melde         = require('./melde'),
-    erstelleTree  = require('./jstree/erstelleTree');
+// ULTRA KOMISCHER FEHLER: Wenn Module vor module.exports referenziert werden,
+// sind sie leere Objekte!!!!!
 
 module.exports = function (apId) {
-    var programm = $("[name='programmWahl']:checked").attr("id"),
+    var $               = require('jquery'),
+        _               = require('underscore'),
+        zeigeFormular   = require('./zeigeFormular'),
+        initiiereAp     = require('./initiiereAp'),
+        waehleApliste   = require('./waehleApliste'),
+        melde           = require('./melde'),
+        erstelleTree    = require('./jstree/erstelleTree'),
+        programm        = $("[name='programmWahl']:checked").attr("id"),
         apWaehlenText,
         placeholderText = 'Artförderprogramm wählen';
 

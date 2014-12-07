@@ -3,7 +3,7 @@
 
 var removeruler = require('removeruler');
 
-module.exports = function () {
+module.exports = function (event) {
     event.preventDefault();
     removeruler();
 };

@@ -3,6 +3,6 @@
 
 var exportiereKarte = require('../../../olMap/exportiereKarte');
 
-module.exports = function () {
+module.exports = function (event) {
     exportiereKarte(event);
 };

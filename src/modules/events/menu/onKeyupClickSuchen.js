@@ -3,7 +3,7 @@
 
 var $ = require('jquery');
 
-module.exports = function () {
+module.exports = function (event) {
     if (event.keyCode === 13) {
         $('#tree').jstree('search', this.value);
     } else {
