@@ -23,8 +23,6 @@ var $                                   = require('jquery'),
     onClickExportTpop                   = require('./events/forms/onClickExportTpop'),
     onClickExportTpopMassn              = require('./events/forms/onClickExportTpopMassn'),
     onChangeBerUrl                      = require('./events/forms/onChangeBerUrl'),
-    onChangeTPopKontrJahr               = require('./events/forms/onChangeTPopKontrJahr'),
-    onChangeTPopMassnJahr               = require('./events/forms/onChangeTPopMassnJahr'),
     onClickExport                       = require('./events/forms/onClickExport'),
     onClickExportDatenstrukturGrafisch  = require('./events/forms/onClickExportDatenstrukturGrafisch'),
     onClickOlMapExportieren             = require('./events/forms/olMap/onClickOlMapExportieren'),
@@ -101,14 +99,6 @@ module.exports = function () {
 
     $('#undeleteDiv')
         .on('click',            '#undelete',                   onClickUndelete);
-
-    // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
-    $('#tpopfeldkontr')
-        .on('change',           '#TPopKontrJahr',              onChangeTPopKontrJahr);
-
-    // Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
-    $('#tpopmassn')
-        .on('change',           '#TPopMassnJahr',              onChangeTPopMassnJahr);
 
     $(window).resize(onWindowResize);
 

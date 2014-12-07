@@ -22,6 +22,7 @@ module.exports = function () {
                 source: window.apf.artliste,
                 select: function (event, ui) {
                     $(this).val(ui.item.label);
+                    // das versteckte Feld mit der ID nachführen
                     $('#AaSisfNr')
                         .val(ui.item.id)
                         .trigger('change');

@@ -14,7 +14,7 @@ var $                            = require('jquery'),
     pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen'),
     erstelleLabelFuerMassnahme   = require('./erstelleLabelFuerMassnahme');
 
-var speichern = function (that) {
+module.exports = function (that) {
     var feldtyp,
         formular,
         tabelleInDb,
@@ -66,48 +66,40 @@ var speichern = function (that) {
         return;
     }
 
-    formular = that.formular || $(that).attr("formular") || $(that).data('formular');
-
-    console.log('formular: ', formular);
-    console.log('feldname: ', that.name);
-    console.log('$(that).val(): ', $(that).val());
-    console.log('$(that).is(:checked): ', $(that).is(':checked'));
+    formular = $(that).attr("formular") || $(that).data('formular');
 
     // infos über die betroffene Tabelle holen
-    table = _.findWhere(configuration.tables, {form: formular});
-    // die zu aktualisierende Tabelle in der DB
-    tabelleInDb = table.tabelleInDb;
-    // das zu aktualisierende Feld
+    table         = _.findWhere(configuration.tables, {form: formular});
+    tabelleInDb   = table.tabelleInDb;
     tabelleIdFeld = table.tabelleIdFeld;
-    feldname = that.name;
-    feldtyp = $(that).attr("type") || null;
+    feldname      = that.name;
+    feldtyp       = $(that).attr("type") || null;
+
     // Feldwert ermitteln
-    if (feldtyp && feldtyp === "checkbox") {
-        // wenn keine Checkbox gewählt ist, ist Wert = ''
-        feldwert = $('input:checkbox[name=' + feldname + ']:checked').val() || '';
-    } else if (feldtyp && feldtyp === "radio") {
-        feldwert = $('input:radio[name=' + feldname + ']:checked').val();
-    } else if (feldtyp && feldtyp === "date") {
-        // testen, ob der Benutzer das Datum im verlangten Format erfasst hat
-        feldwert = $("#" + feldname).val();
-        if (feldwert) {
-            if (/[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}/.test(feldwert)) {
-                // ja: Reihenfolge kehren - mysql will das so
-                //var dataArray = feldwert.split('.');
-                feldwert = feldwert.split('.').reverse().join('.');
-            } else if (/[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}/.test(feldwert)) {
-                // so übergibt der Kalender von Chrome
-                feldwert = feldwert.split('-').join('.');
-            } else {
-                $("#" + feldname).focus();
-                return;
-            }
-        }
-        // Hinweis: Leerwerte werden weiter gegeben, damit ein Datum entfernt werden kann
-    } else {
-        // textarea, input, select
-        feldwert = $("#" + feldname).val();
+    // wenn in speichern.js selbst ein nächster Speichervorgang ausgelöst wird, wird ein Objekt mitgegeben
+    // daher nicht nur $(that), sondern auch that prüfen
+    feldwert = $(that).val();
+    if (feldtyp && feldtyp === "checkbox" && !$(that).is(':checked')) {
+        // die geklickte Box hat den ermittelten value
+        // aber sie ist jetzt nicht gechecked! > Wert = ''
+        feldwert = '';
     }
+
+    // kontrollieren, ob der Benutzer das Datum im verlangten Format erfasst hat
+    if (feldwert && feldtyp && feldtyp === "date") {
+        if (/[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}/.test(feldwert)) {
+            // ja: Reihenfolge kehren - mysql will das so
+            //var dataArray = feldwert.split('.');
+            feldwert = feldwert.split('.').reverse().join('.');
+        } else if (/[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}/.test(feldwert)) {
+            // so übergibt der Kalender von Chrome
+            feldwert = feldwert.split('-').join('.');
+        } else {
+            $(that).focus();
+            return;
+        }
+    }
+
     // ja/nein Felder zu boolean umbauen
     if (feldname === "PopHerkunftUnklar" || feldname === "TPopHerkunftUnklar" || feldname === "TPopMassnPlan" || feldname === "TPopKontrPlan") {
         feldwert = (feldwert ? 1 : '');
@@ -136,19 +128,35 @@ var speichern = function (that) {
         if (feldname === "TPopKontrDatum" && feldwert) {
             jahr = feldwert.split('.')[0];
             $('#TPopKontrJahr').val(jahr);
-            objekt          = {};
-            objekt.name     = "TPopKontrJahr";
-            objekt.formular = "tpopfeldkontr";
-            speichern(objekt);
+            $.ajax({
+                type: 'post',
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrJahr/wert=' + encodeURIComponent(jahr) + '/user=' + sessionStorage.user
+            });
         }
         // dito bei tpopmassn
         if (feldname === "TPopMassnDatum" && feldwert) {
             jahr = feldwert.split('.')[0];
             $('#TPopMassnJahr').val(jahr);
-            objekt          = {};
-            objekt.name     = "TPopMassnJahr";
-            objekt.formular = "tpopmassn";
-            speichern(objekt);
+            $.ajax({
+                type: 'post',
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopMassnJahr/wert=' + encodeURIComponent(jahr) + '/user=' + sessionStorage.user
+            });
+        }
+        // wenn in Kontr Jahr geändert wurde, Datum löschen
+        if (feldname === 'TPopKontrJahr') {
+            $('#TPopKontrDatum').val('');
+            $.ajax({
+                type: 'post',
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrDatum/wert=/user=' + sessionStorage.user
+            });
+        }
+        // dito in tpopmassn
+        if (feldname === 'TPopMassnJahr') {
+            $('#TPopMassnDatum').val('');
+            $.ajax({
+                type: 'post',
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopMassnDatum/wert=/user=' + sessionStorage.user
+            });
         }
         // wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
         // sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
@@ -161,15 +169,15 @@ var speichern = function (that) {
                 $("#TPopKontrAnz1").val("");
                 // Datenbank aktualisieren
                 // Feld TPopKontrMethode1
-                objekt          = {};
-                objekt.name     = "TPopKontrMethode1";
-                objekt.formular = formular;
-                speichern(objekt);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrMethode1/wert=/user=' + sessionStorage.user
+                });
                 // Feld TPopKontrAnz1
-                objekt          = {};
-                objekt.name     = "TPopKontrAnz1";
-                objekt.formular = formular;
-                speichern(objekt);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrAnz1/wert=/user=' + sessionStorage.user
+                });
             }
             if (feldname === "TPopKontrZaehleinheit2") {
                 // UI aktualisieren
@@ -179,15 +187,15 @@ var speichern = function (that) {
                 $("#TPopKontrAnz2").val("");
                 // Datenbank aktualisieren
                 // Feld TPopKontrMethode2
-                objekt          = {};
-                objekt.name     = "TPopKontrMethode2";
-                objekt.formular = formular;
-                speichern(objekt);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrMethode2/wert=/user=' + sessionStorage.user
+                });
                 // Feld TPopKontrAnz2
-                objekt          = {};
-                objekt.name     = "TPopKontrAnz2";
-                objekt.formular = formular;
-                speichern(objekt);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrAnz2/wert=/user=' + sessionStorage.user
+                });
             }
             if (feldname === "TPopKontrZaehleinheit3") {
                 // UI aktualisieren
@@ -197,15 +205,15 @@ var speichern = function (that) {
                 $("#TPopKontrAnz3").val("");
                 // Datenbank aktualisieren
                 // Feld TPopKontrMethode3
-                objekt          = {};
-                objekt.name     = "TPopKontrMethode3";
-                objekt.formular = formular;
-                speichern(objekt);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrMethode3/wert=/user=' + sessionStorage.user
+                });
                 // Feld TPopKontrAnz3
-                objekt          = {};
-                objekt.name     = "TPopKontrAnz3";
-                objekt.formular = formular;
-                speichern(objekt);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=TPopKontrAnz3/wert=/user=' + sessionStorage.user
+                });
             }
         }
     }).fail(function () {
@@ -284,6 +292,14 @@ var speichern = function (that) {
         $tree.jstree("rename_node", "[typ='tpopOrdnerFreiwkontr'] #" + localStorage.tpopfeldkontrId, tpopkontrjahr);
         $tree.jstree("rename_node", "[typ='tpopOrdnerFeldkontr'] #" + localStorage.tpopfeldkontrId, tpopfeldkontrLabel);
         break;
+    case "TPopKontrDatum":
+        jahr               = feldwert ? feldwert.split('.')[0] : "(kein Jahr)";
+        tpopfeldkontrLabel = jahr + ': ' +  $("label[for='" + $('input[name="TPopKontrTyp"]:checked').attr('id') + "']").text();
+        // Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
+        // Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
+        $tree.jstree("rename_node", "[typ='tpopOrdnerFreiwkontr'] #" + localStorage.tpopfeldkontrId, jahr);
+        $tree.jstree("rename_node", "[typ='tpopOrdnerFeldkontr'] #" + localStorage.tpopfeldkontrId, tpopfeldkontrLabel);
+        break;
     case "TPopBerJahr":
     case "TPopBerEntwicklung":
         $TPopBerJahr = $("#TPopBerJahr");
@@ -298,16 +314,13 @@ var speichern = function (that) {
         // wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
         $TPopMassnJahr = $("#TPopMassnJahr");
         $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
-        if ($TPopMassnJahr.val() && $TPopMassnTypChecked.text()) {
-            tpopmassnbezeichnung = $TPopMassnJahr.val() + ": " + $TPopMassnTypChecked.text();
-        } else if ($TPopMassnJahr.val()) {
-            tpopmassnbezeichnung = $TPopMassnJahr.val() + ": (kein Typ)";
-        } else if ($TPopMassnTypChecked.text()) {
-            tpopmassnbezeichnung = "(kein Jahr): " + $TPopMassnTypChecked.text();
-        } else {
-            tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
-        }
         tpopmassnbezeichnung = erstelleLabelFuerMassnahme($TPopMassnJahr.val(), $TPopMassnTypChecked.text());
+        $tree.jstree("rename_node", "[typ='tpopOrdnerMassn'] #" + localStorage.tpopmassnId, tpopmassnbezeichnung);
+        break;
+    case "TPopMassnDatum":
+        jahr = feldwert ? feldwert.split('.')[0] : null;
+        $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
+        tpopmassnbezeichnung = erstelleLabelFuerMassnahme(jahr, $TPopMassnTypChecked.text());
         $tree.jstree("rename_node", "[typ='tpopOrdnerMassn'] #" + localStorage.tpopmassnId, tpopmassnbezeichnung);
         break;
     case "TPopMassnBerJahr":
@@ -384,5 +397,3 @@ var speichern = function (that) {
         break;
     }
 };
-
-module.exports = speichern;
