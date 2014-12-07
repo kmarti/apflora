@@ -46,10 +46,13 @@ var $                                   = require('jquery'),
 module.exports = function () {
     $('#menu')
         .on('click',            '.exportieren',                onClickExportieren)
-        .on('click',            '[name=programmWahl]',         onClickProgrammWahl)
-        .on('click',            '#apLoeschen',                 onClickApLoeschen)
-        .on('change',           '#apWaehlen',                  onChangeApWaehlen)
-        .on('click',            '#apWaehlenTextLoeschen',      onClickApWaehlenTextLoeschen);
+        .on('click',            '[name=programmWahl]',         onClickProgrammWahl);
+    $('#apLoeschen')
+        .on('click',                                           onClickApLoeschen);
+    $('#apWaehlen')
+        .on('change',                                          onChangeApWaehlen);
+    $('#apWaehlenTextLoeschen')
+        .on('click',                                           onClickApWaehlenTextLoeschen);
     $('#suchen')
         .on('keydown',                                         onKeydownSuchen)
         .on('keyup click',                                     onKeyupClickSuchen);
@@ -62,14 +65,14 @@ module.exports = function () {
         .on('click',           '.exportTpop',                  onClickExportTpop)
         .on('click',           '.exportMassn',                 onClickExportTpopMassn);
 
-    // Für jedes Feld bei Änderung speichern
     $('.form')
         .on('change',          '.speichern',                   onChangeSpeichern)
-        .on('click',           '#kopiereKoordinatenInPop',     onClickKopiereKoordinatenInPop)
         .on('keyup focus',     'textarea',                     onKeyupFocusTextarea);
+    $('#kopiereKoordinatenInPop')
+        .on('click',                                           onClickKopiereKoordinatenInPop);
 
-    $('#olMap')
-        .on('click',            '#olMapExportieren',           onClickOlMapExportieren);
+    $('#olMapExportieren')
+        .on('click',                                           onClickOlMapExportieren);
 
     $('#olMapLayertree')
         .on('click',            '.olmapLayertreeCheckbox',     onClickOlmapLayertreeCheckbox)
@@ -86,26 +89,31 @@ module.exports = function () {
 
     $('#gMap')
         .on('click',            '.oeffneBeob',                 onClickOeffneBeob)
-        .on('click',            '.oeffneBeobInNeuemTab',       onClickOeffneBeobInNeuemTab)
-        .on('click',            '#gMapDistanzMessen',          onClickGMapDistanzMessen)
-        .on('click',            '#gMapDistanzMessenEntfernen', onClickGMapDistanzMessenEntfernen);
+        .on('click',            '.oeffneBeobInNeuemTab',       onClickOeffneBeobInNeuemTab);
+    $('#gMapDistanzMessen')
+        .on('click',                                           onClickGMapDistanzMessen);
+    $('#gMapDistanzMessenEntfernen')
+        .on('click',                                           onClickGMapDistanzMessenEntfernen);
 
-    $('#ber')
-        .on('change',           '#berUrl',                     onChangeBerUrl);
+    $('#berUrl')
+        .on('change',                                          onChangeBerUrl);
 
     $('#beob')
-        .on('change',           '#beobNichtBeurteilt',         onChangeBeobNichtBeurteilt)
-        .on('change',           '#beobNichtZuordnen',          onChangeBeobNichtZuordnen)
         .on('change',           '[name="distZuTPop"]',         onChangeDistZuTPop);
+    $('#beobNichtBeurteilt')
+        .on('change',                                          onChangeBeobNichtBeurteilt);
+    $('#beobNichtZuordnen')
+        .on('change',                                          onChangeBeobNichtZuordnen);
 
-    $('#undeleteDiv')
-        .on('click',            '#undelete',                   onClickUndelete);
+    $('#undelete')
+        .on('click',                                           onClickUndelete);
 
     $(window).resize(onWindowResize);
 
     $('#exporte')
-        .on('click',            '.export',                     onClickExport)
-        .on('click',            '#exportDatenstrukturGrafisch', onClickExportDatenstrukturGrafisch);
+        .on('click',            '.export',                     onClickExport);
+    $('#exportDatenstrukturGrafisch')
+        .on('click',                                           onClickExportDatenstrukturGrafisch);
 
     // verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
     $('[type="number"]').mousewheel(function (event) {
