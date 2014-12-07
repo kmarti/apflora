@@ -7,8 +7,6 @@
 var $ = require('jquery');
 
 module.exports = function (node) {
-    console.log('node: ', node);
-    
     var anz,
         anzTxt,
         nodeTyp = node.attr('typ');

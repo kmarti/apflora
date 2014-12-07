@@ -21,8 +21,6 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         beschriftung = beschriftung.toString();
     }
 
-    console.log('insertNeuenNodeEineHierarchiestufeTiefer: node-beschriftung = ', beschriftung);
-
     // id global verfügbar machen
     localStorage[strukturtyp + "Id"] = dsId;
     // letzte globale Variable entfernen
