@@ -19,6 +19,7 @@ module.exports = function (that) {
         formular,
         tabelleInDb,
         tabelleIdFeld,
+        tabelleId,
         feldname,
         feldwert,
         objekt,
@@ -110,6 +111,13 @@ module.exports = function (that) {
         melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
         return;
     }
+
+    tabelleId = localStorage[formular + "Id"];
+    if (formular === 'tpopkontrzaehl') {
+        tabelleId = $(that).parent().parent().parent().find('[name="TPopKontrZaehlId"]').val();
+    }
+    // TODO: Wenn keine tabelleId, neuen Datensatz anfügen
+
     $.ajax({
         type: 'post',
         url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=' + feldname + '/wert=' + encodeURIComponent(feldwert) + '/user=' + sessionStorage.user

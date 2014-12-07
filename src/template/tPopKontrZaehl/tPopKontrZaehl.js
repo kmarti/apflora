@@ -29,7 +29,7 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             React.createElement("div", {className: "tooltiptext"}, 
                                 React.createElement("p", null, "Spezialfall", React.createElement("br", null), "Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:"), 
                                 React.createElement("ul", null, 
-                                    React.createElement("li", null, "Einheit: \"Art ist vorhanden\" (letzter Punkt auf Auswahlliste)"), 
+                                    React.createElement("li", null, "Einheit: 'Art ist vorhanden' (letzter Punkt auf Auswahlliste)"), 
                                     React.createElement("li", null, "Anzahl: 1")
                                 )
                             )
@@ -61,15 +61,15 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             React.createElement("div", {className: "tooltiptext"}, 
                                 React.createElement("p", null, "Spezialfall", React.createElement("br", null), "Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:"), 
                                 React.createElement("ul", null, 
-                                    React.createElement("li", null, "Einheit: \"Art ist vorhanden\" (letzter Punkt auf Auswahlliste)"), 
+                                    React.createElement("li", null, "Einheit: 'Art ist vorhanden' (letzter Punkt auf Auswahlliste)"), 
                                     React.createElement("li", null, "Anzahl: 1")
                                 )
                             )
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
                             React.createElement("input", {id: "TPopKontrAnz", name: "TPopKontrAnz", className: "speichern", 'data-formular': "tpopkontrzaehl", type: "number", value: this.props.Anzahl, onChange: this.handleChange}), 
-                            React.createElement("input", {type: "hidden", name: "TPopKontrZaehlId", 'data-formular': "tpopkontrzaehl"}), 
-                            React.createElement("input", {type: "hidden", name: "TPopKontrId", 'data-formular': "tpopkontrzaehl"})
+                            React.createElement("input", {type: "number", name: "TPopKontrZaehlId", 'data-formular': "tpopkontrzaehl", value: this.props.TPopKontrZaehlId}), 
+                            React.createElement("input", {type: "number", name: "TPopKontrId", 'data-formular': "tpopkontrzaehl", value: this.props.TPopKontrId})
                         )
                     )
                 )
