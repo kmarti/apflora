@@ -2,7 +2,6 @@
 'use strict';
 
 var $                                   = require('jquery'),
-    downloadFileFromViewWehreIdIn       = require('./downloadFileFromViewWehreIdIn'),
     onWindowResize                      = require('./events/onWindowResize'),
     onClickUndelete                     = require('./events/onClickUndelete'),
     onKeydownSuchen                     = require('./events/menu/onKeydownSuchen'),
@@ -43,6 +42,11 @@ var $                                   = require('jquery'),
     onSelectmenuchangeExportLayerSelect = require('./events/forms/olMap/layertree/onSelectmenuchangeExportLayerSelect');
 
 module.exports = function () {
+
+    $(window).resize(                                          onWindowResize);
+    $('#undelete')
+        .on('click',                                           onClickUndelete);
+
     $('#menu')
         .on('click',            '.exportieren',                onClickExportieren)
         .on('click',            '[name=programmWahl]',         onClickProgrammWahl);
@@ -57,7 +61,7 @@ module.exports = function () {
         .on('keyup click',                                     onKeyupClickSuchen);
 
     $("#forms")
-        .on('keydown',         '.form',                        onKeydownForm)
+        .on('keydown',                                         onKeydownForm)
         .on('click',           '.guid',                        onClickGuid)
         .on('click',           '.exportPop',                   onClickExportPop)
         .on('click',           '.exportKontr',                 onClickExportKontr)
@@ -100,11 +104,6 @@ module.exports = function () {
         .on('change',                                          onChangeBeobNichtBeurteilt);
     $('#beobNichtZuordnen')
         .on('change',                                          onChangeBeobNichtZuordnen);
-
-    $('#undelete')
-        .on('click',                                           onClickUndelete);
-
-    $(window).resize(onWindowResize);
 
     $('#exporte')
         .on('click',            '.export',                     onClickExport);

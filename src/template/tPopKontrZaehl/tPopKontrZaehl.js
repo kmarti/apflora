@@ -21,7 +21,7 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
             React.createElement("fieldset", {style: fieldsetStyle}, 
                 React.createElement("legend", null, "Test. Zähleinheit"), 
                 React.createElement("table", null, 
-                    React.createElement("tr", {id: "fieldcontain_TPopKontrZaehleinheit", className: "fieldcontain feldTpopkontr TPopKontrZaehleinheit1"}, 
+                    React.createElement("tr", {id: "fieldcontain_TPopKontrZaehleinheit", className: "fieldcontain feldTpopkontr TPopKontrZaehleinheit"}, 
                         React.createElement("td", {className: "labelFieldset"}, 
                             React.createElement("label", {htmlFor: "TPopKontrZaehleinheit", style: labelStyle, className: "apf-with-tooltip"}, 
                                 React.createElement("span", null, "Einheit:")
@@ -35,7 +35,7 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             )
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
-                            React.createElement("select", {id: "TPopKontrZaehleinheit1", name: "TPopKontrZaehleinheit1", className: "speichern", 'data-formular': "tpopkontrzaehl"}, 
+                            React.createElement("select", {id: "TPopKontrZaehleinheit", name: "TPopKontrZaehleinheit", className: "speichern", 'data-formular': "tpopkontrzaehl"}, 
                                 React.createElement("option", null)
                             )
                         )
@@ -45,11 +45,11 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             React.createElement("label", {htmlFor: "TPopKontrMethode", style: labelStyle}, "Methode:")
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
-                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode1", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "1"}), 
+                            React.createElement("input", {type: "radio", id: "TPopKontrMethode1", name: "TPopKontrMethode", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "1"}), 
                             React.createElement("label", {htmlFor: "TPopKontrMethode1"}, "geschätzt"), React.createElement("br", null), 
-                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode2", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "2"}), 
+                            React.createElement("input", {type: "radio", id: "TPopKontrMethode2", name: "TPopKontrMethode", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "2"}), 
                             React.createElement("label", {htmlFor: "TPopKontrMethode2"}, "gezählt"), React.createElement("br", null), 
-                            React.createElement("input", {type: "radio", name: "TPopKontrMethode", id: "TPopKontrMethode3", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "3"}), 
+                            React.createElement("input", {type: "radio", id: "TPopKontrMethode3", name: "TPopKontrMethode", className: "speichern", 'data-formular': "tpopkontrzaehl", value: "3"}), 
                             React.createElement("label", {htmlFor: "TPopKontrMethode3"}, "geschätzt/gezählt")
                         )
                     ), 
@@ -67,7 +67,9 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             )
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
-                            React.createElement("input", {id: "TPopKontrAnz", name: "TPopKontrAnz", className: "speichern", 'data-formular': "tpopkontrzaehl", type: "number", value: this.props.Anzahl, onChange: this.handleChange})
+                            React.createElement("input", {id: "TPopKontrAnz", name: "TPopKontrAnz", className: "speichern", 'data-formular': "tpopkontrzaehl", type: "number", value: this.props.Anzahl, onChange: this.handleChange}), 
+                            React.createElement("input", {type: "hidden", name: "TPopKontrZaehlId", 'data-formular': "tpopkontrzaehl"}), 
+                            React.createElement("input", {type: "hidden", name: "TPopKontrId", 'data-formular': "tpopkontrzaehl"})
                         )
                     )
                 )

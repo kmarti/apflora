@@ -21,7 +21,7 @@ var tPopKontrZaehl = React.createClass({
             <fieldset style={fieldsetStyle}>
                 <legend>Test. Zähleinheit</legend>
                 <table>
-                    <tr id='fieldcontain_TPopKontrZaehleinheit' className='fieldcontain feldTpopkontr TPopKontrZaehleinheit1'>
+                    <tr id='fieldcontain_TPopKontrZaehleinheit' className='fieldcontain feldTpopkontr TPopKontrZaehleinheit'>
                         <td className="labelFieldset">
                             <label htmlFor='TPopKontrZaehleinheit' style={labelStyle} className='apf-with-tooltip'>
                                 <span>Einheit:</span>
@@ -35,7 +35,7 @@ var tPopKontrZaehl = React.createClass({
                             </div>
                         </td>
                         <td className="Datenfelder">
-                            <select id="TPopKontrZaehleinheit1" name="TPopKontrZaehleinheit1" className="speichern" data-formular="tpopkontrzaehl">
+                            <select id='TPopKontrZaehleinheit' name="TPopKontrZaehleinheit" className="speichern" data-formular="tpopkontrzaehl">
                                 <option></option>
                             </select>
                         </td>
@@ -45,11 +45,11 @@ var tPopKontrZaehl = React.createClass({
                             <label htmlFor='TPopKontrMethode' style={labelStyle}>Methode:</label>
                         </td>
                         <td className="Datenfelder">
-                            <input type="radio" name="TPopKontrMethode" id="TPopKontrMethode1" className="speichern" data-formular="tpopkontrzaehl" value="1"/>
+                            <input type="radio" id="TPopKontrMethode1" name="TPopKontrMethode" className="speichern" data-formular="tpopkontrzaehl" value="1"/>
                             <label htmlFor="TPopKontrMethode1">geschätzt</label><br/>
-                            <input type="radio" name="TPopKontrMethode" id="TPopKontrMethode2" className="speichern" data-formular="tpopkontrzaehl" value="2"/>
+                            <input type="radio" id="TPopKontrMethode2" name="TPopKontrMethode" className="speichern" data-formular="tpopkontrzaehl" value="2"/>
                             <label htmlFor="TPopKontrMethode2">gezählt</label><br/>
-                            <input type="radio" name="TPopKontrMethode" id="TPopKontrMethode3" className="speichern" data-formular="tpopkontrzaehl" value="3"/>
+                            <input type="radio" id="TPopKontrMethode3" name="TPopKontrMethode" className="speichern" data-formular="tpopkontrzaehl" value="3"/>
                             <label htmlFor="TPopKontrMethode3">geschätzt/gezählt</label>
                         </td>
                     </tr>
@@ -68,6 +68,8 @@ var tPopKontrZaehl = React.createClass({
                         </td>
                         <td className="Datenfelder">
                             <input id="TPopKontrAnz" name="TPopKontrAnz" className="speichern" data-formular="tpopkontrzaehl" type="number" value={this.props.Anzahl} onChange={this.handleChange} />
+                            <input type="hidden" name="TPopKontrZaehlId" data-formular="tpopkontrzaehl" />
+                            <input type="hidden" name="TPopKontrId" data-formular="tpopkontrzaehl" />
                         </td>
                     </tr>
                 </table>
