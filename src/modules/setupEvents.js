@@ -2,7 +2,6 @@
 'use strict';
 
 var $                                   = require('jquery'),
-    _                                   = require('underscore'),
     downloadFileFromViewWehreIdIn       = require('./downloadFileFromViewWehreIdIn'),
     onWindowResize                      = require('./events/onWindowResize'),
     onClickUndelete                     = require('./events/onClickUndelete'),
@@ -64,7 +63,6 @@ module.exports = function () {
         .on('click',           '.exportKontr',                 onClickExportKontr)
         .on('click',           '.exportTpop',                  onClickExportTpop)
         .on('click',           '.exportMassn',                 onClickExportTpopMassn);
-
     $('.form')
         .on('change',          '.speichern',                   onChangeSpeichern)
         .on('keyup focus',     'textarea',                     onKeyupFocusTextarea);
@@ -73,7 +71,6 @@ module.exports = function () {
 
     $('#olMapExportieren')
         .on('click',                                           onClickOlMapExportieren);
-
     $('#olMapLayertree')
         .on('click',            '.olmapLayertreeCheckbox',     onClickOlmapLayertreeCheckbox)
         .on('click',            '.layertreePopStyle',          onClickLayertreePopStyle)
@@ -83,7 +80,6 @@ module.exports = function () {
         .on('click',            '.renameLayer',                onClickRenameLayer)
         .on('click',            '.entferneLayer',              onClickEntferneLayer)
         .on('click',            '.neuesLayer',                 onClickNeuesLayer);
-
     $('#olMapErgebnisAuswahlHeader')
         .on('click',            '.ui-icon.ui-icon-closethick', onClickErgebnisAuswahlClose);
 

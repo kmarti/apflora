@@ -21,9 +21,9 @@ var tPopKontrZaehl = React.createClass({
             <fieldset style={fieldsetStyle}>
                 <legend>Test. Zähleinheit</legend>
                 <table>
-                    <tr id='fieldcontain_TPopKontrZaehleinheit1' className='fieldcontain feldTpopkontr TPopKontrZaehleinheit1'>
+                    <tr id='fieldcontain_TPopKontrZaehleinheit' className='fieldcontain feldTpopkontr TPopKontrZaehleinheit1'>
                         <td className="labelFieldset">
-                            <label htmlFor='TPopKontrZaehleinheit1' style={labelStyle} className='apf-with-tooltip'>
+                            <label htmlFor='TPopKontrZaehleinheit' style={labelStyle} className='apf-with-tooltip'>
                                 <span>Einheit:</span>
                             </label>
                             <div className="tooltiptext">
