@@ -3,7 +3,6 @@
 
 var $         = require('jquery'),
     _         = require('underscore'),
-    speichern = require('./speichern'),
     melde     = require('./melde');
 
 // übernimmt $ wegen jquery ui
@@ -29,7 +28,7 @@ module.exports = function () {
                     delay: 0,
                     // Change-Event wird nicht ausgelöst > hier aufrufen
                     change: function (event, ui) {
-                        speichern(event.target);
+                        $("#TPopGemeinde").trigger('change').trigger('keyup');
                     }
                 });
             }

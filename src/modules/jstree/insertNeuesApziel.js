@@ -14,12 +14,15 @@ module.exports = function (aktiverNode, parentNode, nodeApId) {
     }).done(function (id) {
         var strukturtyp  = "apziel",
             beschriftung = "neues Ziel";
+
         // mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
         localStorage.apzielVonOrdnerApziel = true;
         // zur Sicherheit den anderen Zeiger löschen
         delete localStorage.apzielVonApzieljahr;
-        if ($(aktiverNode).attr("id") === nodeApId) {
+        if ($(aktiverNode).attr("typ") === 'apOrdnerApziel') {
             insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
+        } else if ($(aktiverNode).attr("typ") === 'apzieljahr') {
+            insertNeuenNodeEineHierarchiestufeTiefer(parentNode, parentNode, strukturtyp, id, beschriftung);
         } else {
             insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         }

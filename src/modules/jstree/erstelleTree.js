@@ -95,12 +95,14 @@ module.exports = function (ApArtId) {
         window.apf.herkunftParentNode = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
     }).bind("create_node.jstree", function (event, data) {
         if (data.rslt.parent[0].attributes.typ.value === "apzieljahr") {
-            var objekt      = {};
+            /*var objekt      = {};
             objekt.name     = "ZielJahr";
             objekt.formular = "apziel";
-            speichern(objekt);
+            speichern(objekt);*/
+            console.log('speichere zieljahr');
             $("#ZielJahr")
                 .val(data.rslt.parent[0].innerText.slice(1, 5))
+                .trigger('change')
                 .focus();
         }
     }).bind("move_node.jstree", function (e, data) {

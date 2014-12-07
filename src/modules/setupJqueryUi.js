@@ -62,7 +62,7 @@ module.exports = function () {
         showOn:          "button",
         defaultDate:     +0,
         onSelect: function () {
-            speichern(this);
+            $(this).trigger('change');
         }
     });
 
