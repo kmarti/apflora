@@ -105,25 +105,20 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
         if (!feldwert) {
             if (feldname === "Zaehleinheit") {
                 // UI aktualisieren
-                $(that).parent().parent().parent().find('[name="Methode"]').each(function () {
+                $(that).closest('table').find('[data-feld="Methode"]').each(function () {
                     $(this).prop("checked", false);
                 });
-                $(that).parent().parent().parent().find('[name="Anzahl"]').val('');
+                $(that).closest('table').find('[name="Anzahl"]').val('');
 
                 // Datenbank aktualisieren
-                // Objekt vorbereiten, das die Felder, ihre Werte und übrige benötigte Angaben enthält
-                felder         = {};
-                felder.id      = tabelleId;
-                felder.user    = sessionStorage.user;
-                felder.Methode = null;
-                felder.Anzahl  = null;
-
-                // Daten mit einem einzigen Aufruf aktualisieren
+                // Zählung enthält keine Daten > löschen
                 $.ajax({
-                    type: 'post',
-                    url: 'api/v1/updateMultiple/apflora/tabelle=' + tabelleInDb + '/felder=' + JSON.stringify(felder)
-                }).fail(function () {
-                    melde('Fehler: Die Felder "Methode" und "Anzahl" wurden nicht geleert');
+                    type: 'delete',
+                    url: '/api/v1/apflora/tabelle=tblTPopKontrZaehl/tabelleIdFeld=TPopKontrZaehlId/tabelleId=' + tabelleId
+                }).done(function () {
+                    // die Felder dieser Zählung mit der neuen id aktualisieren
+                    $(that).closest('table').find('[name="TPopKontrZaehlId"]').val('');
+                    return;
                 });
             }
         }

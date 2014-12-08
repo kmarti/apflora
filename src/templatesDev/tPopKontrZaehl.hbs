@@ -1,7 +1,7 @@
 <fieldset style='background:none;'>
     <legend>{{index}}. Zähleinheit</legend>
     <table>
-        <tr id='fieldcontain_Zaehleinheit' class='fieldcontain feldTpopkontr Zaehleinheit'>
+        <tr id='fieldcontain_Zaehleinheit' class='fieldcontain Zaehleinheit'>
             <td class='labelFieldset'>
                 <label for='Zaehleinheit' style='width:115;' class='apf-with-tooltip'>
                     <span>Einheit:</span>
@@ -25,7 +25,7 @@
                 </select>
             </td>
         </tr>
-        <tr id='fieldcontain_Methode' class='fieldcontain feldTpopkontr Methode'>
+        <tr id='fieldcontain_Methode' class='fieldcontain Methode'>
             <td class='labelFieldset'>
                 <label for='Methode' style='width:115;'>Methode:</label>
             </td>
@@ -44,7 +44,7 @@
                     </label>
             </td>
         </tr>
-        <tr id='fieldcontain_Anzahl' class='fieldcontain feldTpopkontr Anzahl'>
+        <tr id='fieldcontain_Anzahl' class='fieldcontain Anzahl'>
             <td class='labelFieldset'>
                 <label for='Anzahl' style='width:115;' class='apf-with-tooltip'>
                     <span>Anzahl:</span>
@@ -60,7 +60,6 @@
             <td class='Datenfelder'>
                 <input type='number' name='Anzahl'           data-formular='tpopkontrzaehl' class='speichern' value={{Anzahl}}>
                 <input type='hidden' name='TPopKontrZaehlId' data-formular='tpopkontrzaehl'                   value={{TPopKontrZaehlId}}>
-                <input type='hidden' name='TPopKontrId'      data-formular='tpopkontrzaehl'                   value={{TPopKontrId}}>
             </td>
         </tr>
     </table>

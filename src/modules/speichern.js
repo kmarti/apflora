@@ -76,7 +76,6 @@ module.exports = function (that) {
 
     if (formular === 'tpopkontrzaehl') {
         tabelleId = $(that).closest('table').find('[name="TPopKontrZaehlId"]').val();
-        console.log('tpopkontrzaehl tabelleId: ', tabelleId);
         // TODO: Wenn keine tabelleId, neuen Datensatz anfügen
         if (!tabelleId) {
             $.ajax({
@@ -90,6 +89,16 @@ module.exports = function (that) {
                 speichern2(that, formular, tabelleInDb, tabelleIdFeld, tabelleId, feldname, feldwert);
             });
             return;
+        } else if (!$(that).closest('table').find('[data-feld="Methode"]:checked').val() && !$(that).closest('table').find('[name="Anzahl"]').val() && !$(that).closest('table').find('[name="Zaehleinheit"]').val()) {
+            // Zählung enthält keine Daten > löschen
+            $.ajax({
+                type: 'delete',
+                url: '/api/v1/apflora/tabelle=tblTPopKontrZaehl/tabelleIdFeld=TPopKontrZaehlId/tabelleId=' + tabelleId
+            }).done(function () {
+                // die Felder dieser Zählung mit der neuen id aktualisieren
+                $(that).closest('table').find('[name="TPopKontrZaehlId"]').val('');
+                return;
+            });
         }
     }
 

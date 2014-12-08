@@ -294,8 +294,6 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                     // TODO: mehrere Zählungen ermöglichen
                     htmlZaehlungen = '';
                     _.each(data, function (zaehleinheit, index) {
-                        console.log('zaehleinheit: ', zaehleinheit);
-                        console.log('index: ', index);
                         if (index < 3) {
                             zaehleinheit.index = index + 1;
                             zaehleinheit.zaehlungenOptionen = window.apf.TPopKontrZaehleinheit;
@@ -303,15 +301,16 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                         }
                     });
                     // leere anfügen, falls noch nicht 3
-                    if (data && data.length < 3) {
-                        htmlZaehlungen += tPopKontrZaehl({index: 3, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
+                    if (data && data.length < 1) {
+                        htmlZaehlungen += tPopKontrZaehl({index: 1, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
                     }
                     if (data && data.length < 2) {
                         htmlZaehlungen += tPopKontrZaehl({index: 2, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
                     }
-                    if (data && data.length < 1) {
-                        htmlZaehlungen += tPopKontrZaehl({index: 1, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
+                    if (data && data.length < 3) {
+                        htmlZaehlungen += tPopKontrZaehl({index: 3, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
                     }
+                    $('#tPopKontrZaehlungen').html('');
                     $('#tPopKontrZaehlungen').html(htmlZaehlungen);
                 });
             });
