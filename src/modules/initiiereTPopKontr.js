@@ -287,16 +287,16 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 
             // Register in Feldkontr blenden
             if (kontrTyp === 'freiwKontr') {
-                $("#tpopfeldkontr_tabs_biotop").hide();
-                $("#biotop_tab_li").hide();
+                $("#tpopfeldkontrTabsBiotop").hide();
+                $("#biotopTabLi").hide();
                 $("#tpopfeldkontr_tabs").tabs("option", "active", 0);
             } else {
-                $("#tpopfeldkontr_tabs_biotop").show();
-                $("#biotop_tab_li").show();
+                $("#tpopfeldkontrTabsBiotop").show();
+                $("#biotopTabLi").show();
                 // Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
                 // keine Ahnung wieso
                 // ausblenden!
-                $("#tpopfeldkontr_tabs_biotop").hide();
+                $("#tpopfeldkontrTabsBiotop").hide();
             }
 
             // Fokus steuern

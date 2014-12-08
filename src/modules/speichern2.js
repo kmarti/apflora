@@ -12,7 +12,8 @@ var $                            = require('jquery'),
     erstelleLabelFuerMassnahme   = require('./erstelleLabelFuerMassnahme');
 
 module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId, feldname, feldwert) {
-    var popbeschriftung,
+    var felder,
+        popbeschriftung,
         popberbeschriftung,
         popberentwicklungLabel,
         popmassnberbeschriftung,
