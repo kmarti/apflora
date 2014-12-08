@@ -1,5 +1,5 @@
 <fieldset style='background:none;'>
-    <legend>Test. Zähleinheit</legend>
+    <legend>{{index}}. Zähleinheit</legend>
     <table>
         <tr id='fieldcontain_Zaehleinheit' class='fieldcontain feldTpopkontr Zaehleinheit'>
             <td class='labelFieldset'>
@@ -7,7 +7,7 @@
                     <span>Einheit:</span>
                 </label>
                 <div class='tooltiptext'>
-                    <p>Spezialfall<br/>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+                    <p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
                     <ul>
                         <li>Einheit: 'Art ist vorhanden' (letzter Punkt auf Auswahlliste)</li>
                         <li>Anzahl: 1</li>
@@ -17,11 +17,11 @@
             <td class='Datenfelder'>
                 <select name='Zaehleinheit' class='speichern' data-formular='tpopkontrzaehl'>
                     <option></option>
-                    {{#each zaehlungenOptionen}}
-                        {{#select Zaehleinheit}}
+                    {{#select Zaehleinheit}}
+                        {{#each zaehlungenOptionen}}
                             <option value={{value}}>{{label}}</option>
-                        {{/select}}
-                    {{/each}}
+                        {{/each}}
+                    {{/select}}
                 </select>
             </td>
         </tr>
@@ -30,12 +30,18 @@
                 <label for='Methode' style='width:115;'>Methode:</label>
             </td>
             <td class='Datenfelder'>
-                <input type='radio' id='Methode1' name='Methode' class='speichern' data-formular='tpopkontrzaehl' value='1'/>
-                <label for='Methode1'>geschätzt</label><br/>
-                <input type='radio' id='Methode2' name='Methode' class='speichern' data-formular='tpopkontrzaehl' value='2'/>
-                <label for='Methode2'>gezählt</label><br/>
-                <input type='radio' id='Methode3' name='Methode' class='speichern' data-formular='tpopkontrzaehl' value='3'/>
-                <label for='Methode3'>geschätzt/gezählt</label>
+                    <label>
+                        <input type='radio' name='Methode{{index}}' class='speichern' data-formular='tpopkontrzaehl' data-feld='Methode' value='1' {{{setChecked 1 Methode}}}>
+                        <span>geschätzt</span>
+                    </label><br>
+                    <label>
+                        <input type='radio' name='Methode{{index}}' class='speichern' data-formular='tpopkontrzaehl' data-feld='Methode' value='2' {{{setChecked 2 Methode}}}>
+                        <span>gezählt</span>
+                    </label><br>
+                    <label>
+                        <input type='radio' name='Methode{{index}}' class='speichern' data-formular='tpopkontrzaehl' data-feld='Methode' value='3' {{{setChecked 3 Methode}}}>
+                        <span>geschätzt/gezählt</span>
+                    </label>
             </td>
         </tr>
         <tr id='fieldcontain_Anzahl' class='fieldcontain feldTpopkontr Anzahl'>
@@ -44,7 +50,7 @@
                     <span>Anzahl:</span>
                 </label>
                 <div class='tooltiptext'>
-                    <p>Spezialfall<br/>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+                    <p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
                     <ul>
                         <li>Einheit: 'Art ist vorhanden' (letzter Punkt auf Auswahlliste)</li>
                         <li>Anzahl: 1</li>
@@ -53,8 +59,8 @@
             </td>
             <td class='Datenfelder'>
                 <input type='number' name='Anzahl'           data-formular='tpopkontrzaehl' class='speichern' value={{Anzahl}}>
-                <input type='number' name='TPopKontrZaehlId' data-formular='tpopkontrzaehl'                   value={{TPopKontrZaehlId}}>
-                <input type='number' name='TPopKontrId'      data-formular='tpopkontrzaehl'                   value={{TPopKontrId}}>
+                <input type='hidden' name='TPopKontrZaehlId' data-formular='tpopkontrzaehl'                   value={{TPopKontrZaehlId}}>
+                <input type='hidden' name='TPopKontrId'      data-formular='tpopkontrzaehl'                   value={{TPopKontrId}}>
             </td>
         </tr>
     </table>

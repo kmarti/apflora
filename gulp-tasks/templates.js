@@ -7,7 +7,7 @@ var gulp         = require('gulp'),
     notify       = require('gulp-notify');
 
 gulp.task('templates', function () {
-    return gulp.src('src/templates_dev/*.hbs')
+    return gulp.src('src/templatesDev/*.hbs')
         .pipe(handlebars())
         .pipe(defineModule('node'))
         .pipe(gulp.dest('./src/templates'))

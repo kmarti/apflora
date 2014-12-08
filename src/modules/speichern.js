@@ -33,7 +33,7 @@ module.exports = function (that) {
     table         = _.findWhere(configuration.tables, {form: formular});
     tabelleInDb   = table.tabelleInDb;
     tabelleIdFeld = table.tabelleIdFeld;
-    feldname      = that.name;
+    feldname      = $(that).data('feld') || that.name;   // tpopkontrzahl: die Namen müssen die id enthalten
     feldtyp       = $(that).attr("type") || null;
 
     // Feldwert ermitteln
@@ -75,7 +75,7 @@ module.exports = function (that) {
     tabelleId = localStorage[formular + "Id"];
 
     if (formular === 'tpopkontrzaehl') {
-        tabelleId = $(that).parent().parent().parent().find('[name="TPopKontrZaehlId"]').val();
+        tabelleId = $(that).closest('table').find('[name="TPopKontrZaehlId"]').val();
         console.log('tpopkontrzaehl tabelleId: ', tabelleId);
         // TODO: Wenn keine tabelleId, neuen Datensatz anfügen
         if (!tabelleId) {
@@ -86,6 +86,7 @@ module.exports = function (that) {
                 // die Felder dieser Zählung mit der neuen id aktualisieren
                 console.log('TPopKontrZaehlId: ', TPopKontrZaehlId);
                 tabelleId = TPopKontrZaehlId;
+                $(that).closest('table').find('[name="TPopKontrZaehlId"]').val(tabelleId);
                 speichern2(that, formular, tabelleInDb, tabelleIdFeld, tabelleId, feldname, feldwert);
             });
             return;

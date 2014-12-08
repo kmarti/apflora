@@ -8,7 +8,7 @@
 var $                            = require('jquery'),
     dateFormat                   = require('dateformat'),
     _                            = require('underscore'),
-    Handlebars                   = require('handlebars'),
+    Handlebars                   = require('Handlebars'),
     limiter                      = require('../lib/limiter'),
     initiiereAp                  = require('./initiiereAp'),
     initiierePop                 = require('./initiierePop'),
@@ -84,7 +84,8 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
         $TPopKontrJahr           = $("#TPopKontrJahr"),
         $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
         $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
-        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
+        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer"),
+        htmlZaehlungen           = '';
 
     // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
     feldlisteFeldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
@@ -291,16 +292,27 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 // zuerst die Zähleinheiten holen
                 $.when(getZaehleinheiten()).then(function () {
                     // TODO: mehrere Zählungen ermöglichen
-                    /*_.each(data, function (tPopKontrZaehl) {
-                        console.log('tPopKontrZaehl: ', tPopKontrZaehl);
-                        React.render(tPopKontrZaehl(tPopKontrZaehl), document.getElementById('tPopKontrZaehlungen'));
-                    });*/
-                    if (data && data[0]) {
-                        data[0].zaehlungenOptionen = window.apf.TPopKontrZaehleinheit;
-                        $('#tPopKontrZaehlungen').html(tPopKontrZaehl(data[0]));
-                    } else {
-                        $('#tPopKontrZaehlungen').html(tPopKontrZaehl({zaehlungenOptionen: window.apf.TPopKontrZaehleinheit}));
+                    htmlZaehlungen = '';
+                    _.each(data, function (zaehleinheit, index) {
+                        console.log('zaehleinheit: ', zaehleinheit);
+                        console.log('index: ', index);
+                        if (index < 3) {
+                            zaehleinheit.index = index + 1;
+                            zaehleinheit.zaehlungenOptionen = window.apf.TPopKontrZaehleinheit;
+                            htmlZaehlungen += tPopKontrZaehl(zaehleinheit);
+                        }
+                    });
+                    // leere anfügen, falls noch nicht 3
+                    if (data && data.length < 3) {
+                        htmlZaehlungen += tPopKontrZaehl({index: 3, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
                     }
+                    if (data && data.length < 2) {
+                        htmlZaehlungen += tPopKontrZaehl({index: 2, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
+                    }
+                    if (data && data.length < 1) {
+                        htmlZaehlungen += tPopKontrZaehl({index: 1, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
+                    }
+                    $('#tPopKontrZaehlungen').html(htmlZaehlungen);
                 });
             });
         }

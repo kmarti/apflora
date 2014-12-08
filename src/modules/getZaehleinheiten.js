@@ -13,7 +13,7 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-module.exports = function (callback) {
+module.exports = function () {
     var data = window.apf.TPopKontrZaehleinheit,
         dataGeholt = $.Deferred();
 

@@ -74,4 +74,10 @@ module.exports = function () {
         $el.find('[value=' + value + ']').attr({'selected': 'selected'});
         return $el.html();
     });
+    window.Handlebars.registerHelper('setChecked', function (value, currentValue) {
+        if (value === currentValue) {
+            return 'checked';
+        }
+        return '';
+    });
 };
