@@ -109,16 +109,21 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
                     $(this).prop("checked", false);
                 });
                 $(that).parent().parent().parent().find('[name="Anzahl"]').val('');
+
                 // Datenbank aktualisieren
-                // Feld Methode
+                // Objekt vorbereiten, das die Felder, ihre Werte und übrige benötigte Angaben enthält
+                felder         = {};
+                felder.id      = tabelleId;
+                felder.user    = sessionStorage.user;
+                felder.Methode = null;
+                felder.Anzahl  = null;
+
+                // Daten mit einem einzigen Aufruf aktualisieren
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=Methode/wert=/user=' + sessionStorage.user
-                });
-                // Feld Anzahl
-                $.ajax({
-                    type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=Anzahl/wert=/user=' + sessionStorage.user
+                    url: 'api/v1/updateMultiple/apflora/tabelle=' + tabelleInDb + '/felder=' + JSON.stringify(felder)
+                }).fail(function () {
+                    melde('Fehler: Die Felder "Methode" und "Anzahl" wurden nicht geleert');
                 });
             }
         }

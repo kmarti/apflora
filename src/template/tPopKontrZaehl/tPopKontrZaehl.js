@@ -35,7 +35,7 @@ var tPopKontrZaehl = React.createClass({displayName: 'tPopKontrZaehl',
                             )
                         ), 
                         React.createElement("td", {className: "Datenfelder"}, 
-                            React.createElement("select", {id: "Zaehleinheit", name: "Zaehleinheit", className: "speichern", 'data-formular': "tpopkontrzaehl"}, 
+                            React.createElement("select", {id: "Zaehleinheit", name: "Zaehleinheit", className: "speichern", 'data-formular': "tpopkontrzaehl", value: this.props.Zaehleinheit}, 
                                 React.createElement("option", null)
                             )
                         )

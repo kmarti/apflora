@@ -126,12 +126,6 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                     $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'dd.mm.yyyy'));
                 }
             }
-            /*$("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
-            $("#TPopKontrAnz1").val(data.TPopKontrAnz1);
-            $("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
-            $("#TPopKontrAnz2").val(data.TPopKontrAnz2);
-            $("#TPopKontrMethode3" + data.TPopKontrMethode3).prop("checked", true);
-            $("#TPopKontrAnz3").val(data.TPopKontrAnz3);*/
             $("#TPopKontrTxt").val(data.TPopKontrTxt);
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
 
@@ -141,20 +135,6 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                     .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrBearb);
             });
-
-            // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
-            /*getZaehleinheitenHtml(function (html) {
-                // alle 3 Felder setzen
-                $("#TPopKontrZaehleinheit1")
-                    .html(html)
-                    .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit1);
-                $("#TPopKontrZaehleinheit2")
-                    .html(html)
-                    .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit2);
-                $("#TPopKontrZaehleinheit3")
-                    .html(html)
-                    .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit3);
-            });*/
 
             // Felder, die nur in der Feldkontrolle vorkommen
             if (kontrTyp === 'feldKontr') {
@@ -289,7 +269,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             if (kontrTyp === 'freiwKontr') {
                 $("#tpopfeldkontrTabsBiotop").hide();
                 $("#biotopTabLi").hide();
-                $("#tpopfeldkontr_tabs").tabs("option", "active", 0);
+                $("#tpopfeldkontrTabs").tabs("option", "active", 0);
             } else {
                 $("#tpopfeldkontrTabsBiotop").show();
                 $("#biotopTabLi").show();
@@ -308,11 +288,18 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 type: 'get',
                 url: 'api/v1/apflora/tabelle=tblTPopKontrZaehl/feld=TPopKontrId/wertNumber=' + feldKontrId
             }).done(function (data) {
+                // TODO: mehrere Zählungen ermöglichen
                 /*_.each(data, function (tPopKontrZaehl) {
                     console.log('tPopKontrZaehl: ', tPopKontrZaehl);
                     React.render(tPopKontrZaehl(tPopKontrZaehl), document.getElementById('tPopKontrZaehlungen'));
                 });*/
                 React.render(tPopKontrZaehl(data[0]), document.getElementById('tPopKontrZaehlungen'));
+                // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
+                getZaehleinheitenHtml(function (html) {
+                    $('#tPopKontrZaehlungen').find('[name="Zaehleinheit"]').each(function () {
+                        $(this).html(html);
+                    });
+                });
             });
         }
     }).fail(function () {

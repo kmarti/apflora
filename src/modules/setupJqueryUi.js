@@ -20,7 +20,7 @@ module.exports = function () {
     $("#olMapMessen").buttonset();
     $("button").button();
     $("input[type='button']").button();
-    $("#tpopfeldkontr_tabs").tabs();
+    $("#tpopfeldkontrTabs").tabs();
 
     // tooltip: Klasse zuweisen, damit gestylt werden kann
     $("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olMapExportierenDiv, .apfTooltip").tooltip({
