@@ -21,5 +21,5 @@ return gulp.task('watch', function () {
         ['dev_src_when_watch']
     );
     gulp.watch(['style/apflora.css'], ['dev_style']);
-    gulp.watch(['src/jsx//**/*'], ['dev_jsx_when_watch']);
+    gulp.watch(['src/templates//**/*'], ['templates_when_watch']);
 });

@@ -1,7 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var pruefeObAngemeldet = require('./pruefeObAngemeldet'),
+var $                  = require('jquery'),
+    Handlebars         = require('handlebars'),
+    pruefeObAngemeldet = require('./pruefeObAngemeldet'),
     isDateSupported    = require('./isDateSupported');
 
 // benötigte globale Variabeln initialisieren
@@ -65,4 +67,11 @@ module.exports = function () {
     window.apf.olMap.waehleAus = function () {
         require('./olMap/waehleAus')();
     };
+
+    window.Handlebars = Handlebars;
+    window.Handlebars.registerHelper('select', function (value, options) {
+        var $el = $('<select />').html(options.fn(this));
+        $el.find('[value=' + value + ']').attr({'selected': 'selected'});
+        return $el.html();
+    });
 };

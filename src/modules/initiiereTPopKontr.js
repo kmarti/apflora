@@ -8,19 +8,19 @@
 var $                            = require('jquery'),
     dateFormat                   = require('dateformat'),
     _                            = require('underscore'),
-    React                        = require('react'),
+    Handlebars                   = require('handlebars'),
     limiter                      = require('../lib/limiter'),
     initiiereAp                  = require('./initiiereAp'),
     initiierePop                 = require('./initiierePop'),
     initiiereTPop                = require('./initiiereTPop'),
     getAdressenHtml              = require('./getAdressenHtml'),
-    getZaehleinheitenHtml        = require('./getZaehleinheitenHtml'),
+    getZaehleinheiten            = require('./getZaehleinheiten'),
     getLrDelarzeHtml             = require('./getLrDelarzeHtml'),
     getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml'),
     zeigeFormular                = require('./zeigeFormular'),
     melde                        = require('./melde'),
     leereFelderVonFormular       = require('./leereFelderVonFormular'),
-    tPopKontrZaehl               = require('../template/tPopKontrZaehl/tPopKontrZaehl');
+    tPopKontrZaehl               = require('../templates/tPopKontrZaehl');
 
 module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -288,17 +288,19 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 type: 'get',
                 url: 'api/v1/apflora/tabelle=tblTPopKontrZaehl/feld=TPopKontrId/wertNumber=' + feldKontrId
             }).done(function (data) {
-                // TODO: mehrere Zählungen ermöglichen
-                /*_.each(data, function (tPopKontrZaehl) {
-                    console.log('tPopKontrZaehl: ', tPopKontrZaehl);
-                    React.render(tPopKontrZaehl(tPopKontrZaehl), document.getElementById('tPopKontrZaehlungen'));
-                });*/
-                React.render(tPopKontrZaehl(data[0]), document.getElementById('tPopKontrZaehlungen'));
-                // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
-                getZaehleinheitenHtml(function (html) {
-                    $('#tPopKontrZaehlungen').find('[name="Zaehleinheit"]').each(function () {
-                        $(this).html(html);
-                    });
+                // zuerst die Zähleinheiten holen
+                $.when(getZaehleinheiten()).then(function () {
+                    // TODO: mehrere Zählungen ermöglichen
+                    /*_.each(data, function (tPopKontrZaehl) {
+                        console.log('tPopKontrZaehl: ', tPopKontrZaehl);
+                        React.render(tPopKontrZaehl(tPopKontrZaehl), document.getElementById('tPopKontrZaehlungen'));
+                    });*/
+                    if (data && data[0]) {
+                        data[0].zaehlungenOptionen = window.apf.TPopKontrZaehleinheit;
+                        $('#tPopKontrZaehlungen').html(tPopKontrZaehl(data[0]));
+                    } else {
+                        $('#tPopKontrZaehlungen').html(tPopKontrZaehl({zaehlungenOptionen: window.apf.TPopKontrZaehleinheit}));
+                    }
                 });
             });
         }

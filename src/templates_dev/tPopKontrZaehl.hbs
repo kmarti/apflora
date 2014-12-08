@@ -1,0 +1,61 @@
+<fieldset style='background:none;'>
+    <legend>Test. Zähleinheit</legend>
+    <table>
+        <tr id='fieldcontain_Zaehleinheit' class='fieldcontain feldTpopkontr Zaehleinheit'>
+            <td class='labelFieldset'>
+                <label for='Zaehleinheit' style='width:115;' class='apf-with-tooltip'>
+                    <span>Einheit:</span>
+                </label>
+                <div class='tooltiptext'>
+                    <p>Spezialfall<br/>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+                    <ul>
+                        <li>Einheit: 'Art ist vorhanden' (letzter Punkt auf Auswahlliste)</li>
+                        <li>Anzahl: 1</li>
+                    </ul>
+                </div>
+            </td>
+            <td class='Datenfelder'>
+                <select name='Zaehleinheit' class='speichern' data-formular='tpopkontrzaehl'>
+                    <option></option>
+                    {{#each zaehlungenOptionen}}
+                        {{#select Zaehleinheit}}
+                            <option value={{value}}>{{label}}</option>
+                        {{/select}}
+                    {{/each}}
+                </select>
+            </td>
+        </tr>
+        <tr id='fieldcontain_Methode' class='fieldcontain feldTpopkontr Methode'>
+            <td class='labelFieldset'>
+                <label for='Methode' style='width:115;'>Methode:</label>
+            </td>
+            <td class='Datenfelder'>
+                <input type='radio' id='Methode1' name='Methode' class='speichern' data-formular='tpopkontrzaehl' value='1'/>
+                <label for='Methode1'>geschätzt</label><br/>
+                <input type='radio' id='Methode2' name='Methode' class='speichern' data-formular='tpopkontrzaehl' value='2'/>
+                <label for='Methode2'>gezählt</label><br/>
+                <input type='radio' id='Methode3' name='Methode' class='speichern' data-formular='tpopkontrzaehl' value='3'/>
+                <label for='Methode3'>geschätzt/gezählt</label>
+            </td>
+        </tr>
+        <tr id='fieldcontain_Anzahl' class='fieldcontain feldTpopkontr Anzahl'>
+            <td class='labelFieldset'>
+                <label for='Anzahl' style='width:115;' class='apf-with-tooltip'>
+                    <span>Anzahl:</span>
+                </label>
+                <div class='tooltiptext'>
+                    <p>Spezialfall<br/>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+                    <ul>
+                        <li>Einheit: 'Art ist vorhanden' (letzter Punkt auf Auswahlliste)</li>
+                        <li>Anzahl: 1</li>
+                    </ul>
+                </div>
+            </td>
+            <td class='Datenfelder'>
+                <input type='number' name='Anzahl'           data-formular='tpopkontrzaehl' class='speichern' value={{Anzahl}}>
+                <input type='number' name='TPopKontrZaehlId' data-formular='tpopkontrzaehl'                   value={{TPopKontrZaehlId}}>
+                <input type='number' name='TPopKontrId'      data-formular='tpopkontrzaehl'                   value={{TPopKontrId}}>
+            </td>
+        </tr>
+    </table>
+</fieldset>

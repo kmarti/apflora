@@ -26,7 +26,7 @@ gulp.task('dev_src', function () {
         'src/apflora_browserified.js',
         'src/jquery.file.download.js',
         'src/underscore.js',
-        'src/react.js'
+        'src/handlebars.js'
     ])
         .pipe(concat('apflora_built.js'))
         .pipe(gulp.dest('./src'))
