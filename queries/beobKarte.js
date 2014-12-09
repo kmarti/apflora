@@ -2,19 +2,20 @@
 'use strict';
 
 
-var mysql     = require('mysql'),
-    config    = require('../src/modules/configuration'),
+var mysql              = require('mysql'),
+    config             = require('../src/modules/configuration'),
+    escapeStringForSql = require('./escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
-        password: config.db.passWord,
+        host:     'localhost',
+        user:      config.db.userName,
+        password:  config.db.passWord,
         database: 'alexande_beob'
     });
 
 module.exports = function (request, callback) {
-    var apId            = decodeURIComponent(request.params.apId),
-        tpopId          = decodeURIComponent(request.params.tpopId),
-        beobId          = decodeURIComponent(request.params.beobId),
+    var apId            = escapeStringForSql(decodeURIComponent(request.params.apId)),
+        tpopId          = escapeStringForSql(decodeURIComponent(request.params.tpopId)),
+        beobId          = escapeStringForSql(decodeURIComponent(request.params.beobId)),
         nichtZuzuordnen = decodeURIComponent(request.params.nichtZuzuordnen),
         url;
 

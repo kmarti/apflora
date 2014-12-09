@@ -2,21 +2,22 @@
 'use strict';
 
 
-var mysql      = require('mysql'),
-    _          = require('underscore'),
-    config     = require('../src/modules/configuration'),
+var mysql              = require('mysql'),
+    _                  = require('underscore'),
+    config             = require('../src/modules/configuration'),
+    escapeStringForSql = require('./escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora_views'
     });
 
 module.exports = function (request, callback) {
-    var view = decodeURIComponent(request.params.view), // Name des Views, aus dem die Daten geholt werden sollen
-        idName = decodeURIComponent(request.params.idName), // name des Felds, für den ID's übergeben werden
-        idListe = decodeURIComponent(request.params.idListe), // liste der ID's
-        sql = 'SELECT * FROM ' + view + ' WHERE `' + idName + '` IN (' + idListe + ')';
+    var view    = escapeStringForSql(decodeURIComponent(request.params.view)),    // Name des Views, aus dem die Daten geholt werden sollen
+        idName  = escapeStringForSql(decodeURIComponent(request.params.idName)),  // name des Felds, für den ID's übergeben werden
+        idListe = escapeStringForSql(decodeURIComponent(request.params.idListe)), // liste der ID's
+        sql     = 'SELECT * FROM ' + view + ' WHERE `' + idName + '` IN (' + idListe + ')';
 
     connection.query(
         sql,

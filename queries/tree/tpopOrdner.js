@@ -5,7 +5,7 @@
 var _            = require('underscore'),
     erstelleTpop = require('./tpop');
 
-var returnFunction = function (results, tpopListe, pop) {
+module.exports = function (results, tpopListe, pop) {
     var popTpopOrdner = {},
         tpopVonPop;
 
@@ -17,7 +17,7 @@ var returnFunction = function (results, tpopListe, pop) {
     // tpopOrdnerTpop aufbauen
     popTpopOrdner.data = 'Teilpopulationen (' + tpopVonPop.length + ')';
     popTpopOrdner.attr = {
-        id: pop.PopId,
+        id:  pop.PopId,
         typ: 'popOrdnerTpop'
     };
     popTpopOrdner.children = [];
@@ -30,5 +30,3 @@ var returnFunction = function (results, tpopListe, pop) {
 
     return popTpopOrdner;
 };
-
-module.exports = returnFunction;

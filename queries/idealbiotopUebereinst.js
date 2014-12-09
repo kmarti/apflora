@@ -5,8 +5,8 @@
 var mysql      = require('mysql'),
     config     = require('../src/modules/configuration'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     });
@@ -15,7 +15,7 @@ module.exports = function (request, callback) {
     connection.query(
         'SELECT DomainCode, DomainTxt FROM domTPopKontrIdBiotUebereinst ORDER BY DomainOrd',
         function (err, data) {
-            if (err) throw err;
+            if (err) { throw err; }
             callback(data);
         }
     );

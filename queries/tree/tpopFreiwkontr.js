@@ -1,8 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
-var returnFunction = function (freiwkontr) {
+module.exports = function (freiwkontr) {
     var node  = {},
         nodeText;
 
@@ -17,12 +16,10 @@ var returnFunction = function (freiwkontr) {
         // node aufbauen
         node.data = nodeText;
         node.attr = {
-            id: 'tpopfreiwkontr' + freiwkontr.TPopKontrId,
+            id:  'tpopfreiwkontr' + freiwkontr.TPopKontrId,
             typ: 'tpopfreiwkontr'
         };
     }
 
     return node;
 };
-
-module.exports = returnFunction;

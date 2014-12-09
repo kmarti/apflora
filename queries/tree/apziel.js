@@ -2,19 +2,20 @@
 'use strict';
 
 
-var _          = require('underscore'),
-    mysql      = require('mysql'),
-    async      = require('async'),
-    config     = require('../../src/modules/configuration'),
+var _                  = require('underscore'),
+    mysql              = require('mysql'),
+    async              = require('async'),
+    config             = require('../../src/modules/configuration'),
+    escapeStringForSql = require('../escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     });
 
 module.exports = function (request, reply) {
-    var apId = decodeURIComponent(request.params.apId),
+    var apId = escapeStringForSql(decodeURIComponent(request.params.apId)),
         zielIds;
 
     // zuerst die Daten holen

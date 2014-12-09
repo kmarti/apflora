@@ -5,17 +5,18 @@
 var mysql      = require('mysql'),
     config     = require('../src/modules/configuration'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     });
 
 module.exports = function (request, callback) {
     // Artname muss 'label' heissen, sonst funktioniert jquery ui autocomplete nicht
-    var sql;
+    var sql,
+        programm = decodeURIComponent(request.params.programm);
     // url setzen
-    switch (decodeURIComponent(request.params.programm)) {
+    switch (programm) {
     case 'programmAp':
         sql = "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS label, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAp ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAp.ApArtId WHERE alexande_apflora.tblAp.ApStatus BETWEEN 1 AND 3 ORDER BY label";
         break;

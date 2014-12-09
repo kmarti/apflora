@@ -2,11 +2,12 @@
 'use strict';
 
 
-var mysql = require('mysql'),
-    config = require('../src/modules/configuration'),
+var mysql              = require('mysql'),
+    config             = require('../src/modules/configuration'),
+    escapeStringForSql = require('./escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     });
@@ -14,9 +15,9 @@ var mysql = require('mysql'),
 module.exports = function (request, callback) {
     var apId = decodeURIComponent(request.params.apId);
     connection.query(
-        'SELECT alexande_apflora.tblAp.ApArtId, alexande_beob.ArtenDb_Arteigenschaften.Artname, alexande_apflora.tblAp.ApStatus, alexande_apflora.tblAp.ApJahr, alexande_apflora.tblAp.ApUmsetzung, alexande_apflora.tblAp.ApBearb, alexande_apflora.tblAp.ApArtwert, alexande_apflora.tblAp.MutWann, alexande_apflora.tblAp.MutWer FROM alexande_apflora.tblAp INNER JOIN alexande_beob.ArtenDb_Arteigenschaften ON alexande_apflora.tblAp.ApArtId = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId WHERE ApArtId = ' + apId,
+        'SELECT alexande_apflora.tblAp.ApArtId, alexande_beob.ArtenDb_Arteigenschaften.Artname, alexande_apflora.tblAp.ApStatus, alexande_apflora.tblAp.ApJahr, alexande_apflora.tblAp.ApUmsetzung, alexande_apflora.tblAp.ApBearb, alexande_apflora.tblAp.ApArtwert, alexande_apflora.tblAp.MutWann, alexande_apflora.tblAp.MutWer FROM alexande_apflora.tblAp INNER JOIN alexande_beob.ArtenDb_Arteigenschaften ON alexande_apflora.tblAp.ApArtId = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId WHERE ApArtId = ' + escapeStringForSql(apId),
         function (err, data) {
-            if (err) throw err;
+            if (err) { throw err; }
             callback(data);
         }
     );

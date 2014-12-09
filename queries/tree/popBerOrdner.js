@@ -18,7 +18,7 @@ module.exports = function (popBerListe, pop) {
     // tpopOrdnerTpopber aufbauen
     popPopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
     popPopberOrdner.attr = {
-        id: pop.PopId,
+        id:  pop.PopId,
         typ: 'popOrdnerPopber'
     };
     popPopberOrdner.children = [];

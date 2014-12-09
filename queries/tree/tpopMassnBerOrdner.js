@@ -5,7 +5,7 @@
 var _                    = require('underscore'),
     erstelleTPopMassnBer = require('./tpopMassnBer');
 
-var returnFunction = function (tpopMassnBerListe, tpop) {
+module.exports = function (tpopMassnBerListe, tpop) {
     var tpopMassnBerOrdner = {},
         massnberVonTpop,
         massnberNode;
@@ -18,7 +18,7 @@ var returnFunction = function (tpopMassnBerListe, tpop) {
     // tpopOrdnerMassnahmenBer aufbauen
     tpopMassnBerOrdner.data = 'Massnahmen-Berichte (' + massnberVonTpop.length + ')';
     tpopMassnBerOrdner.attr = {
-        id: 'tpopOrdnerMassnber' + tpop.TPopId,
+        id:  'tpopOrdnerMassnber' + tpop.TPopId,
         typ: 'tpopOrdnerMassnber'
     };
     tpopMassnBerOrdner.children = [];
@@ -32,5 +32,3 @@ var returnFunction = function (tpopMassnBerListe, tpop) {
 
     return tpopMassnBerOrdner;
 };
-
-module.exports = returnFunction;

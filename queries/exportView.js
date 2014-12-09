@@ -2,18 +2,19 @@
 'use strict';
 
 
-var mysql      = require('mysql'),
-    _          = require('underscore'),
-    config     = require('../src/modules/configuration'),
+var mysql              = require('mysql'),
+    _                  = require('underscore'),
+    config             = require('../src/modules/configuration'),
+    escapeStringForSql = require('./escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora_views'
     });
 
 module.exports = function (request, callback) {
-    var view = decodeURIComponent(request.params.view); // Name des Views, aus dem die Daten geholt werden sollen
+    var view = escapeStringForSql(decodeURIComponent(request.params.view)); // Name des Views, aus dem die Daten geholt werden sollen
     connection.query(
         'SELECT * FROM ' + view,
         function (err, data) {

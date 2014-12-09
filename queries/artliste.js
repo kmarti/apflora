@@ -5,8 +5,8 @@
 var mysql      = require('mysql'),
     config     = require('../src/modules/configuration'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_beob'
     });

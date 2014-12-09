@@ -1,22 +1,19 @@
+// Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 
-var returnFunction = function (massnber) {
-    var node  = {},
-        nodeText;
+module.exports = function (massnber) {
+    var node = {},
+        nodeText,
+        massnberText,
+        beurteilText;
 
     if (massnber) {
-        // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-        if (massnber.PopMassnBerJahr && massnber.BeurteilTxt) {
-            nodeText = massnber.PopMassnBerJahr + ": " + massnber.BeurteilTxt;
-        } else if (massnber.PopMassnBerJahr) {
-            nodeText = massnber.PopMassnBerJahr + ": (nicht beurteilt)";
-        } else if (massnber.BeurteilTxt) {
-            nodeText = "(kein Jahr): " + massnber.BeurteilTxt;
-        } else {
-            nodeText = "(kein Jahr): (nicht beurteilt)";
-        }
+        massnberText = massnber.PopMassnBerJahr || '(kein Jahr)';
+        beurteilText = massnber.BeurteilTxt     || '(nicht beurteilt)';
+        nodeText     = massnberText + ': ' + beurteilText;
 
         // node aufbauen
         node.data = nodeText;
@@ -28,5 +25,3 @@ var returnFunction = function (massnber) {
 
     return node;
 };
-
-module.exports = returnFunction;

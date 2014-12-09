@@ -2,9 +2,10 @@
 'use strict';
 
 
-var mysql      = require('mysql'),
-    async      = require('async'),
-    config     = require('../src/modules/configuration'),
+var mysql              = require('mysql'),
+    async              = require('async'),
+    config             = require('../src/modules/configuration'),
+    escapeStringForSql = require('./escapeStringForSql'),
     connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
@@ -19,13 +20,9 @@ var mysql      = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var apId = decodeURIComponent(request.params.apId), // ApArtId
-        user = decodeURIComponent(request.params.user), // der Benutzername
+    var apId = escapeStringForSql(decodeURIComponent(request.params.apId)), // ApArtId
+        user = escapeStringForSql(decodeURIComponent(request.params.user)), // der Benutzername
         date = new Date().toISOString();                // wann gespeichert wird
-
-    console.log('apId = ', apId);
-    console.log('user = ', user);
-    console.log('date = ', date);
 
     async.parallel({
         insertIntoTblAktionsplan: function (callback) {

@@ -2,19 +2,66 @@
 'use strict';
 
 
-var _          = require('underscore'),
-    mysql      = require('mysql'),
-    async      = require('async'),
-    config     = require('../../src/modules/configuration'),
+var _                  = require('underscore'),
+    mysql              = require('mysql'),
+    async              = require('async'),
+    config             = require('../../src/modules/configuration'),
+    escapeStringForSql = require('../escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     });
 
-var returnFunction = function (request, reply) {
-    var apId = decodeURIComponent(request.params.apId);
+function buildChildForJBer(JBerJahr, jberUebersichtListe) {
+    // zuerst den Datensatz extrahieren
+    var jberUebersicht,
+        object;
+
+    jberUebersicht = _.find(jberUebersichtListe, function (jberUebersicht) {
+        return jberUebersicht.JbuJahr === JBerJahr;
+    });
+
+    if (jberUebersicht) {
+        object      = {};
+        object.data = 'Übersicht zu allen Arten';
+        object.attr = {
+            id:  jberUebersicht.JbuJahr,
+            typ: 'jberUebersicht'
+        };
+        return [object];
+    }
+    return null;
+}
+
+function buildChildrenForJBerOrdner(results) {
+    var childrenArray = [],
+        object,
+        beschriftung  = '(kein Jahr)';
+
+    _.each(results.jberListe, function (jber) {
+        object = {};
+
+        if (jber.JBerJahr) { beschriftung = jber.JBerJahr.toString(); }
+        object.data = beschriftung;
+
+        object.attr = {
+            id:  jber.JBerId,
+            typ: 'jber'
+        };
+
+        if (jber.JBerJahr) {
+            object.children = buildChildForJBer(jber.JBerJahr, results.jberUebersichtListe);
+        }
+        childrenArray.push(object);
+    });
+
+    return childrenArray;
+}
+
+module.exports = function (request, reply) {
+    var apId = escapeStringForSql(decodeURIComponent(request.params.apId));
 
     // query ber AND jberUebersicht first
     async.parallel({
@@ -26,11 +73,11 @@ var returnFunction = function (request, reply) {
                 }
             );
         },
-        jberÜbersichtListe: function (callback) {
+        jberUebersichtListe: function (callback) {
             connection.query(
                 'SELECT JbuJahr FROM tblJBerUebersicht',
-                function (err, jberÜbersicht) {
-                    callback(err, jberÜbersicht);
+                function (err, jberUebersicht) {
+                    callback(err, jberUebersicht);
                 }
             );
         }
@@ -41,58 +88,12 @@ var returnFunction = function (request, reply) {
 
         node.data = 'AP-Berichte (' + jberListe.length + ')';
         node.attr = {
-            id: 'apOrdnerJber' + apId,
+            id:  'apOrdnerJber' + apId,
             typ: 'apOrdnerJber'
         };
-        nodeChildren = buildChildrenForJBerOrdner(results);
+        nodeChildren  = buildChildrenForJBerOrdner(results);
         node.children = nodeChildren;
 
         reply(null, node);
     });
 };
-
-function buildChildrenForJBerOrdner(results) {
-    var childrenArray = [],
-        object,
-        beschriftung  = '(kein Jahr)';
-
-    _.each(results.jberListe, function (jber) {
-        object = {};
-
-        if (jber.JBerJahr) beschriftung = jber.JBerJahr.toString();
-        object.data = beschriftung;
-
-        object.attr = {
-            id: jber.JBerId,
-            typ: 'jber'
-        };
-
-        if (jber.JBerJahr) {
-            object.children = buildChildForJBer(jber.JBerJahr, results.jberÜbersichtListe);
-        }
-        childrenArray.push(object);
-    });
-
-    return childrenArray;
-}
-
-function buildChildForJBer(JBerJahr, jberÜbersichtListe) {
-    // zuerst den Datensatz extrahieren
-    var jberÜbersicht = _.find(jberÜbersichtListe, function (jberÜbersicht) {
-        return jberÜbersicht.JbuJahr === JBerJahr;
-    });
-    
-    if (jberÜbersicht) {
-        var object = {};
-        object.data = 'Übersicht zu allen Arten';
-        object.attr = {
-            id: jberÜbersicht.JbuJahr,
-            typ: 'jberUebersicht'
-        };
-        return [object];
-    } else {
-        return null;
-    }
-}
-
-module.exports = returnFunction;

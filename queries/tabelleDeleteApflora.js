@@ -2,24 +2,25 @@
 'use strict';
 
 
-var mysql      = require('mysql'),
-    config     = require('../src/modules/configuration'),
+var mysql              = require('mysql'),
+    config             = require('../src/modules/configuration'),
+    escapeStringForSql = require('./escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     });
 
 module.exports = function (request, callback) {
-    var tabelle       = decodeURIComponent(request.params.tabelle),       // der Name der Tabelle, aus der die Daten gelöscht werden sollen
-        tabelleIdFeld = decodeURIComponent(request.params.tabelleIdFeld), // das ist der Name der ID der Tabelle
-        tabelleId     = decodeURIComponent(request.params.tabelleId);     // der Wert der ID des zu löschenden Datensatzes
+    var tabelle       = escapeStringForSql(decodeURIComponent(request.params.tabelle)),       // der Name der Tabelle, aus der die Daten gelöscht werden sollen
+        tabelleIdFeld = escapeStringForSql(decodeURIComponent(request.params.tabelleIdFeld)), // das ist der Name der ID der Tabelle
+        tabelleId     = escapeStringForSql(decodeURIComponent(request.params.tabelleId));     // der Wert der ID des zu löschenden Datensatzes
 
     connection.query(
         'DELETE FROM ' + tabelle + ' WHERE ' + tabelleIdFeld + '="' + tabelleId + '"',
         function (err, data) {
-            if (err) throw err;
+            if (err) { throw err; }
             callback(data);
         }
     );

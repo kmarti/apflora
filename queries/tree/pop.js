@@ -6,9 +6,10 @@ var _                         = require('underscore'),
     async                     = require('async'),
     mysql                     = require('mysql'),
     config                    = require('../../src/modules/configuration'),
+    escapeStringForSql        = require('../escapeStringForSql'),
     connection                = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     }),
@@ -40,7 +41,7 @@ function ergaenzePopNrUmFuehrendeNullen(popNrMax, popNr) {
 }
 
 module.exports = function (request, reply) {
-    var apId = decodeURIComponent(request.params.apId);
+    var apId = escapeStringForSql(decodeURIComponent(request.params.apId));
 
     // zuerst die popliste holen
     async.waterfall([

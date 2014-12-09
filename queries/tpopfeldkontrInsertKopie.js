@@ -2,21 +2,22 @@
 'use strict';
 
 
-var mysql      = require('mysql'),
-    async      = require('async'),
-    config     = require('../src/modules/configuration'),
+var mysql              = require('mysql'),
+    async              = require('async'),
+    config             = require('../src/modules/configuration'),
+    escapeStringForSql = require('./escapeStringForSql'),
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
+        host:     'localhost',
+        user:     config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     });
 
 module.exports = function (request, callback) {
-    var tpopId      = decodeURIComponent(request.params.tpopId),
-        tpopKontrId = decodeURIComponent(request.params.tpopKontrId),
-        user        = decodeURIComponent(request.params.user),          // der Benutzername
-        date        = new Date().toISOString();                         // wann gespeichert wird
+    var tpopId      = escapeStringForSql(decodeURIComponent(request.params.tpopId)),
+        tpopKontrId = escapeStringForSql(decodeURIComponent(request.params.tpopKontrId)),
+        user        = escapeStringForSql(decodeURIComponent(request.params.user)),        // der Benutzername
+        date        = new Date().toISOString();                                           // wann gespeichert wird
 
     async.series([
         function (callback) {
