@@ -52,11 +52,6 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
         $tree = $("#tree"),
         jahr;
 
-    console.log('feldwert: ', feldwert);
-    console.log('encodeURIComponent(feldwert): ', encodeURIComponent(feldwert));
-    //console.log('feldwert.replace(%, &#37;): ', feldwert.replace('%', '&#37;'));
-    //console.log('encodeURIComponent(feldwert.replace(%, &#37;)): ', encodeURIComponent(feldwert.replace('%', '&#37;')));
-
     $.ajax({
         type: 'post',
         url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=' + feldname + '/wert=' + encodeURIComponent(feldwert) + '/user=' + encodeURIComponent(sessionStorage.user)

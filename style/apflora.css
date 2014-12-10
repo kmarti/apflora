@@ -835,8 +835,9 @@ label.erforderlich span {
     font-family: Arial, Verdana, Helvetica, sans-serif;
     /*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
     text-shadow: 0 1px 1px white,1px 0 1px white,0 -1px 1px white,-1px 0 1px white,0 2px 1px white,2px 0 1px white,0 -2px 1px white,-2px 0 1px white;
-    top:    16px;
-    right: 362px;
+    top:    auto;
+    bottom: 1px;
+    right:  80px;
 }
 
 #olMap .ol-full-screen {

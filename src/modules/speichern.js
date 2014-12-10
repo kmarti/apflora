@@ -83,13 +83,13 @@ module.exports = function (that) {
                 url: 'api/v1/insert/apflora/tabelle=tblTPopKontrZaehl/feld=TPopKontrId/wert=' + localStorage.tpopfeldkontrId + '/user=' + encodeURIComponent(sessionStorage.user)
             }).done(function (TPopKontrZaehlId) {
                 // die Felder dieser Zählung mit der neuen id aktualisieren
-                console.log('TPopKontrZaehlId: ', TPopKontrZaehlId);
                 tabelleId = TPopKontrZaehlId;
                 $(that).closest('table').find('[name="TPopKontrZaehlId"]').val(tabelleId);
                 speichern2(that, formular, tabelleInDb, tabelleIdFeld, tabelleId, feldname, feldwert);
             });
             return;
-        } else if (!$(that).closest('table').find('[data-feld="Methode"]:checked').val() && !$(that).closest('table').find('[name="Anzahl"]').val() && !$(that).closest('table').find('[name="Zaehleinheit"]').val()) {
+        }
+        if (!$(that).closest('table').find('[data-feld="Methode"]:checked').val() && !$(that).closest('table').find('[name="Anzahl"]').val() && !$(that).closest('table').find('[name="Zaehleinheit"]').val()) {
             // Zählung enthält keine Daten > löschen
             $.ajax({
                 type: 'delete',
