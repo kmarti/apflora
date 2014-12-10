@@ -52,9 +52,12 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
         $tree = $("#tree"),
         jahr;
 
+    console.log('feldwert: ', feldwert);
+    console.log('encodeURIComponent(feldwert): ', encodeURIComponent(feldwert));
+
     $.ajax({
         type: 'post',
-        url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=' + feldname + '/wert=' + encodeURIComponent(feldwert) + '/user=' + sessionStorage.user
+        url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=' + feldname + '/wert=' + encodeURIComponent(feldwert) + '/user=' + encodeURIComponent(sessionStorage.user)
     }).done(function () {
         // Variable für Objekt nachführen
         // jberUebersicht speichert kein window.formular, daher testen, ob es existiert
@@ -72,7 +75,7 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
             $('#TPopKontrJahr').val(jahr);
             $.ajax({
                 type: 'post',
-                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopKontrJahr/wert=' + encodeURIComponent(jahr) + '/user=' + sessionStorage.user
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopKontrJahr/wert=' + encodeURIComponent(jahr) + '/user=' + encodeURIComponent(sessionStorage.user)
             });
         }
         // dito bei tpopmassn
@@ -81,7 +84,7 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
             $('#TPopMassnJahr').val(jahr);
             $.ajax({
                 type: 'post',
-                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopMassnJahr/wert=' + encodeURIComponent(jahr) + '/user=' + sessionStorage.user
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopMassnJahr/wert=' + encodeURIComponent(jahr) + '/user=' + encodeURIComponent(sessionStorage.user)
             });
         }
         // wenn in Kontr Jahr geändert wurde, Datum löschen
@@ -89,7 +92,7 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
             $('#TPopKontrDatum').val('');
             $.ajax({
                 type: 'post',
-                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopKontrDatum/wert=/user=' + sessionStorage.user
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopKontrDatum/wert=/user=' + encodeURIComponent(sessionStorage.user)
             });
         }
         // dito in tpopmassn
@@ -97,7 +100,7 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
             $('#TPopMassnDatum').val('');
             $.ajax({
                 type: 'post',
-                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopMassnDatum/wert=/user=' + sessionStorage.user
+                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopMassnDatum/wert=/user=' + encodeURIComponent(sessionStorage.user)
             });
         }
         // wenn in TPopKontrZaehleinheit ein Leerwert eingeführt wurde

@@ -10,7 +10,7 @@ var $                                         = require('jquery'),
 module.exports = function (aktiverNode, parentNode, nodeApId) {
     $.ajax({
         type: 'post',
-        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId(nodeApId) + '/user=' + sessionStorage.user
+        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId(nodeApId) + '/user=' + encodeURIComponent(sessionStorage.user)
     }).done(function (id) {
         var strukturtyp  = "erfkrit",
             beschriftung = "neues Erfolgskriterium";

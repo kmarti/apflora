@@ -11,7 +11,7 @@ module.exports = function (aktiverNode, parentNode, nodeTpopId) {
     // und an die DB schicken
     $.ajax({
         type: 'post',
-        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId(nodeTpopId) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
+        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId(nodeTpopId) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontrNodeKopiert).attr("id")) + '/user=' + encodeURIComponent(sessionStorage.user)
     }).done(function (id) {
         var strukturtyp = "tpopfreiwkontr",
             beschriftung = window.apf.tpopfreiwkontrObjektKopiert.TPopKontrJahr.toString();

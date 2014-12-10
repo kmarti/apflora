@@ -26,7 +26,7 @@ module.exports = function (apId) {
             // zuerst einen neuen Datensatz anlegen
             $.ajax({
                 type: 'post',
-                url: 'api/v1/apInsert/apId=' + apId + '/user=' + sessionStorage.user
+                url: 'api/v1/apInsert/apId=' + apId + '/user=' + encodeURIComponent(sessionStorage.user)
             }).done(function () {
                 // nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
                 $("#programmNeu").attr("checked", false);

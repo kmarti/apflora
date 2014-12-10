@@ -10,7 +10,7 @@ var $                                         = require('jquery'),
 module.exports = function (aktiverNode, parentNode, nodeTpopId) {
     $.ajax({
         type: 'post',
-        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId(nodeTpopId) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.user
+        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId(nodeTpopId) + '/tpopKontrtyp=tpopfreiwkontr/user=' + encodeURIComponent(sessionStorage.user)
     }).done(function (id) {
         var strukturtyp  = "tpopfreiwkontr",
             beschriftung = "neue Freiwilligen-Kontrolle";

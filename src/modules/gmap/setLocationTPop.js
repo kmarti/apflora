@@ -31,11 +31,11 @@ module.exports = function (latLng, map, marker, tpop) {
 
     $.ajax({
         type: 'post',
-        url: 'api/v1/update/apflora/tabelle=tblTPop/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopXKoord/wert=' + X + '/user=' + sessionStorage.user
+        url: 'api/v1/update/apflora/tabelle=tblTPop/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopXKoord/wert=' + X + '/user=' + encodeURIComponent(sessionStorage.user)
     }).done(function () {
         $.ajax({
             type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblTPop/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.user
+            url: 'api/v1/update/apflora/tabelle=tblTPop/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopYKoord/wert=' + Y + '/user=' + encodeURIComponent(sessionStorage.user)
         }).done(function () {
             clearInfoWindows();
             contentString = '<div id="content">' +

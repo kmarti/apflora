@@ -10,7 +10,7 @@ var $                                         = require('jquery'),
 module.exports = function (aktiverNode, parentNode, nodeZielId) {
     $.ajax({
         type: 'post',
-        url: 'api/v1/insert/apflora/tabelle=tblZielBer/feld=ZielId/wert=' + erstelleIdAusDomAttributId(nodeZielId) + '/user=' + sessionStorage.user
+        url: 'api/v1/insert/apflora/tabelle=tblZielBer/feld=ZielId/wert=' + erstelleIdAusDomAttributId(nodeZielId) + '/user=' + encodeURIComponent(sessionStorage.user)
     }).done(function (id) {
         var strukturtyp  = "zielber",
             beschriftung = "neuer Ziel-Bericht";

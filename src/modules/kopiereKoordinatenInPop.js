@@ -10,11 +10,11 @@ module.exports = function (xKoord, yKoord) {
         // Koordinaten der Pop nachführen
         $.ajax({
             type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblPop/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopXKoord/wert=' + xKoord + '/user=' + sessionStorage.user
+            url: 'api/v1/update/apflora/tabelle=tblPop/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopXKoord/wert=' + xKoord + '/user=' + encodeURIComponent(sessionStorage.user)
         }).done(function () {
             $.ajax({
                 type: 'post',
-                url: 'api/v1/update/apflora/tabelle=tblPop/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopYKoord/wert=' + yKoord + '/user=' + sessionStorage.user
+                url: 'api/v1/update/apflora/tabelle=tblPop/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopYKoord/wert=' + yKoord + '/user=' + encodeURIComponent(sessionStorage.user)
             }).done(function () {
                 $("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
                 setTimeout(function () {

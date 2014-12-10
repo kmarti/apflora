@@ -80,7 +80,7 @@ module.exports = function (that) {
         if (!tabelleId) {
             $.ajax({
                 type: 'post',
-                url: 'api/v1/insert/apflora/tabelle=tblTPopKontrZaehl/feld=TPopKontrId/wert=' + localStorage.tpopfeldkontrId + '/user=' + sessionStorage.user
+                url: 'api/v1/insert/apflora/tabelle=tblTPopKontrZaehl/feld=TPopKontrId/wert=' + localStorage.tpopfeldkontrId + '/user=' + encodeURIComponent(sessionStorage.user)
             }).done(function (TPopKontrZaehlId) {
                 // die Felder dieser Zählung mit der neuen id aktualisieren
                 console.log('TPopKontrZaehlId: ', TPopKontrZaehlId);
