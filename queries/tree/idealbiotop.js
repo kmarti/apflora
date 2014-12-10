@@ -1,7 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var escapeStringForSql = require('./escapeStringForSql');
+var escapeStringForSql = require('../escapeStringForSql');
 
 module.exports = function (request, reply) {
     var apId,
