@@ -2,9 +2,7 @@
 'use strict';
 
 module.exports = function (str) {
-    console.log('str: ', str);
     return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
-        console.log('char: ', char);
         switch (char) {
         case "\0":
             return "\\0";
@@ -22,7 +20,6 @@ module.exports = function (str) {
         case "'":
         case "\\":
         case "%":
-            console.log('return: ', "\\" + char);
             return "\\" + char; // prepends a backslash to backslash, percent and double/single quotes
         }
     });

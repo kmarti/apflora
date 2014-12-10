@@ -19,8 +19,8 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var tabelle = escapeStringForSql(decodeURIComponent(request.params.tabelle)), // der Name der Tabelle, in der die Daten gespeichert werden sollen
-        felder  = decodeURIComponent(request.params.felder), // Ein Objekt mit allen feldern und deren Werten des wiederherzustellenden Datensatzes
+    var tabelle = escapeStringForSql(request.params.tabelle), // der Name der Tabelle, in der die Daten gespeichert werden sollen
+        felder  = request.params.felder,                      // Ein Objekt mit allen feldern und deren Werten des wiederherzustellenden Datensatzes
         sql,
         feldnamen,
         feldwerte;

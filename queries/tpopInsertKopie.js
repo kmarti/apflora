@@ -14,10 +14,10 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var tpopId      = escapeStringForSql(decodeURIComponent(request.params.tpopId)),
-        popId       = escapeStringForSql(decodeURIComponent(request.params.popId)),
-        user        = escapeStringForSql(decodeURIComponent(request.params.user)),   // der Benutzername
-        date        = new Date().toISOString();                                      // wann gespeichert wird
+    var tpopId      = escapeStringForSql(request.params.tpopId),
+        popId       = escapeStringForSql(request.params.popId),
+        user        = escapeStringForSql(request.params.user),   // der Benutzername
+        date        = new Date().toISOString();                  // wann gespeichert wird
 
     async.series([
         function (callback) {

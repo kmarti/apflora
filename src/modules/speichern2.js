@@ -54,6 +54,8 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
 
     console.log('feldwert: ', feldwert);
     console.log('encodeURIComponent(feldwert): ', encodeURIComponent(feldwert));
+    //console.log('feldwert.replace(%, &#37;): ', feldwert.replace('%', '&#37;'));
+    //console.log('encodeURIComponent(feldwert.replace(%, &#37;)): ', encodeURIComponent(feldwert.replace('%', '&#37;')));
 
     $.ajax({
         type: 'post',

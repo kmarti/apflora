@@ -14,7 +14,8 @@ var mysql      = require('mysql'),
 module.exports = function (request, callback) {
     // Artname muss 'label' heissen, sonst funktioniert jquery ui autocomplete nicht
     var sql,
-        programm = decodeURIComponent(request.params.programm);
+        programm = request.params.programm;
+
     // url setzen
     switch (programm) {
     case 'programmAp':
@@ -23,7 +24,7 @@ module.exports = function (request, callback) {
     case 'programmNeu':
         sql = "SELECT IF(alexande_beob.ArtenDb_Arteigenschaften.Status NOT LIKE 'akzeptierter Name', CONCAT(alexande_beob.ArtenDb_Arteigenschaften.Artname, ' (', alexande_beob.ArtenDb_Arteigenschaften.Status, ')'), alexande_beob.ArtenDb_Arteigenschaften.Artname) AS label, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften WHERE alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId not in (SELECT alexande_apflora.tblAp.ApArtId FROM alexande_apflora.tblAp) ORDER BY label";
         break;
-    case 'programmAlle':
+    // 'programmAlle' ist auch default
     default:
         sql = "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS label, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAp ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAp.ApArtId ORDER BY label";
         break;

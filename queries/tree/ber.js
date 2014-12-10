@@ -38,7 +38,7 @@ function buildChildFromData(data) {
 }
 
 module.exports = function (request, reply) {
-    var apId = escapeStringForSql(decodeURIComponent(request.params.apId));
+    var apId = escapeStringForSql(request.params.apId);
 
     connection.query(
         "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBer where ApArtId =" + apId + " ORDER BY BerJahr DESC, BerTitel",

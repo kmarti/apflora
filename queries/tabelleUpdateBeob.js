@@ -19,12 +19,12 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var tabelle       = escapeStringForSql(decodeURIComponent(request.params.tabelle)),       // der Name der Tabelle, in der die Daten gespeichert werden sollen
-        tabelleIdFeld = escapeStringForSql(decodeURIComponent(request.params.tabelleIdFeld)), // das ist der Name der ID der Tabelle
-        tabelleId     = escapeStringForSql(decodeURIComponent(request.params.tabelleId)),     // der Wert der ID
-        feld          = escapeStringForSql(decodeURIComponent(request.params.feld)),          // der Name des Felds, dessen Daten gespeichert werden sollen
-        wert          = escapeStringForSql(decodeURIComponent(request.params.wert)),          // der Wert, der gespeichert werden soll
-        user          = escapeStringForSql(decodeURIComponent(request.params.user)),          // der Benutzername
+    var tabelle       = escapeStringForSql(request.params.tabelle),         // der Name der Tabelle, in der die Daten gespeichert werden sollen
+        tabelleIdFeld = escapeStringForSql(request.params.tabelleIdFeld),   // das ist der Name der ID der Tabelle
+        tabelleId     = escapeStringForSql(request.params.tabelleId),       // der Wert der ID
+        feld          = escapeStringForSql(request.params.feld),            // der Name des Felds, dessen Daten gespeichert werden sollen
+        wert          = escapeStringForSql(request.params.wert),            // der Wert, der gespeichert werden soll
+        user          = escapeStringForSql(request.params.user),            // der Benutzername
         date          = new Date().toISOString(),                           // wann gespeichert wird
         table         = _.findWhere(config.tables, {tabelleInDb: tabelle}), // Infos über die Tabelle holen
         mutWannFeld   = table.mutWannFeld,                                  // so heisst das Feld für MutWann

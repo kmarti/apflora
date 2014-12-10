@@ -14,7 +14,8 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var view = escapeStringForSql(decodeURIComponent(request.params.view)); // Name des Views, aus dem die Daten geholt werden sollen
+    var view = escapeStringForSql(request.params.view); // Name des Views, aus dem die Daten geholt werden sollen
+
     connection.query(
         'SELECT * FROM ' + view,
         function (err, data) {

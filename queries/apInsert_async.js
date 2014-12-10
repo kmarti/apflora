@@ -20,8 +20,8 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var apId = escapeStringForSql(decodeURIComponent(request.params.apId)), // ApArtId
-        user = escapeStringForSql(decodeURIComponent(request.params.user)), // der Benutzername
+    var apId = escapeStringForSql(request.params.apId), // ApArtId
+        user = escapeStringForSql(request.params.user), // der Benutzername
         date = new Date().toISOString();                // wann gespeichert wird
 
     async.parallel({

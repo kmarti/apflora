@@ -13,10 +13,10 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var apId            = escapeStringForSql(decodeURIComponent(request.params.apId)),
-        tpopId          = escapeStringForSql(decodeURIComponent(request.params.tpopId)),
-        beobId          = escapeStringForSql(decodeURIComponent(request.params.beobId)),
-        nichtZuzuordnen = decodeURIComponent(request.params.nichtZuzuordnen),
+    var apId            = escapeStringForSql(request.params.apId),
+        tpopId          = escapeStringForSql(request.params.tpopId),
+        beobId          = escapeStringForSql(request.params.beobId),
+        nichtZuzuordnen = request.params.nichtZuzuordnen,
         url;
 
     if (beobId !== 'undefined') {

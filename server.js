@@ -462,7 +462,7 @@ server.route({
     method: 'GET',
     path: '/api/v1/exportView/csv/view={view}/filename={filename}',
     handler: function (request, reply) {
-        var filename = decodeURIComponent(request.params.filename);
+        var filename = request.params.filename;
         exportView(request, function (err, data) {
             var fields = _.keys(data[0]);
             json2csv({
@@ -486,14 +486,14 @@ server.route({
     method: 'GET',
     path: '/api/v1/exportViewWhereIdIn/csv/view={view}/idName={idName}/idListe={idListe}/filename={filename}',
     handler: function (request, reply) {
-        var filename = decodeURIComponent(request.params.filename);
+        var filename = request.params.filename;
         exportViewWhereIdIn(request, function (data) {
             var fields = _.keys(data[0]);
             json2csv({
                 data: data,
                 fields: fields
             }, function (err, csv) {
-                if (err) console.log(err);
+                if (err) { console.log(err); }
                 reply(csv)
                     .header('Content-Type', 'text/x-csv; charset=utf-8')
                     .header('Content-disposition', 'attachment; filename=' + filename + '.csv')
@@ -508,8 +508,8 @@ server.route({
     method: 'GET',
     path: '/api/v1/exportView/kml/view={view}/filename={filename}',
     handler: function (request, reply) {
-        var filename = decodeURIComponent(request.params.filename),
-            view     = decodeURIComponent(request.params.view),
+        var filename = request.params.filename,
+            view     = request.params.view,
             kml;
 
         exportView(request, function (err, data) {

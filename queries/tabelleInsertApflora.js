@@ -14,10 +14,10 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var tabelle         = escapeStringForSql(decodeURIComponent(request.params.tabelle)), // der Name der Tabelle, in der die Daten gespeichert werden sollen
-        feld            = escapeStringForSql(decodeURIComponent(request.params.feld)),    // der Name des Felds, dessen Daten gespeichert werden sollen
-        wert            = escapeStringForSql(decodeURIComponent(request.params.wert)),    // der Wert, der gespeichert werden soll
-        user            = escapeStringForSql(decodeURIComponent(request.params.user)),    // der Benutzername
+    var tabelle         = escapeStringForSql(request.params.tabelle),         // der Name der Tabelle, in der die Daten gespeichert werden sollen
+        feld            = escapeStringForSql(request.params.feld),            // der Name des Felds, dessen Daten gespeichert werden sollen
+        wert            = escapeStringForSql(request.params.wert),            // der Wert, der gespeichert werden soll
+        user            = escapeStringForSql(request.params.user),            // der Benutzername
         date            = new Date().toISOString(),                           // wann gespeichert wird
         configTable     = _.findWhere(config.tables, {tabelleInDb: tabelle}), // die table in der Konfiguration, welche die Informationen dieser Tabelle enthält
         nameMutwannFeld = configTable.mutWannFeld || 'MutWann',               // so heisst das MutWann-Feld in dieser Tabelle

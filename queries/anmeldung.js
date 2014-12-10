@@ -13,10 +13,11 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var userName = decodeURIComponent(request.params.name),
-        password = decodeURIComponent(request.params.pwd);
+    var userName = escapeStringForSql(request.params.name),
+        password = escapeStringForSql(request.params.pwd);
+
     connection.query(
-        'SELECT NurLesen FROM tblUser WHERE UserName = "' + escapeStringForSql(userName) + '" AND Passwort = "' + escapeStringForSql(password) + '"',
+        'SELECT NurLesen FROM tblUser WHERE UserName = "' + userName + '" AND Passwort = "' + password + '"',
         function (err, data) {
             if (err) { throw err; }
             callback(data);

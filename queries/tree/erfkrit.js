@@ -40,7 +40,7 @@ function buildChildFromData(data) {
 }
 
 module.exports = function (request, reply) {
-    var apId = escapeStringForSql(decodeURIComponent(request.params.apId));
+    var apId = escapeStringForSql(request.params.apId);
 
     connection.query(
         'SELECT ErfkritId, ApArtId, BeurteilTxt, ErfkritTxt, BeurteilOrd FROM tblErfKrit LEFT JOIN domApErfKrit ON ErfkritErreichungsgrad = BeurteilId where ApArtId = ' + apId + ' ORDER BY BeurteilOrd',

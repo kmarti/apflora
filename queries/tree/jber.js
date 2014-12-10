@@ -61,7 +61,7 @@ function buildChildrenForJBerOrdner(results) {
 }
 
 module.exports = function (request, reply) {
-    var apId = escapeStringForSql(decodeURIComponent(request.params.apId));
+    var apId = escapeStringForSql(request.params.apId);
 
     // query ber AND jberUebersicht first
     async.parallel({

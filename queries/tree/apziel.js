@@ -15,7 +15,7 @@ var _                  = require('underscore'),
     });
 
 module.exports = function (request, reply) {
-    var apId = escapeStringForSql(decodeURIComponent(request.params.apId)),
+    var apId = escapeStringForSql(request.params.apId),
         zielIds;
 
     // zuerst die Daten holen

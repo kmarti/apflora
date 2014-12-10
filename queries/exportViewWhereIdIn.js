@@ -14,9 +14,9 @@ var mysql              = require('mysql'),
     });
 
 module.exports = function (request, callback) {
-    var view    = escapeStringForSql(decodeURIComponent(request.params.view)),    // Name des Views, aus dem die Daten geholt werden sollen
-        idName  = escapeStringForSql(decodeURIComponent(request.params.idName)),  // name des Felds, für den ID's übergeben werden
-        idListe = escapeStringForSql(decodeURIComponent(request.params.idListe)), // liste der ID's
+    var view    = escapeStringForSql(request.params.view),    // Name des Views, aus dem die Daten geholt werden sollen
+        idName  = escapeStringForSql(request.params.idName),  // name des Felds, für den ID's übergeben werden
+        idListe = escapeStringForSql(request.params.idListe), // liste der ID's
         sql     = 'SELECT * FROM ' + view + ' WHERE `' + idName + '` IN (' + idListe + ')';
 
     connection.query(

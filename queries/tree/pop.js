@@ -41,7 +41,7 @@ function ergaenzePopNrUmFuehrendeNullen(popNrMax, popNr) {
 }
 
 module.exports = function (request, reply) {
-    var apId = escapeStringForSql(decodeURIComponent(request.params.apId));
+    var apId = escapeStringForSql(request.params.apId);
 
     // zuerst die popliste holen
     async.waterfall([

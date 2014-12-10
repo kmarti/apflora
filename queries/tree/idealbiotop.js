@@ -1,11 +1,13 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
+var escapeStringForSql = require('./escapeStringForSql');
+
 module.exports = function (request, reply) {
     var apId,
         node;
 
-    apId      = decodeURIComponent(request.params.apId);
+    apId      = escapeStringForSql(request.params.apId);
 
     node      = {};
     node.data = 'Idealbiotop';

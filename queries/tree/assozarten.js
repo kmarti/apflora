@@ -31,7 +31,7 @@ function buildChildFromData(data) {
 }
 
 module.exports = function (request, reply) {
-    var apId = escapeStringForSql(decodeURIComponent(request.params.apId)),
+    var apId = escapeStringForSql(request.params.apId),
         response;
 
     connection.query(
