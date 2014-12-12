@@ -111,7 +111,7 @@ module.exports = function () {
         .on('click',                                           onClickExportDatenstrukturGrafisch);
 
     // verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
-    $('[type="number"]').mousewheel(function (event) {
+    $('body').on('mousewheel', '[type="number"]', function (event) {
         event.preventDefault();
     });
 };

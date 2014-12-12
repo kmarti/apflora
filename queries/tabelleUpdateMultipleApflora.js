@@ -20,7 +20,7 @@ var mysql              = require('mysql'),
 
 module.exports = function (request, callback) {
     var tabelle         = escapeStringForSql(request.params.tabelle),         // der Name der Tabelle, in der die Daten gespeichert werden sollen
-        felder          = escapeStringForSql(request.params.felder),          // Ein Objekt mit allen feldern und deren Werten. PLUS: der id
+        felder          = request.params.felder,                              // Ein Objekt mit allen feldern und deren Werten. PLUS: der id
         date            = new Date().toISOString(),                           // wann gespeichert wird
         sql,
         id,
