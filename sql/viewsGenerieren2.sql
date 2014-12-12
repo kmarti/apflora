@@ -190,7 +190,7 @@ GROUP BY alexande_apflora.tblPop.ApArtId, alexande_apflora.tblTPop.TPopId;
 CREATE OR REPLACE VIEW vJbB5rTPop AS 
 SELECT alexande_apflora.tblPop.ApArtId, alexande_apflora.tblTPop.TPopId
 FROM alexande_apflora.tblTPop INNER JOIN (alexande_apflora.tblTPopBer INNER JOIN (alexande_apflora.tblPop INNER JOIN alexande_apflora_views.vLetzterTPopBericht ON alexande_apflora.tblPop.ApArtId = alexande_apflora_views.vLetzterTPopBericht.ApArtId) ON (alexande_apflora.tblTPopBer.TPopId = alexande_apflora_views.vLetzterTPopBericht.TPopId) AND (alexande_apflora.tblTPopBer.TPopBerJahr = alexande_apflora_views.vLetzterTPopBericht.MaxvonTPopBerJahr)) ON (alexande_apflora.tblTPop.PopId = alexande_apflora.tblPop.PopId) AND (alexande_apflora.tblTPop.TPopId = alexande_apflora.tblTPopBer.TPopId)
-WHERE (alexande_apflora.tblTPopBer.TPopBerEntwicklung=4 Or alexande_apflora.tblTPopBer.TPopBerEntwicklung=9) AND alexande_apflora.tblTPop.TPopApBerichtRelevant=1 AND alexande_apflora.tblPop.PopHerkunft <> 300
+WHERE alexande_apflora.tblTPopBer.TPopBerEntwicklung=4 AND alexande_apflora.tblTPop.TPopApBerichtRelevant=1 AND alexande_apflora.tblPop.PopHerkunft <> 300
 GROUP BY alexande_apflora.tblPop.ApArtId, alexande_apflora.tblTPop.TPopId;
 
 CREATE OR REPLACE VIEW vJbB6rTPop AS 

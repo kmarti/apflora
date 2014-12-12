@@ -70,6 +70,11 @@ module.exports = function (apId, popId, tpopId, ohneZuZeigen) {
         if (data && data[0]) {
             data = data[0];
 
+            // data.TPopHerkunft 200 und 210 müssen in derselben Schaltfläche dargestellt werden
+            // die Schaltfläche hat die id 200
+            // daher muss 210 zu 200 geändert werden
+            var tpopherkunftCheckboxwert = data.TPopHerkunft === 210 ? 200 : data.TPopHerkunft;
+
             // tpop bereitstellen
             window.apf.tpop = data;
 
@@ -78,7 +83,7 @@ module.exports = function (apId, popId, tpopId, ohneZuZeigen) {
                 .val(data.TPopFlurname)
                 .limiter(255, $("#TPopFlurname_limit"));
             $("#TPopNr").val(data.TPopNr);
-            $("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
+            $("#TPopHerkunft" + tpopherkunftCheckboxwert).prop("checked", true);
             if (data.TPopHerkunftUnklar === 1) {
                 $("#TPopHerkunftUnklar").prop("checked", true);
             } else {

@@ -59,11 +59,16 @@ module.exports = function (apId, popId, ohneZuZeigen) {
         if (data && data[0]) {
             data = data[0];
 
+            // data.TPopHerkunft 200 und 210 müssen in derselben Schaltfläche dargestellt werden
+            // die Schaltfläche hat die id 200
+            // daher muss 210 zu 200 geändert werden
+            var popherkunftCheckboxwert = data.PopHerkunft === 210 ? 200 : data.PopHerkunft;
+
             // pop bereitstellen
             window.apf.pop = data;
 
             // Felder mit Daten beliefern
-            $("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
+            $("#PopHerkunft" + popherkunftCheckboxwert).prop("checked", true);
             if (data.PopHerkunftUnklar === 1) {
                 $("#PopHerkunftUnklar").prop("checked", true);
             } else {

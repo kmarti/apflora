@@ -14,7 +14,7 @@ var $                            = require('jquery'),
     initiierePop                 = require('./initiierePop'),
     initiiereTPop                = require('./initiiereTPop'),
     getAdressenHtml              = require('./getAdressenHtml'),
-    getZaehleinheiten            = require('./getZaehleinheiten'),
+    getZaehleinheitenOptionen            = require('./getZaehleinheitenOptionen'),
     getLrDelarzeHtml             = require('./getLrDelarzeHtml'),
     getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml'),
     zeigeFormular                = require('./zeigeFormular'),
@@ -47,7 +47,7 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 
     // apId setzen
     localStorage.apId = localStorage.apId || apId;
-    apId = apId || localStorage.apId;
+    apId              = apId              || localStorage.apId;
     // popId setzen
     if (!localStorage.popId) {
         if (!window.apf.pop || !window.apf.pop.PopId) {
@@ -65,10 +65,10 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     }
     // tpopId setzen
     localStorage.tpopId = localStorage.tpopId || tpopId;
-    tpopId = tpopId || localStorage.tpopId;
+    tpopId              = tpopId              || localStorage.tpopId;
     // feldKontrId setzen
     localStorage.tpopfeldkontrId = localStorage.tpopfeldkontrId || feldKontrId;
-    feldKontrId = feldKontrId || localStorage.tpopfeldkontrId;
+    feldKontrId                  = feldKontrId                  || localStorage.tpopfeldkontrId;
 
     // typ setzen, falls er nicht übergeben wurde (provisorisch)
     // TODO: entfernen, wenn router übernimmt
@@ -102,6 +102,9 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     $('.feldTpopkontr').each(function () {
         $(this).hide();
     });
+
+    // Zählungen leeren
+    $('#tPopKontrZaehlungen').html('');
 
     // Daten für die tpopfeldkontr aus der DB holen
     $.ajax({
@@ -290,27 +293,36 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 url: 'api/v1/apflora/tabelle=tblTPopKontrZaehl/feld=TPopKontrId/wertNumber=' + feldKontrId
             }).done(function (data) {
                 // zuerst die Zähleinheiten holen
-                $.when(getZaehleinheiten()).then(function () {
+                $.when(getZaehleinheitenOptionen()).then(function () {
+                    var leereZaehleinheit = {
+                            Anzahl: null,
+                            Methode: null,
+                            Zaehleinheit: null,
+                            zaehlungenOptionen: window.apf.tPopKontrZaehleinheitOptionen
+                        };
                     // TODO: mehrere Zählungen ermöglichen
                     htmlZaehlungen = '';
                     _.each(data, function (zaehleinheit, index) {
                         if (index < 3) {
+                            // index wird für den Titel der Zähleinheit verwendet. Bsp: "1. Zähleinheit"
                             zaehleinheit.index = index + 1;
-                            zaehleinheit.zaehlungenOptionen = window.apf.TPopKontrZaehleinheit;
+                            zaehleinheit.zaehlungenOptionen = window.apf.tPopKontrZaehleinheitOptionen;
                             htmlZaehlungen += tPopKontrZaehl(zaehleinheit);
                         }
                     });
                     // leere anfügen, falls noch nicht 3
                     if (data && data.length < 1) {
-                        htmlZaehlungen += tPopKontrZaehl({index: 1, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
+                        leereZaehleinheit.index = 1;
+                        htmlZaehlungen += tPopKontrZaehl(leereZaehleinheit);
                     }
                     if (data && data.length < 2) {
-                        htmlZaehlungen += tPopKontrZaehl({index: 2, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
+                        leereZaehleinheit.index = 2;
+                        htmlZaehlungen += tPopKontrZaehl(leereZaehleinheit);
                     }
                     if (data && data.length < 3) {
-                        htmlZaehlungen += tPopKontrZaehl({index: 3, zaehlungenOptionen: window.apf.TPopKontrZaehleinheit});
+                        leereZaehleinheit.index = 3;
+                        htmlZaehlungen += tPopKontrZaehl(leereZaehleinheit);
                     }
-                    $('#tPopKontrZaehlungen').html('');
                     $('#tPopKontrZaehlungen').html(htmlZaehlungen);
                 });
             });

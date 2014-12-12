@@ -21,7 +21,9 @@ module.exports = function (that) {
         tabelleId,
         feldname,
         feldwert,
-        table;
+        table,
+        apJahr,
+        bekanntSeit;
 
     if (!pruefeSchreibvoraussetzungen()) {
         return;
@@ -58,6 +60,42 @@ module.exports = function (that) {
         } else {
             $(that).focus();
             return;
+        }
+    }
+
+    // TPopHerkunft bzw. PopHerkunft 200 und 210 werden in derselben Schaltfläche dargestellt
+    // Feldwert hängt von PopBekanntSeit bzw. TPopBekanntSeit ab:
+    // PopBekanntSeit/TPopBekanntSeit >= ApJahr: 200 ("angesiedelt (nach Beginn AP), aktuell"), sonst 210 ("angesiedelt vor Beginn AP, aktuell")
+    if (feldname === 'PopHerkunft') {
+        apJahr = window.apf.ap.ApJahr;
+        bekanntSeit = $('#PopBekanntSeit').val();
+        if (apJahr && !bekanntSeit) {
+            // muss gesetzt sein
+            melde('Wert wird noch nicht gespeichert:<br><br>Erfassen Sie zuerst "bekannt seit",<br><br>damit die Anwendung weiss, ob die Ansiedlung vor oder nach Beginn des AP erfolgte');
+            // Markierung entfernen
+            $(that).prop('checked', false);
+            // bekannt seit fokussieren
+            $('#PopBekanntSeit').focus();
+            return;
+        }
+        if (feldwert == 200 && apJahr && bekanntSeit < apJahr) {
+            feldwert = 210;
+        }
+    }
+    if (feldname === 'TPopHerkunft') {
+        apJahr = window.apf.ap.ApJahr;
+        bekanntSeit = $('#TPopBekanntSeit').val();
+        if (apJahr && !bekanntSeit) {
+            // muss gesetzt sein
+            melde('Wert wird noch nicht gespeichert:<br><br>Erfassen Sie zuerst "bekannt seit",<br><br>damit die Anwendung weiss, ob die Ansiedlung vor oder nach Beginn des AP erfolgte');
+            // Markierung entfernen
+            $(that).prop('checked', false);
+            // bekannt seit fokussieren
+            $('#TPopBekanntSeit').focus();
+            return;
+        }
+        if (feldwert == 200 && apJahr && bekanntSeit < apJahr) {
+            feldwert = 210;
         }
     }
 

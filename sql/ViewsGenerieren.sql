@@ -506,7 +506,7 @@ GROUP BY alexande_apflora.tblPop.ApArtId, alexande_apflora.tblPop.PopId;
 CREATE OR REPLACE VIEW vJbB5lPop AS 
 SELECT alexande_apflora.tblPop.ApArtId, alexande_apflora.tblPop.PopId
 FROM (alexande_apflora.tblPop INNER JOIN (alexande_apflora.tblPopBer INNER JOIN alexande_apflora.tblKonstanten ON alexande_apflora.tblPopBer.PopBerJahr = alexande_apflora.tblKonstanten.JBerJahr) ON alexande_apflora.tblPop.PopId = alexande_apflora.tblPopBer.PopId) INNER JOIN alexande_apflora.tblTPop ON alexande_apflora.tblPop.PopId = alexande_apflora.tblTPop.PopId
-WHERE (alexande_apflora.tblPopBer.PopBerEntwicklung=4 Or alexande_apflora.tblPopBer.PopBerEntwicklung=9) AND alexande_apflora.tblTPop.TPopApBerichtRelevant=1 AND alexande_apflora.tblPop.PopHerkunft <> 300
+WHERE alexande_apflora.tblPopBer.PopBerEntwicklung=4 AND alexande_apflora.tblTPop.TPopApBerichtRelevant=1 AND alexande_apflora.tblPop.PopHerkunft <> 300
 GROUP BY alexande_apflora.tblPop.ApArtId, alexande_apflora.tblPop.PopId;
 
 CREATE OR REPLACE VIEW vJbB6lPop AS
@@ -548,7 +548,7 @@ GROUP BY alexande_apflora.tblPop.ApArtId, alexande_apflora.tblTPop.TPopId;
 CREATE OR REPLACE VIEW vJbB5lTPop AS
 SELECT alexande_apflora.tblPop.ApArtId, alexande_apflora.tblTPop.TPopId
 FROM alexande_apflora.tblPop INNER JOIN (alexande_apflora.tblTPop INNER JOIN (alexande_apflora.tblTPopBer INNER JOIN alexande_apflora.tblKonstanten ON alexande_apflora.tblTPopBer.TPopBerJahr = alexande_apflora.tblKonstanten.JBerJahr) ON alexande_apflora.tblTPop.TPopId = alexande_apflora.tblTPopBer.TPopId) ON alexande_apflora.tblPop.PopId = alexande_apflora.tblTPop.PopId
-WHERE (alexande_apflora.tblTPopBer.TPopBerEntwicklung=4 Or alexande_apflora.tblTPopBer.TPopBerEntwicklung=9) AND alexande_apflora.tblTPop.TPopApBerichtRelevant=1 AND alexande_apflora.tblPop.PopHerkunft <> 300
+WHERE alexande_apflora.tblTPopBer.TPopBerEntwicklung=4 AND alexande_apflora.tblTPop.TPopApBerichtRelevant=1 AND alexande_apflora.tblPop.PopHerkunft <> 300
 GROUP BY alexande_apflora.tblPop.ApArtId, alexande_apflora.tblTPop.TPopId;
 
 CREATE OR REPLACE VIEW vJbB6lTPop AS 
