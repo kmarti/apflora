@@ -84,21 +84,25 @@ module.exports = function (that, formular, tabelleInDb, tabelleIdFeld, tabelleId
                 url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopMassnJahr/wert=' + encodeURIComponent(jahr) + '/user=' + encodeURIComponent(sessionStorage.user)
             });
         }
-        // wenn in Kontr Jahr geändert wurde, Datum löschen
+        // wenn in Kontr Jahr geändert wurde, allfälliges Datum löschen
         if (feldname === 'TPopKontrJahr') {
-            $('#TPopKontrDatum').val('');
-            $.ajax({
-                type: 'post',
-                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopKontrDatum/wert=/user=' + encodeURIComponent(sessionStorage.user)
-            });
+            if (window.apf.tpopfeldkontr.TPopKontrDatum) {
+                $('#TPopKontrDatum').val(null);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopKontrDatum/wert=/user=' + encodeURIComponent(sessionStorage.user)
+                });
+            }
         }
         // dito in tpopmassn
         if (feldname === 'TPopMassnJahr') {
-            $('#TPopMassnDatum').val('');
-            $.ajax({
-                type: 'post',
-                url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopMassnDatum/wert=/user=' + encodeURIComponent(sessionStorage.user)
-            });
+            if (window.apf.tpopfeldkontr.TPopMassnDatum) {
+                $('#TPopMassnDatum').val(null);
+                $.ajax({
+                    type: 'post',
+                    url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + tabelleId + '/feld=TPopMassnDatum/wert=/user=' + encodeURIComponent(sessionStorage.user)
+                });
+            }
         }
         // wenn in TPopKontrZaehleinheit ein Leerwert eingeführt wurde
         // sollen auch die Felder TPopKontrZaehlMethode und TPopKontrZaehlAnzahl Leerwerte erhalten
