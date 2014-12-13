@@ -43,13 +43,15 @@ module.exports = function (req, reply) {
                 'TRUNCATE TABLE alexande_beob.ArtenDb_Arteigenschaften',
                 function (err) {
                     if (err) { throw err; }
-                    // Daten müssen in drei Teile aufgeteilt werden
+                    // Daten müssen in mehrere Teile aufgeteilt werden
                     // sonst gibt es bei der Verarbeitung Abstürze
                     // Idee: mit async.series automatisieren
-                    var artenArray = split(body, 3),
+                    var artenArray = split(body, 5),
                         eigenschaftenString0 = createInsertSqlFromObjectArray(artenArray[0]),
                         eigenschaftenString1 = createInsertSqlFromObjectArray(artenArray[1]),
                         eigenschaftenString2 = createInsertSqlFromObjectArray(artenArray[2]),
+                        eigenschaftenString3 = createInsertSqlFromObjectArray(artenArray[3]),
+                        eigenschaftenString4 = createInsertSqlFromObjectArray(artenArray[4]),
                         sqlBase = 'INSERT INTO alexande_beob.ArtenDb_Arteigenschaften (GUID, TaxonomieId, Familie, Artname, NameDeutsch, Status, Artwert, KefArt, KefKontrolljahr, FnsJahresartJahr) VALUES ',
                         sql;
 
@@ -61,7 +63,6 @@ module.exports = function (req, reply) {
                         function (err) {
                             //console.log('eigenschaftenString0 verarbeitet');
                             if (err) {
-                                reply('Fehler: Die Arteigenschaften wurden nicht aktualisiert');
                                 throw err;
                             }
                             sql = sqlBase + eigenschaftenString1;
@@ -70,7 +71,6 @@ module.exports = function (req, reply) {
                                 function (err) {
                                     //console.log('eigenschaftenString1 verarbeitet');
                                     if (err) {
-                                        reply('Fehler: Die Arteigenschaften wurden nicht aktualisiert');
                                         throw err;
                                     }
                                     sql = sqlBase + eigenschaftenString2;
@@ -79,11 +79,30 @@ module.exports = function (req, reply) {
                                         function (err) {
                                             //console.log('eigenschaftenString2 verarbeitet');
                                             if (err) {
-                                                reply('Fehler: Die Arteigenschaften wurden nicht aktualisiert');
                                                 throw err;
                                             }
-                                            reply('Arteigenschaften hinzugefügt');
-                                            connection.end();
+                                            sql = sqlBase + eigenschaftenString3;
+                                            connection.query(
+                                                sql,
+                                                function (err) {
+                                                    //console.log('eigenschaftenString2 verarbeitet');
+                                                    if (err) {
+                                                        throw err;
+                                                    }
+                                                    sql = sqlBase + eigenschaftenString4;
+                                                    connection.query(
+                                                        sql,
+                                                        function (err) {
+                                                            //console.log('eigenschaftenString2 verarbeitet');
+                                                            if (err) {
+                                                                throw err;
+                                                            }
+                                                            reply('Arteigenschaften hinzugefügt');
+                                                            connection.end();
+                                                        }
+                                                    );
+                                                }
+                                            );
                                         }
                                     );
                                 }
