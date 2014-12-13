@@ -1,19 +1,25 @@
 /**
- * Baut das Projekt für die Entwicklung:
- * zuerst mit browserify Module einbinden
- * dann style und src_1 und src_2 (hinter Body)
- * dann watch
+ * beamt die Dateien aus dem dist-Ordner nach apflora.ch
  */
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 
-var gulp       = require('gulp');
-var requireDir = require('require-dir');
+var gulp       = require('gulp'),
+    sftp       = require('gulp-sftp'),
+    requireDir = require('require-dir'),
+    sftpPass   = require('../sftpPass.json');
 
 requireDir('../gulp-tasks', {recurse: true});
 
-return gulp.task('prod', ['templates'], function () {
-    gulp.start('prod_2');
+gulp.task('prod_sftp', function () {
+    return gulp.src('dist/**/*')
+        .pipe(sftp({
+            host: 'apflora.ch',
+            port: 31234,
+            remotePath: 'apflora',
+            user: sftpPass.user,
+            pass: sftpPass.pass
+        }));
 });
