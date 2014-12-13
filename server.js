@@ -80,7 +80,8 @@ var _                                 = require('underscore'),
     exportView                        = require('./queries/exportView'),
     exportViewWhereIdIn               = require('./queries/exportViewWhereIdIn'),
     getKmlForPop                      = require('./src/modules/getKmlForPop'),
-    getKmlForTpop                     = require('./src/modules/getKmlForTpop');
+    getKmlForTpop                     = require('./src/modules/getKmlForTpop'),
+    aktualisiereArteigenschaften      = require('./queries/aktualisiereArteigenschaften');
 
 connectionApflora.connect();
 
@@ -531,5 +532,13 @@ server.route({
                     .header('Set-Cookie', 'fileDownload=true; path=/');
             }
         });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/aktualisiereArteigenschaften',
+    handler: function (request, reply) {
+        aktualisiereArteigenschaften(request, reply);
     }
 });

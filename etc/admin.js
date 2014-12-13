@@ -1,11 +1,6 @@
-nas ftp: 
-Server: 192.168.0.192
-Benutzer: root
-Passwort: admin
-
-
-nas url phpmyadmin: http://192.168.0.192/phpMyAdmin/
-nas url apflora: http://192.168.0.192/apflora
+Arteigenschaften aktualisieren:
+http://apflora.ch/api/v1/aktualisiereArteigenschaften
+http://localhost:4000/api/v1/aktualisiereArteigenschaften
 
 
 sublime text, find in files:

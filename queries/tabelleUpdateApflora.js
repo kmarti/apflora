@@ -31,8 +31,6 @@ module.exports = function (request, callback) {
         mutWerFeld    = table.mutWerFeld,                                   // so heisst das Feld für MutWer
         sql;
 
-    console.log('wert: ', wert);
-
     sql = 'UPDATE ' + tabelle + ' SET ' + feld + '="' + wert + '", ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = "' + tabelleId + '"';
     // Ist ein Feld neu leer, muss NULL übergeben werden. wert ist dann 'undefined'
     if (wert === 'undefined' || !wert) {
