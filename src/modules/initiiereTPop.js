@@ -6,7 +6,6 @@ var $                      = require('jquery'),
     limiter                = require('../lib/limiter'),
     initiiereAp            = require('./initiiereAp'),
     initiierePop           = require('./initiierePop'),
-    getAdressenHtml        = require('./getAdressenHtml'),
     zeigeFormular          = require('./zeigeFormular'),
     melde                  = require('./melde'),
     leereFelderVonFormular = require('./leereFelderVonFormular');
@@ -132,13 +131,6 @@ module.exports = function (apId, popId, tpopId, ohneZuZeigen) {
                 .val(data.TPopBewirtschaftung)
                 .limiter(255, $("#TPopBewirtschaftung_limit"));
             $("#TPopTxt").val(data.TPopTxt);
-
-            // Adressen holen, um TPopVerantw zu füllen
-            getAdressenHtml(function (html) {
-                $("#TPopVerantw")
-                    .html(html)
-                    .val(window.apf.tpop.TPopVerantw);
-            });
 
             // Formulare blenden
             // nur, wenn ohneZuZeigen nicht true ist (true, um in dialog anzuzeigen)
