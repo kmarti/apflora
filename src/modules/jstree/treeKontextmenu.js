@@ -72,7 +72,8 @@ var _                                         = require('underscore'),
     zeigeBeobNichtBeurteiltAufGmap            = require('./zeigeBeobNichtBeurteiltAufGmap'),
     zeigeBeobNichtBeurteiltUndTpopAufGmap     = require('./zeigeBeobNichtBeurteiltUndTpopAufGmap'),
     schneideBeobAus                           = require('./schneideBeobAus'),
-    zeigeBeobNichtZuzuordnenAufGmap           = require('./zeigeBeobNichtZuzuordnenAufGmap');
+    zeigeBeobNichtZuzuordnenAufGmap           = require('./zeigeBeobNichtZuzuordnenAufGmap'),
+    uebertrageKoordBeobZugeordnetAufTpop      = require('./uebertrageKoordBeobZugeordnetAufTpop');
 
 module.exports = function (node) {
     var items,
@@ -1019,6 +1020,14 @@ module.exports = function (node) {
                 "icon":             "style/images/wappen_zuerich.png",
                 "action": function () {
                     zeigeBeobKoordinatenImGisBrowser();
+                }
+            },
+            "KoordUebertragen": {
+                "label":            "Koordinaten auf die<br>&nbsp;&nbsp;&nbsp;Teilpopulation übertragen",
+                "separator_before": true,
+                "icon":             "style/images/koordinaten.png",
+                "action": function () {
+                    uebertrageKoordBeobZugeordnetAufTpop();
                 }
             }
         };
